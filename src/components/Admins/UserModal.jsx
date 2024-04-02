@@ -3,6 +3,7 @@ import { Button, Modal, Row } from 'react-bootstrap';
 import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 // import axios from 'axios';
 
 const ViewModal = ({ user }) => {
@@ -71,15 +72,25 @@ const UserModal = ({ isOpen, handleClose, user, canEdit }) => {
     };
 
     console.log(updatedUser);
-    // const session = JSON.parse(localStorage.getItem('session')) || {};
-    // const token = session.sessionToken || '';
+    const session = JSON.parse(localStorage.getItem('session')) || {};
+    const token = session.sessionToken || '';
 
-    // const headers = {
-    //   'Content-Type': 'application/json',
-    //   Authorization: `Bearer ${token}`
-    // };
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    };
 
-    // const URL = 'https:/engine.qberi.com/api/updatedUser';
+    const URL = 'https:/engine.qberi.com/api/updateUser';
+
+    axios
+      .post(URL, updatedUser, { headers })
+      .then(response => {
+        console.log('Response:', response.data);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   return (
