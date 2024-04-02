@@ -8,7 +8,7 @@ import TeamSection from 'components/modules/landing/default/team/TeamSection';
 import Cta from 'components/modules/showcase/Cta';
 // import Blogs from 'components/modules/landing/alternate/blogs/Blogs';
 import Features from 'components/modules/landing/alternate/features/Features';
-import DefaultLandingNavbar from 'components/navbars/default-landing-navbar/DefaultLandingNavbar';
+import DefaultLandingNavbar from 'components/navbars/default-landing-navbar/RoxwealthLandingNav';
 import useSettingsMountEffect from 'hooks/useSettingsMountEffect';
 import { useEffect } from 'react';
 

@@ -58,7 +58,7 @@ import { RouteObject, createBrowserRouter } from 'react-router-dom';
 // import TabsExample from 'pages/modules/components/TabsExample';
 // import NavbarExample from 'pages/modules/components/NavbarExample';
 // import Ecommerce from 'pages/dashboard/ecommerce';
-import EcommerceLayout from 'layouts/EcommerceLayout';
+// import EcommerceLayout from 'layouts/EcommerceLayout';
 // import Homepage from 'pages/apps/e-commerce/customer/Homepage';
 import ProductDetails from 'pages/apps/e-commerce/customer/ProductDetails';
 // import Cart from 'pages/apps/e-commerce/customer/Cart';
@@ -234,7 +234,20 @@ const routes: RouteObject[] = [
       },
       {
         path: '/roxwealth',
-        element: <Roxwealth />
+        children: [
+          {
+            path: 'home',
+            element: <Roxwealth />
+          },
+          {
+            path: 'about-us',
+            element: <About />
+          },
+          {
+            path: 'terms-conditions',
+            element: <Terms />
+          }
+        ]
       },
       {
         path: '/business',
@@ -287,7 +300,7 @@ const routes: RouteObject[] = [
       //   path: 'ecommerce/product-details',
       //   element: <ProductDetails />
       // },
-      
+
       {
         path: '/',
         element: (
@@ -300,6 +313,32 @@ const routes: RouteObject[] = [
           //   index: true,
           //   element: <Redirect />
           // },
+          {
+            path: 'hospitalmerch',
+            // element: <EcommerceLayout />,
+            children: [
+              {
+                path: 'products',
+                element: <Products />
+              },
+              {
+                path: `product-details/` + ':id',
+                element: <ProductDetails />
+              },
+              {
+                path: 'add-product-batteries',
+                element: <AddBattery type="battery" />
+              },
+              {
+                path: 'add-product-equipments',
+                element: <AddEquipment type="equipment" />
+              },
+              {
+                path: 'home',
+                element: <Homepage />
+              }
+            ]
+          },
           {
             path: '/dashboard',
             children: [
@@ -314,32 +353,6 @@ const routes: RouteObject[] = [
               {
                 path: 'roxwealth',
                 element: <Ecommerce2 />
-              },
-              {
-                path: 'hospitalmerch',
-                // element: <EcommerceLayout />,
-                children: [
-                  {
-                    path: 'products',
-                    element: <Products />
-                  },
-                  {
-                    path: `product-details/` + ':id',
-                    element: <ProductDetails />
-                  },
-                  {
-                    path: 'add-product-batteries',
-                    element: <AddBattery type="battery" />
-                  },
-                  {
-                    path: 'add-product-equipments',
-                    element: <AddEquipment type="equipment" />
-                  },
-                  {
-                    path: 'home',
-                    element: <Homepage />
-                  }
-                ]
               }
             ]
           },

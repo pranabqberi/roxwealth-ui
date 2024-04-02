@@ -8,6 +8,7 @@ import {
   // UilFilesLandscapesAlt,
   // UilPuzzlePiece
 } from '@iconscout/react-unicons';
+import { isHospitalMerchAdmin, isQberiAdmin } from 'Actions/IsAdmin';
 
 // List of ICONS available in the template
 // phone, bookmark, message-square, mail, calendar, compass, help-circle, globe, tag, bell, users, clock, alert-triangle, lock, layout, file-text, trello, share-2, chart-pie, cube, document-layout-right, files-landscapes-alt, puzzle-piece
@@ -36,53 +37,34 @@ export interface RouteItems {
   active?: boolean;
 }
 
-const session = JSON.parse(localStorage.getItem('session') || '{}');
-
-const admins = [
-  'nitish2@qberi.com',
-  'rohan2@qberi.com',
-  'pranab@qberi.com',
-  'jaco@qberi.com'
-];
-
-// Initialize isAdmin with false
-let isAdmin = false;
-
-if (session) {
-  // Check if user is admin
-  if (admins.includes(session.email)) {
-    isAdmin = true;
-  }
-}
-
 const HospitalMerchRoutes: RouteItems[] = [
   {
-    label: 'Hospital Merch',
+    label: 'Hospitalmerch',
     icon: UilCube,
     pages: [
       {
         name: 'Home',
+        path: '/hospitalmerch/home',
         active: true,
-        icon: 'shopping-cart',
-        path: '/hospitalmerch/home'
+        icon: 'home'
       },
       {
-        name: 'Products',
+        name: 'Medical Equipment Battery',
+        path: '/hospitalmerch/products',
         active: true,
-        icon: 'shopping-cart',
-        path: '/hospitalmerch/products'
+        icon: 'tag'
       },
       {
-        name: 'Orders',
+        name: 'Add Batteries',
+        path: '/hospitalmerch/add-product-batteries',
         active: true,
-        icon: 'shopping-cart',
-        path: '/hospitalmerch/orders'
+        icon: 'trello'
       },
       {
-        name: 'Customers',
+        name: 'Medical Equipments',
+        path: '/hospitalmerch/add-product-equipments',
         active: true,
-        icon: 'shopping-cart',
-        path: '/hospitalmerch/customers'
+        icon: 'layout'
       }
     ]
   }
@@ -113,19 +95,19 @@ const AdminsRoutes: RouteItems[] = [
           {
             name: 'Admin Option 1',
             active: true,
-            path: '/roxwealth/*',
+            path: '/dashboard',
             icon: 'trello'
           },
           {
             name: 'Admin Option 2',
             active: true,
-            path: '*',
+            path: '/dashboard',
             icon: 'trello'
           },
           {
             name: 'Admin Option 3',
             active: true,
-            path: '*',
+            path: '/dashboard',
             icon: 'trello'
           }
         ]
@@ -137,25 +119,25 @@ const AdminsRoutes: RouteItems[] = [
         pages: [
           {
             name: 'Home',
-            path: '/dashboard/hospitalmerch/home',
+            path: '/hospitalmerch/home',
             active: true,
             icon: 'home'
           },
           {
             name: 'Medical Equipment Battery',
-            path: '/dashboard/hospitalmerch/products',
+            path: '/hospitalmerch/products',
             active: true,
             icon: 'tag'
           },
           {
             name: 'Add Batteries',
-            path: '/dashboard/hospitalmerch/add-product-batteries',
+            path: '/hospitalmerch/add-product-batteries',
             active: true,
             icon: 'trello'
           },
           {
             name: 'Medical Equipments',
-            path: '/dashboard/hospitalmerch/add-product-equipments',
+            path: '/hospitalmerch/add-product-equipments',
             active: true,
             icon: 'layout'
           }
@@ -169,19 +151,19 @@ const AdminsRoutes: RouteItems[] = [
           {
             name: 'Admin Option 1',
             active: true,
-            path: '/Bummel/*',
+            path: '/dashboard',
             icon: 'trello'
           },
           {
             name: 'Admin Option 2',
             active: true,
-            path: '*',
+            path: '/dashboard',
             icon: 'trello'
           },
           {
             name: 'Admin Option 3',
             active: true,
-            path: '*',
+            path: '/dashboard',
             icon: 'trello'
           }
         ]
@@ -194,19 +176,19 @@ const AdminsRoutes: RouteItems[] = [
           {
             name: 'Admin Option 1',
             active: true,
-            path: '/mediaspoor/*',
+            path: '/dashboard',
             icon: 'trello'
           },
           {
             name: 'Admin Option 2',
             active: true,
-            path: '*',
+            path: '/dashboard',
             icon: 'trello'
           },
           {
             name: 'Admin Option 3',
             active: true,
-            path: '*',
+            path: '/dashboard',
             icon: 'trello'
           }
         ]
@@ -275,19 +257,19 @@ export const routes: RouteItems[] = [
         name: 'Hospital Merch',
         active: true,
         icon: 'shopping-cart',
-        path: '/dashboard/hospitalmerch/home'
+        path: '/hospitalmerch/home'
       },
       {
         name: 'Bummel',
         active: true,
         icon: 'shopping-cart',
-        path: '/dashboard/bummel/*'
+        path: '/dashboard/'
       },
       {
         name: 'Media Spoor',
         active: true,
         icon: 'shopping-cart',
-        path: '/dashboard/mediaspoor/*'
+        path: '/dashboard'
       }
       // {
       //   name: 'Account Summary',
@@ -1679,11 +1661,23 @@ export const routes: RouteItems[] = [
   // }
 ];
 
-if (isAdmin) {
-  // Extend the routes for admin
+// if (isAdmin()) {
+//   // Extend the routes for admin
+//   AdminsRoutes.forEach(route => {
+//     routes.push(route);
+//   });
+//   HospitalMerchRoutes.forEach(route => {
+//     routes.push(route);
+//   });
+// }
+
+if (isQberiAdmin()) {
   AdminsRoutes.forEach(route => {
     routes.push(route);
   });
+}
+
+if (isHospitalMerchAdmin()) {
   HospitalMerchRoutes.forEach(route => {
     routes.push(route);
   });

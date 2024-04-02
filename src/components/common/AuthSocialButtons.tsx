@@ -6,6 +6,7 @@ import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import UpdateProfile from 'Actions/UpdateProfile';
+import redirect from 'Actions/Redirect';
 // import { useNavigate } from 'react-router-dom';
 
 interface SessionData {
@@ -58,11 +59,8 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
         localStorage.setItem('sessionToken', sessionToken);
         updateSession(sessionToken, getEmailFromJWT(credential));
         UpdateProfile();
-        // window.location.href = '/dashboard/roxwealth';
-        navigate('/dashboard/roxwealth');
-        // Redirect to dashboard
-        // const navigate = useNavigate();
-        // navigate('/dashboard/roxwealth');
+        const nextPath = redirect();
+        navigate(nextPath);
       })
       .catch(error => {
         console.error('Error fetching profile data: in ', error);

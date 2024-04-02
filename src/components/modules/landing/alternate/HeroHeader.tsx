@@ -8,9 +8,16 @@ import bg2 from 'assets/img/bg/34-2.png';
 import bg3 from 'assets/img/bg/34-2.png';
 import bg4 from 'assets/img/bg/bg-39.png';
 import redirect from 'Actions/Redirect';
+import { useEffect, useState } from 'react';
+import validateSession from 'Actions/validateSession';
 
 const HeroHeader = () => {
-  const nextPath = redirect();
+  const [nextPath, setNextPath] = useState('/auth/sign-in');
+  useEffect(() => {
+    if (validateSession()) {
+      setNextPath(redirect());
+    }
+  }, []);
   return (
     <section id="home" className="pb-8 overflow-hidden">
       <div className="hero-header-container-alternate position-relative">
