@@ -1,5 +1,5 @@
 import { Nav, Navbar } from 'react-bootstrap';
-import { routes } from 'sitemap';
+import { routes } from 'sitemap2';
 import { capitalize } from 'helpers/utils';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import {

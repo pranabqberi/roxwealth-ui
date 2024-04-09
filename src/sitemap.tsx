@@ -42,12 +42,12 @@ const HospitalMerchRoutes: RouteItems[] = [
     label: 'Hospitalmerch',
     icon: UilCube,
     pages: [
-      {
-        name: 'Home',
-        path: '/hospitalmerch/home',
-        active: true,
-        icon: 'home'
-      },
+      // {
+      //   name: 'Home',
+      //   path: '/hospitalmerch/home',
+      //   active: true,
+      //   icon: 'home'
+      // },
       {
         name: 'Medical Equipment Battery',
         path: '/hospitalmerch/products',
@@ -112,87 +112,87 @@ const AdminsRoutes: RouteItems[] = [
           }
         ]
       },
-      {
-        name: 'Hospital Merch',
-        icon: 'tag',
-        active: true,
-        pages: [
-          {
-            name: 'Home',
-            path: '/hospitalmerch/home',
-            active: true,
-            icon: 'home'
-          },
-          {
-            name: 'Medical Equipment Battery',
-            path: '/hospitalmerch/products',
-            active: true,
-            icon: 'tag'
-          },
-          {
-            name: 'Add Batteries',
-            path: '/hospitalmerch/add-product-batteries',
-            active: true,
-            icon: 'trello'
-          },
-          {
-            name: 'Medical Equipments',
-            path: '/hospitalmerch/add-product-equipments',
-            active: true,
-            icon: 'layout'
-          }
-        ]
-      },
-      {
-        name: 'Bummel',
-        icon: 'tag',
-        active: true,
-        pages: [
-          {
-            name: 'Admin Option 1',
-            active: true,
-            path: '/dashboard',
-            icon: 'trello'
-          },
-          {
-            name: 'Admin Option 2',
-            active: true,
-            path: '/dashboard',
-            icon: 'trello'
-          },
-          {
-            name: 'Admin Option 3',
-            active: true,
-            path: '/dashboard',
-            icon: 'trello'
-          }
-        ]
-      },
-      {
-        name: 'Media Spoor',
-        icon: 'tag',
-        active: true,
-        pages: [
-          {
-            name: 'Admin Option 1',
-            active: true,
-            path: '/dashboard',
-            icon: 'trello'
-          },
-          {
-            name: 'Admin Option 2',
-            active: true,
-            path: '/dashboard',
-            icon: 'trello'
-          },
-          {
-            name: 'Admin Option 3',
-            active: true,
-            path: '/dashboard',
-            icon: 'trello'
-          }
-        ]
-      }
+      // {
+      //   name: 'Hospital Merch',
+      //   icon: 'tag',
+      //   active: true,
+      //   pages: [
+      //     {
+      //       name: 'Home',
+      //       path: '/hospitalmerch/home',
+      //       active: true,
+      //       icon: 'home'
+      //     },
+      //     {
+      //       name: 'Medical Equipment Battery',
+      //       path: '/hospitalmerch/products',
+      //       active: true,
+      //       icon: 'tag'
+      //     },
+      //     {
+      //       name: 'Add Batteries',
+      //       path: '/hospitalmerch/add-product-batteries',
+      //       active: true,
+      //       icon: 'trello'
+      //     },
+      //     {
+      //       name: 'Medical Equipments',
+      //       path: '/hospitalmerch/add-product-equipments',
+      //       active: true,
+      //       icon: 'layout'
+      //     }
+      //   ]
+      // },
+      // {
+      //   name: 'Bummel',
+      //   icon: 'tag',
+      //   active: true,
+      //   pages: [
+      //     {
+      //       name: 'Admin Option 1',
+      //       active: true,
+      //       path: '/dashboard',
+      //       icon: 'trello'
+      //     },
+      //     {
+      //       name: 'Admin Option 2',
+      //       active: true,
+      //       path: '/dashboard',
+      //       icon: 'trello'
+      //     },
+      //     {
+      //       name: 'Admin Option 3',
+      //       active: true,
+      //       path: '/dashboard',
+      //       icon: 'trello'
+      //     }
+      //   ]
+      // },
+      // {
+      //   name: 'Media Spoor',
+      //   icon: 'tag',
+      //   active: true,
+      //   pages: [
+      //     {
+      //       name: 'Admin Option 1',
+      //       active: true,
+      //       path: '/dashboard',
+      //       icon: 'trello'
+      //     },
+      //     {
+      //       name: 'Admin Option 2',
+      //       active: true,
+      //       path: '/dashboard',
+      //       icon: 'trello'
+      //     },
+      //     {
+      //       name: 'Admin Option 3',
+      //       active: true,
+      //       path: '/dashboard',
+      //       icon: 'trello'
+      //     }
+      //   ]
+      // }
     ]
   }
 ];
@@ -259,18 +259,18 @@ export const routes: RouteItems[] = [
         icon: 'shopping-cart',
         path: '/hospitalmerch/home'
       },
-      {
-        name: 'Bummel',
-        active: true,
-        icon: 'shopping-cart',
-        path: '/dashboard/'
-      },
-      {
-        name: 'Media Spoor',
-        active: true,
-        icon: 'shopping-cart',
-        path: '/dashboard'
-      }
+      // {
+      //   name: 'Bummel',
+      //   active: true,
+      //   icon: 'shopping-cart',
+      //   path: '/dashboard/'
+      // },
+      // {
+      //   name: 'Media Spoor',
+      //   active: true,
+      //   icon: 'shopping-cart',
+      //   path: '/dashboard'
+      // }
       // {
       //   name: 'Account Summary',
       //   active: true,

@@ -7,6 +7,7 @@ import {
   // UilFilesLandscapesAlt,
   // UilPuzzlePiece
 } from '@iconscout/react-unicons';
+import { isHospitalMerchAdmin, isQberiAdmin } from 'Actions/IsAdmin';
 
 export interface Route {
   name: string;
@@ -35,46 +36,92 @@ export interface RouteItems {
 
 export const routes: RouteItems[] = [
   {
-    label: 'Dashboard',
+    label: 'Services',
     icon: UilCube,
     pages: [
       {
-        name: 'Default',
+        name: 'Roxwealth',
         path: '/dashboard/roxwealth',
-        active: true,
-        icon: 'home'
-      }
-    ]
-  },
-  {
-    label: 'Hospitalmerch',
-    icon: UilCube,
-    pages: [
+        icon: 'shopping-cart',
+        active: true
+      },
       {
-        name: 'Home',
+        name: 'Hospital Merch Home',
         path: '/hospitalmerch/home',
-        active: true,
-        icon: 'home'
-      },
-      {
-        name: 'Medical Equipment Battery',
-        path: '/hospitalmerch/products',
-        active: true,
-        icon: 'tag'
-      },
-      {
-        name: 'Add Batteries',
-        path: '/hospitalmerch/add-product-batteries',
-        active: true,
-        icon: 'trello'
-      },
-      {
-        name: 'Medical Equipments',
-        path: '/hospitalmerch/add-product-equipments',
-        active: true,
-        icon: 'layout'
+        icon: 'shopping-cart',
+        active: true
       }
     ]
   }
 ];
+
+let AdminRoutes : Route[] = [];
+
+const QberiAdminRoutes: Route = {
+  name: 'Qberi Admin',
+  active: true,
+  pages: [
+    {
+      name: 'Users',
+      path: '/admin/users',
+      icon: 'lock',
+      active: true
+    },
+    {
+      name: 'Group and Roles',
+      path: '/admin/groups-roles',
+      icon: 'trello',
+      active: true
+    }
+  ]
+};
+
+const isHospitalMerchAdminRoutes : Route = {
+  name: 'Hospital Merch Admin',
+  icon: 'UilCube',
+  active: true,
+  pages: [
+    // {
+    //   name: 'Home',
+    //   path: '/hospitalmerch/home',
+    //   icon: 'home',
+    //   active: true
+    // },
+    {
+      name: 'Equipment Battery',
+      path: '/hospitalmerch/products',
+      icon: 'tag',
+      active: true
+    },
+    {
+      name: 'Add Battery',
+      path: '/hospitalmerch/add-product-batteries',
+      icon: 'trello',
+      active: true
+    },
+    {
+      name: 'Medical Equipments',
+      path: '/hospitalmerch/add-product-equipments',
+      icon: 'layout',
+      active: true
+    }
+  ]
+};
+
+if(isQberiAdmin()) {
+  AdminRoutes = [QberiAdminRoutes];
+}
+
+if(isHospitalMerchAdmin()){
+  AdminRoutes.push(isHospitalMerchAdminRoutes);
+}
+
+if (AdminRoutes.length > 0) {
+  routes.push({
+    label: 'Admin',
+    icon: UilCube,
+    pages: AdminRoutes
+  });
+}
+
 export default routes;

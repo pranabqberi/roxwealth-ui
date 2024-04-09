@@ -41,10 +41,17 @@ const Thank = () => {
                 <p className="text-900 mb-5">
                   you will receive an email once your profile is verified
                 </p>
-                <Button className='m-2' variant="primary" size="lg" as={Link} to="/">
+                <Button
+                  className="m-2"
+                  variant="primary"
+                  size="lg"
+                  as={Link}
+                  to="/"
+                >
                   Go Home
                 </Button>
-                <Button className='m-2'
+                <Button
+                  className="m-2"
                   variant="outline-primary"
                   size="lg"
                   as={Link}
