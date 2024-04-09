@@ -80,7 +80,7 @@ const UserModal = ({ isOpen, handleClose, user, canEdit }) => {
       Authorization: `Bearer ${token}`
     };
 
-    const URL = 'https:/engine.qberi.com/api/updateUser';
+    const URL = 'https://engine.qberi.com/api/updateUser';
 
     axios
       .post(URL, updatedUser, { headers })
