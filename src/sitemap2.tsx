@@ -36,14 +36,27 @@ export interface RouteItems {
 
 export const routes: RouteItems[] = [
   {
-    label: 'Services',
+    label: 'Dashboard',
     icon: UilCube,
     pages: [
       {
         name: 'Roxwealth',
-        path: '/dashboard/roxwealth',
         icon: 'file-text',
-        active: true
+        active: true,
+        pages: [
+          {
+            name: 'Dashboard',
+            path: '/dashboard/roxwealth',
+            icon: 'pie-chart',
+            active: true
+          },
+          {
+            name: 'Users',
+            path: '/dashboard/roxwealth',
+            icon: 'users',
+            active: true
+          }
+        ]
       },
       {
         name: 'Hospital Merch Home',
@@ -65,7 +78,7 @@ const QberiAdminRoutes: Route = {
     {
       name: 'Users',
       path: '/admin/users',
-      icon: 'lock',
+      icon: 'users',
       active: true
     },
     {
@@ -89,21 +102,28 @@ const isHospitalMerchAdminRoutes: Route = {
     //   active: true
     // },
     {
-      name: 'Equipment Battery',
-      path: '/hospitalmerch/products',
+      name: 'Products',
       icon: 'tag',
-      active: true
+      active: true,
+      pages: [
+        {
+          name: 'Batteries',
+          path: '/hospitalmerch/products',
+          icon: 'tag',
+          active: true
+        },
+        {
+          name: 'Medical Equipments',
+          path: '/hospitalmerch/add-product-equipments',
+          icon: 'layout',
+          active: true
+        }
+      ]
     },
     {
       name: 'Add Battery',
       path: '/hospitalmerch/add-product-batteries',
       icon: 'trello',
-      active: true
-    },
-    {
-      name: 'Medical Equipments',
-      path: '/hospitalmerch/add-product-equipments',
-      icon: 'layout',
       active: true
     }
   ]

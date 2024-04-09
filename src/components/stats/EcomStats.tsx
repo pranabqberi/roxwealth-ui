@@ -4,10 +4,12 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { useCallback } from 'react';
 import {
   faCircle,
+  faDollarSign,
+  faMoneyBill,
   // faPause,
-  faSquare,
+  faSquare
   // faXmark,
-  faStar
+  // faStar
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -24,7 +26,7 @@ const EcomStats = () => {
   const [totalAssets, setTotalAssets] = useState(0);
   const [ourStats, setOurStats] = useState({
     id: 1,
-    icon: faStar,
+    icon: faMoneyBill,
     title: '$ ' + totalAssets,
     subTitle: 'Assets Under Management',
     color: 'success'
@@ -47,7 +49,7 @@ const EcomStats = () => {
         const amount = response.data.amountInUsd;
         const testStats = {
           id: 1,
-          icon: faStar,
+          icon: faDollarSign,
           title:
             '$ ' +
             amount.toLocaleString(undefined, {

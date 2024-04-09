@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const UpdateProfile = () => {
+const UpdateProfile = async () => {
   const session = JSON.parse(localStorage.getItem('session') || '{}');
   const sessionToken = session.sessionToken;
   const email = session.email;

@@ -74,7 +74,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
               <Nav className="nav flex-column mb-2 pb-1">
                 {navItems.map(item => (
                   <Nav.Item key={item.label}>
-                    <Nav.Link className="px-3" as={Link} to={item.link}>
+                    <Nav.Link className="px-3" href={item.link}>
                       <FeatherIcon
                         icon={item.icon}
                         size={16}

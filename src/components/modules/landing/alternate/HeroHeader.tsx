@@ -46,7 +46,7 @@ const HeroHeader = () => {
                 size="lg"
                 className="rounded-pill me-3"
               >
-                Sign up
+                Register
               </Button>
               <Button
                 as={Link}

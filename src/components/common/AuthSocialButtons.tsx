@@ -49,7 +49,7 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
     };
     axios
       .post(URL, data)
-      .then(response => {
+      .then(async response => {
         const data = response.data;
         const sessionToken = data.split('=')[1].split(';')[0];
         if (!sessionToken) {
@@ -58,11 +58,11 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
         }
         localStorage.setItem('sessionToken', sessionToken);
         updateSession(sessionToken, getEmailFromJWT(credential));
-        UpdateProfile();
+        await UpdateProfile();
         setTimeout(() => {
           const nextPath = redirect();
           navigate(nextPath);
-        }, 3000);
+        }, 1000);
       })
       .catch(error => {
         console.error('Error fetching profile data: in ', error);

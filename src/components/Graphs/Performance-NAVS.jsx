@@ -43,7 +43,7 @@ const decodeMonth = month => {
 const PerformanceNAVS = () => {
   const [graphDataDaily, setGraphDataDaily] = useState([]);
   const [graphDataMonthly, setGraphDataMonthly] = useState([]);
-  const [mode, setMode] = useState('monthly');
+  const [mode, setMode] = useState('Monthly');
 
   useEffect(() => {
     const userData = sampleJson.nav;
@@ -88,8 +88,8 @@ const PerformanceNAVS = () => {
         </Col>
         <Col>
           <Form.Select size="sm" onChange={handleModeChange}>
-            <option value="monthly">Monthly</option>
-            <option value="daily">Daily</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Daily">Daily</option>
           </Form.Select>
         </Col>
       </Row>
@@ -97,11 +97,11 @@ const PerformanceNAVS = () => {
         <BarChart
           width={500}
           height={400}
-          data={mode === 'daily' ? graphDataDaily : graphDataMonthly}
+          data={mode === 'Daily' ? graphDataDaily : graphDataMonthly}
           margin={{ top: 20, right: 0, left: 10, bottom: 70 }}
         >
           <XAxis
-            dataKey={mode === 'daily' ? 'date' : 'month'}
+            dataKey={mode === 'Daily' ? 'date' : 'month'}
             angle={-45}
             textAnchor="end"
           />

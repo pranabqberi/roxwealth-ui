@@ -35,7 +35,7 @@ const Ecommerce2 = () => {
         <Row className="g-4">
           <Col xs={12} xxl={6}>
             <div className="mb-8">
-              <h2 className="mb-2">Welcome to Qberi Dashboard !</h2>
+              <h2 className="mb-2">Welcome to Roxwealth Dashboard !</h2>
               <h5 className="text-700 fw-semi-bold">
                 Here’s what’s going on at your business right now
               </h5>

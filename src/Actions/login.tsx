@@ -37,8 +37,17 @@ const onSuccessLogin = (loginResponse: string, email: string) => {
     return false;
   }
   updateSession(sessionToken, email, expireOn);
-  UpdateProfile();
-  return true;
+  // dont return unless updateProfile function is completed successfully
+
+  UpdateProfile()
+    .then(response => {
+      console.log('Profile data fetched successfully: ', response);
+      return true;
+    })
+    .catch(error => {
+      console.error('Error fetching profile data: ', error);
+      return false;
+    });
 };
 
 export default onSuccessLogin;

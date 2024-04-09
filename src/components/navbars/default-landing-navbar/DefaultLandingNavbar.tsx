@@ -138,7 +138,7 @@ const DefaultLandingNavbar = ({ className }: { className?: string }) => {
                 to="/auth/sign-up"
                 className="btn btn-phoenix-primary order-0"
               >
-                Sign up
+                Register
               </Link>
             </div>
           </Navbar.Collapse>

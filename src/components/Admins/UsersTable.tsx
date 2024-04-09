@@ -122,7 +122,7 @@ const UsersList = () => {
     },
     {
       accessorKey: 'netShareValue',
-      header: 'NSV (in USD)',
+      header: 'NAV (Net Assets Value)',
       cell: ({ row: { original } }) => {
         return <>{(original.sharePercentage || 0 / 100) * 100}</>;
       },
