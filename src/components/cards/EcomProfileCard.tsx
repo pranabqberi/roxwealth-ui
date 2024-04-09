@@ -32,7 +32,7 @@ const EcomProfileCard: React.FC<EcomProfileCardProps> = ({ details }) => {
                   {details.sharePercentage ? details.sharePercentage : '0'}
                 </p>
                 <div className="text-800">
-                  <strong>Role:</strong>
+                  <strong>Roles</strong>
                   <ListGroup>
                     {Object.keys(details.roles || {}).map(
                       (role: any, index) => (

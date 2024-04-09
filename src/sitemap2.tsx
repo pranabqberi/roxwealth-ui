@@ -41,22 +41,9 @@ export const routes: RouteItems[] = [
     pages: [
       {
         name: 'Roxwealth',
-        icon: 'file-text',
-        active: true,
-        pages: [
-          {
-            name: 'Dashboard',
-            path: '/dashboard/roxwealth',
-            icon: 'pie-chart',
-            active: true
-          },
-          {
-            name: 'Users',
-            path: '/dashboard/roxwealth',
-            icon: 'users',
-            active: true
-          }
-        ]
+        path: '/dashboard/roxwealth',
+        icon: 'pie-chart',
+        active: true
       },
       {
         name: 'Hospital Merch Home',
@@ -85,6 +72,12 @@ const QberiAdminRoutes: Route = {
       name: 'Group and Roles',
       path: '/admin/groups-roles',
       icon: 'trello',
+      active: true
+    },
+    {
+      name: 'Client',
+      path: '/dashboard/roxwealth',
+      icon: 'users',
       active: true
     }
   ]
