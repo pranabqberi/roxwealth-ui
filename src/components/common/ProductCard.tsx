@@ -29,7 +29,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
               )}
             </Button> */}
             <img
-              src={product.pictureUrl[0]}
+              src={product.pictureUrl[0] || 'https://via.placeholder.com/300'}
               alt="Image Not Available!"
               className="img-fluid"
             />

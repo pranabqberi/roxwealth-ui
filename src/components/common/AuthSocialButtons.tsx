@@ -59,9 +59,10 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
         localStorage.setItem('sessionToken', sessionToken);
         updateSession(sessionToken, getEmailFromJWT(credential));
         UpdateProfile();
-        const nextPath = redirect();
-        // delay for 1 second before redirecting
-        setTimeout(() => navigate(nextPath), 1000);
+        setTimeout(() => {
+          const nextPath = redirect();
+          navigate(nextPath);
+        }, 3000);
       })
       .catch(error => {
         console.error('Error fetching profile data: in ', error);

@@ -222,7 +222,7 @@ const AddEquipment: React.FC<AddEquipmentProps> = ({ type }) => {
 
   return (
     <div>
-      <form className="mb-9" onSubmit={handleFormSubmit}>
+      <div className="mb-9">
         <div className="d-flex flex-wrap gap-3 flex-between-end mb-5">
           <div>
             <h2 className="mb-2">List of {type}s</h2>
@@ -247,54 +247,56 @@ const AddEquipment: React.FC<AddEquipmentProps> = ({ type }) => {
           </Col>
           <Col xs={12} xl={4} className="m-2">
             <Row className="g-2">
-              <Col xs={12} xl={12}>
-                <Card className="mb-3">
-                  <Card.Body>
-                    <h4 className="mb-4">{isAddOrEdit} Medical Equipment</h4>
-                    <Row className="g-3">
-                      <Col xs={12} xl={12}>
-                        <Form.Group className="mb-3">
-                          <h5 className="mb-2 text-1000">Equipment Name</h5>
-                          <Form.Control
-                            type="text"
-                            placeholder="String"
-                            name="name"
-                            onChange={handleChanges}
-                            value={formData.name || ''}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col xs={12} xl={12}>
-                        <Form.Group className="mb-3">
-                          <h5 className="mb-2 text-1000">Enabled</h5>
-                          <Form.Check
-                            type="switch"
-                            id="custom-switch"
-                            name="enabled"
-                            label={formData.enabled ? 'Enabled' : 'Disabled'}
-                            // its value is true or false
-                            checked={formData.enabled}
-                            onChange={handleSwitchChange}
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-                <div className="d-flex flex-wrap gap-2">
-                  <Button variant="primary" type="submit">
-                    {isAddOrEdit} Equipment
-                  </Button>
-                  <Button variant="secondary" onClick={handleDiscard}>
-                    Discard
-                  </Button>
-                </div>
-              </Col>
+              <Form onSubmit={handleFormSubmit}>
+                <Col xs={12} xl={12}>
+                  <Card className="mb-3">
+                    <Card.Body>
+                      <h4 className="mb-4">{isAddOrEdit} Medical Equipment</h4>
+                      <Row className="g-3">
+                        <Col xs={12} xl={12}>
+                          <Form.Group className="mb-3">
+                            <h5 className="mb-2 text-1000">Equipment Name</h5>
+                            <Form.Control
+                              type="text"
+                              placeholder="String"
+                              name="name"
+                              onChange={handleChanges}
+                              value={formData.name || ''}
+                              required
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col xs={12} xl={12}>
+                          <Form.Group className="mb-3">
+                            <h5 className="mb-2 text-1000">Enabled</h5>
+                            <Form.Check
+                              type="switch"
+                              id="custom-switch"
+                              name="enabled"
+                              label={formData.enabled ? 'Enabled' : 'Disabled'}
+                              // its value is true or false
+                              checked={formData.enabled}
+                              onChange={handleSwitchChange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                  <div className="d-flex flex-wrap gap-2">
+                    <Button variant="primary" type="submit">
+                      {isAddOrEdit} Equipment
+                    </Button>
+                    <Button variant="secondary" onClick={handleDiscard}>
+                      Discard
+                    </Button>
+                  </div>
+                </Col>
+              </Form>
             </Row>
           </Col>
         </Row>
-      </form>
+      </div>
     </div>
   );
 };

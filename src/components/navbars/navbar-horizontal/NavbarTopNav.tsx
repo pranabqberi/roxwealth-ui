@@ -1,7 +1,7 @@
 import { capitalize } from 'helpers/utils';
 import { useEffect, useState } from 'react';
 import { Dropdown, Nav } from 'react-bootstrap';
-import { RouteItems, routes } from 'sitemap';
+import { RouteItems, routes } from 'sitemap2';
 import TopNavMegaMenu from './TopNavMegaMenu';
 import TopNavItem from './TopNavItem';
 import { useBreakpoints } from 'providers/BreakpointsProvider';

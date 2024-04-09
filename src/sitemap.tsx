@@ -111,7 +111,7 @@ const AdminsRoutes: RouteItems[] = [
             icon: 'trello'
           }
         ]
-      },
+      }
       // {
       //   name: 'Hospital Merch',
       //   icon: 'tag',
@@ -258,7 +258,7 @@ export const routes: RouteItems[] = [
         active: true,
         icon: 'shopping-cart',
         path: '/hospitalmerch/home'
-      },
+      }
       // {
       //   name: 'Bummel',
       //   active: true,

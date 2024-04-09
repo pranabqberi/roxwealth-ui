@@ -48,7 +48,7 @@ const allGroups = ['HospitalMerch', 'Qberi', 'Bummel', 'MediaSpoor'];
 
 const UserModal = ({ isOpen, handleClose, user, canEdit }) => {
   const [sharePercentage, setSharePercentage] = useState(
-    user.sharePercentage || "0"
+    user.sharePercentage || '0'
   );
   const [userRoles, setUserRoles] = useState({});
 
@@ -58,7 +58,7 @@ const UserModal = ({ isOpen, handleClose, user, canEdit }) => {
     allGroups.forEach(group => {
       myRoles[group] = roles[group] || [];
     });
-    setSharePercentage(user.sharePercentage || "0");
+    setSharePercentage(user.sharePercentage || '0');
     setUserRoles(myRoles);
   }, [user]);
 

@@ -42,7 +42,7 @@ export const routes: RouteItems[] = [
       {
         name: 'Roxwealth',
         path: '/dashboard/roxwealth',
-        icon: 'shopping-cart',
+        icon: 'file-text',
         active: true
       },
       {
@@ -55,11 +55,12 @@ export const routes: RouteItems[] = [
   }
 ];
 
-let AdminRoutes : Route[] = [];
+let AdminRoutes: Route[] = [];
 
 const QberiAdminRoutes: Route = {
   name: 'Qberi Admin',
   active: true,
+  icon: 'message-square',
   pages: [
     {
       name: 'Users',
@@ -76,9 +77,9 @@ const QberiAdminRoutes: Route = {
   ]
 };
 
-const isHospitalMerchAdminRoutes : Route = {
+const isHospitalMerchAdminRoutes: Route = {
   name: 'Hospital Merch Admin',
-  icon: 'UilCube',
+  icon: 'globe',
   active: true,
   pages: [
     // {
@@ -108,11 +109,11 @@ const isHospitalMerchAdminRoutes : Route = {
   ]
 };
 
-if(isQberiAdmin()) {
+if (isQberiAdmin()) {
   AdminRoutes = [QberiAdminRoutes];
 }
 
-if(isHospitalMerchAdmin()){
+if (isHospitalMerchAdmin()) {
   AdminRoutes.push(isHospitalMerchAdminRoutes);
 }
 

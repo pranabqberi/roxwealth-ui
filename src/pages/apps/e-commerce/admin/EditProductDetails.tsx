@@ -16,6 +16,9 @@ import { Row, Col, Form, Nav, Tab } from 'react-bootstrap';
 import Button from 'components/base/Button';
 import { useState } from 'react';
 import axios from 'axios';
+import Dropzone from 'components/base/Dropzone';
+// import UploadToS3 from 'Actions/UploadToS3';
+import Avatar from 'components/base/Avatar';
 
 interface TabLink {
   id: string;
@@ -54,6 +57,8 @@ interface EditProductDetailsProps {
   weight?: string;
   // list of string
   compatibleDevice: string;
+  // picture url is an array of strings
+  pictureUrl: [string];
 }
 
 const EditProductDetails = ({ details }: any) => {
@@ -70,12 +75,29 @@ const EditProductDetails = ({ details }: any) => {
       price: details.price,
       voltage: details.voltage,
       weight: details.weight,
-      compatibleDevice: details.compatibleDevice as string
+      compatibleDevice: details.compatibleDevice as string,
+      pictureUrl: details.pictureUrl as [string]
     }
   );
 
   const onChange = (e: any) => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
+  };
+
+  // const ondropImage = (e: any) => {
+  //   const files = e.target.files;
+  //   const url = UploadToS3(files) || '';
+  //   let pictureUrl = productDetails.pictureUrl;
+  //   pictureUrl.push(url as unknown as string);
+  //   setProductDetails({ ...productDetails, pictureUrl });
+  // };
+
+  const onRemoveImage = (index: number) => {
+    // let pictureUrl = productDetails.pictureUrl;
+    // pictureUrl.splice(index, 1);
+    // setProductDetails({ ...productDetails, pictureUrl });
+    const pictureUrl = productDetails.pictureUrl;
+    console.log('pictureUrl:', pictureUrl[index]);
   };
 
   const handleSubmit = (e: any) => {
@@ -145,6 +167,34 @@ const EditProductDetails = ({ details }: any) => {
       <Tab.Content>
         <Tab.Pane eventKey="personal-info">
           <Form>
+            <Row className="g-3 mb-5">
+              <h5 className="text-1000 mb-2">Product Images</h5>
+              <Col xs={12} lg={6}>
+                <Dropzone />
+              </Col>
+              <Col xs={12} lg={6} className="d-flex flex-wrap">
+                {details.pictureUrl.map((url: string, index: number) => (
+                  <div className="d-flex align-items-center mb-1" key={index}>
+                    {/* add black border  and border radius 50% to image */}
+                    <Avatar
+                      size="4xl"
+                      src={url}
+                      key={index}
+                      variant="image"
+                      rounded="circle"
+                      className="mr-3 border border-2 border-black  rounded-circle"
+                    />
+                    <Button
+                      variant="outline-danger"
+                      className="mt-0"
+                      onClick={() => onRemoveImage(index)}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+              </Col>
+            </Row>
             <Row className="gx-3 gy-4 mb-5">
               <Col xs={12} lg={6}>
                 <h5 className="text-1000 mb-2">Battery Model</h5>
