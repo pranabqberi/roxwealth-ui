@@ -194,6 +194,7 @@ import Creators from 'pages/pages/landing/Creators';
 import Thank from 'pages/pages/Mains/Thank';
 import UsersList from 'components/Admins/UsersTable';
 import GroupsRoles from 'components/Admins/GroupsRoles';
+import ProductTypes from 'pages/apps/e-commerce/admin/ProductsTypes';
 // import { id } from 'components/tables/ProductsTable';
 
 // const FontAwesomeExample = lazy(
@@ -317,6 +318,10 @@ const routes: RouteObject[] = [
             path: 'hospitalmerch',
             // element: <EcommerceLayout />,
             children: [
+              {
+                path: 'types',
+                element: <ProductTypes />
+              },
               {
                 path: 'products',
                 element: <Products />

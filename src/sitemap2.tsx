@@ -88,16 +88,18 @@ const isHospitalMerchAdminRoutes: Route = {
   icon: 'globe',
   active: true,
   pages: [
-    // {
-    //   name: 'Home',
-    //   path: '/hospitalmerch/home',
-    //   icon: 'home',
-    //   active: true
-    // },
+    {
+      name: 'Types',
+      path: '/hospitalmerch/types',
+      // icon: 'home',
+      active: true
+    },
     {
       name: 'Products',
-      icon: 'tag',
+      icon: 'bell',
+      path: '/hospitalmerch/types',
       active: true,
+      flat: true,
       pages: [
         {
           name: 'Batteries',
@@ -116,7 +118,7 @@ const isHospitalMerchAdminRoutes: Route = {
     {
       name: 'Add Battery',
       path: '/hospitalmerch/add-product-batteries',
-      icon: 'trello',
+      // icon: 'trello',
       active: true
     }
   ]

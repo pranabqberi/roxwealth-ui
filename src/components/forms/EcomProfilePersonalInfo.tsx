@@ -135,7 +135,8 @@ const EcomProfilePersonalInfo = ({ details }: any) => {
           </Button>
         </Col>
       </Row>
-      <Toast className="bg-1100 dark__bg-1000"
+      <Toast
+        className="bg-1100 dark__bg-1000"
         show={showToast}
         onClose={() => setShowToast(false)}
         style={{

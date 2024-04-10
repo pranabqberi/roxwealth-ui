@@ -7,6 +7,8 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from 'Routes';
 import ChatWidgetProvider from 'providers/ChatWidgetProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ToastProvider from 'providers/ToastProvider';
+import ToastComponent from 'components/common/Toast';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,11 +21,14 @@ root.render(
     <GoogleOAuthProvider clientId={clientId}>
       <AppProvider>
         <SettingsPanelProvider>
-          <ChatWidgetProvider>
-            <BreakpointsProvider>
-              <RouterProvider router={router} />
-            </BreakpointsProvider>
-          </ChatWidgetProvider>
+          <ToastProvider>
+            <ChatWidgetProvider>
+              <BreakpointsProvider>
+                <RouterProvider router={router} />
+                <ToastComponent />
+              </BreakpointsProvider>
+            </ChatWidgetProvider>
+          </ToastProvider>
         </SettingsPanelProvider>
       </AppProvider>
     </GoogleOAuthProvider>

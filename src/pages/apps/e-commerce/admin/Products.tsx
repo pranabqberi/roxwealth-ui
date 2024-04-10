@@ -31,11 +31,11 @@ const Products = () => {
       const responseEnableProducts = await axios.get(URL2, { headers });
       setAllProductData(response.data);
       setAllEnabledData(responseEnableProducts.data);
-      console.log('Response:', response.data);
-      console.log(
-        'Response Enabled Product Data :',
-        responseEnableProducts.data
-      );
+      // console.log('Response:', response.data);
+      // console.log(
+      //   'Response Enabled Product Data :',
+      //   responseEnableProducts.data
+      // );
     } catch (error) {
       console.error('Error:', error);
     }

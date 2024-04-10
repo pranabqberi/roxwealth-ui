@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
   Form,
@@ -9,6 +9,7 @@ import {
   ListGroup,
   InputGroup
 } from 'react-bootstrap';
+import { ToastContext } from 'providers/ToastProvider';
 
 const session = JSON.parse(localStorage.getItem('session')) || {};
 const token = session.sessionToken || '';
@@ -23,6 +24,8 @@ const GroupsRoles = () => {
   const [roles, setRoles] = useState([]);
   const [role, setRole] = useState('');
   const [group, setGroup] = useState('');
+
+  const { showToast } = useContext(ToastContext);
 
   const fetchGroups = async () => {
     axios
@@ -46,36 +49,37 @@ const GroupsRoles = () => {
       });
   };
 
-  useEffect(() => {
-    fetchGroups();
-    fetchRoles();
-  }, []);
-
   const URLaddRole = 'https://engine.qberi.com/api/addRole';
   const URLaddGroup = 'https://engine.qberi.com/api/addGroup';
 
   const addRoles = () => {
+    const body = { name: role };
     try {
       axios
-        .post(URLaddRole, { headers: headers })
+        .post(URLaddRole, body, { headers })
         .then(res => {
           console.log('Response:', res);
-          alert('Role added successfully');
+          // alert('Role added successfully');
+          showToast('Role added successfully', 'success');
+          setRole('');
         })
         .catch(error => {
           console.log('Error:', error);
-          alert('Error adding role' + error);
+          // alert('Error adding role' + error);
+          showToast('Error adding role', 'error');
         });
     } catch (error) {
       console.log('Error:', error);
-      alert('Error adding role' + error);
+      // alert('Error adding role' + error);
+      showToast('Error adding role', 'error');
     }
   };
 
   const addGroup = () => {
+    const body = { name: group };
     try {
       axios
-        .post(URLaddGroup, { headers: headers })
+        .post(URLaddGroup, body, { headers })
         .then(res => {
           console.log('Response:', res);
           alert('Group added successfully');
@@ -90,6 +94,10 @@ const GroupsRoles = () => {
     }
   };
 
+  useEffect(() => {
+    fetchGroups();
+    fetchRoles();
+  }, [addRoles, addGroup]);
   return (
     <Container>
       <h1 className="my-4 text-center">Groups and Roles</h1>
@@ -128,6 +136,7 @@ const GroupsRoles = () => {
                 type="text"
                 placeholder="Enter role name"
                 required
+                value={role}
                 onChange={e => setRole(e.target.value)}
               />
               <Button onClick={addRoles} variant="secondary">

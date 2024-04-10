@@ -110,26 +110,26 @@ const UsersList = () => {
         headerProps: { style: { width: 80 } }
       }
     },
-    {
-      accessorKey: 'sharePercentage',
-      header: 'Share %',
-      cell: ({ row: { original } }) => {
-        return <>{original.sharePercentage || 0}</>;
-      },
-      meta: {
-        headerProps: { style: { width: 50 } }
-      }
-    },
-    {
-      accessorKey: 'netShareValue',
-      header: 'NAV (Net Assets Value)',
-      cell: ({ row: { original } }) => {
-        return <>{(original.sharePercentage || 0 / 100) * 100}</>;
-      },
-      meta: {
-        headerProps: { style: { width: 50 } }
-      }
-    },
+    // {
+    //   accessorKey: 'sharePercentage',
+    //   header: 'Share %',
+    //   cell: ({ row: { original } }) => {
+    //     return <>{original.sharePercentage || 0}</>;
+    //   },
+    //   meta: {
+    //     headerProps: { style: { width: 50 } }
+    //   }
+    // },
+    // {
+    //   accessorKey: 'netShareValue',
+    //   header: 'NAV (Net Assets Value)',
+    //   cell: ({ row: { original } }) => {
+    //     return <>{(original.sharePercentage || 0 / 100) * 100}</>;
+    //   },
+    //   meta: {
+    //     headerProps: { style: { width: 50 } }
+    //   }
+    // },
     {
       accessorKey: 'id',
       header: 'Actions',
@@ -198,35 +198,34 @@ const UsersList = () => {
     );
     if (confirmDelete) {
       DeleteUser(id);
-      window.location.reload();
     }
   };
 
-  const fetchTotalPortfolioValue = useCallback(() => {
-    axios
-      .get('https://engine.qberi.com/api/totalPortfolioValue/portfolioValue', {
-        headers: headers
-      })
-      .then(response => {
-        setTotalPortfolioValue(response.data.amountInUsd);
-        // console.log('Response:', response.data.amountInUsd);
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 401) {
-          console.error('Error:', error);
-          window.location.href = '/auth/sign-out';
-        } else {
-          console.error('Error:', error);
-        }
-      });
-  }, []);
+  // const fetchTotalPortfolioValue = useCallback(() => {
+  //   axios
+  //     .get('https://engine.qberi.com/api/totalPortfolioValue/portfolioValue', {
+  //       headers: headers
+  //     })
+  //     .then(response => {
+  //       setTotalPortfolioValue(response.data.amountInUsd);
+  //       // console.log('Response:', response.data.amountInUsd);
+  //     })
+  //     .catch(error => {
+  //       if (error.response && error.response.status === 401) {
+  //         console.error('Error:', error);
+  //         window.location.href = '/auth/sign-out';
+  //       } else {
+  //         console.error('Error:', error);
+  //       }
+  //     });
+  // }, []);
 
   const fetchData = useCallback(() => {
     axios
       .get(URL, { headers: headers })
       .then(response => {
         setAllUserData(response.data);
-        console.log('Response:', response.data);
+        // console.log('Response:', response.data);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -235,8 +234,9 @@ const UsersList = () => {
 
   useEffect(() => {
     fetchData();
-    fetchTotalPortfolioValue();
-  }, [fetchData]);
+    // fetchTotalPortfolioValue();
+    setTotalPortfolioValue(100);
+  }, []);
 
   const table = useAdvanceTable({
     data: allUserData,

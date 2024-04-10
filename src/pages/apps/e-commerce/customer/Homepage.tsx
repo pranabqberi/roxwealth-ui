@@ -31,7 +31,7 @@ const Homepage = () => {
     try {
       const response = await axios.get(URL, { headers });
       setAllEnabledData(response.data);
-      console.log('Response:', response.data);
+      // console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
     }

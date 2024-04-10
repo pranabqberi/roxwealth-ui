@@ -1,28 +1,28 @@
 import lightImg from 'assets/img/spot-illustrations/1.png';
 import darkImg from 'assets/img/spot-illustrations/dark_1.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from 'components/base/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import Logout from 'Actions/logout';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const SignOutForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
-  const [count, setCount] = useState(5);
-  const timer = setInterval(() => setCount(count - 1), 1000);
+  // const [count, setCount] = useState(5);
+  // const timer = setInterval(() => setCount(count - 1), 1000);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     console.log('SignOutForm : ', layout);
     Logout();
     document.title = 'Qberi | Sign Out';
-    return () => {
-      clearInterval(timer);
-      setTimeout(() => {
-        navigate('/');
-      }, 6500);
-    };
+    // return () => {
+    //   clearInterval(timer);
+    //   setTimeout(() => {
+    //     navigate('/');
+    //   }, 6500);
+    // };
   }, []);
 
   return (
@@ -36,9 +36,9 @@ const SignOutForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
           You are now successfully signed out.
         </p>
       </div>
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <p>Redirecting to home page in {count} seconds...</p>
-      </div>
+      </div> */}
       <div className="d-grid">
         <Button
           variant="primary"
