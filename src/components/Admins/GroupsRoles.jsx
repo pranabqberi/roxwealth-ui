@@ -82,15 +82,15 @@ const GroupsRoles = () => {
         .post(URLaddGroup, body, { headers })
         .then(res => {
           console.log('Response:', res);
-          alert('Group added successfully');
+          showToast('Group added successfully');
         })
         .catch(error => {
           console.log('Error:', error);
-          alert('Error adding Group' + error);
+          showToast('Error adding Group' + error);
         });
     } catch (error) {
       console.log('Error:', error);
-      alert('Error adding Group' + error);
+      showToast('Error adding Group' + error);
     }
   };
 

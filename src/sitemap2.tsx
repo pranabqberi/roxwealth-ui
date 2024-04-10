@@ -50,6 +50,12 @@ export const routes: RouteItems[] = [
         path: '/hospitalmerch/home',
         icon: 'shopping-cart',
         active: true
+      },
+      {
+        name: 'Bummel',
+        path: '/dashboard/bummel',
+        icon: 'shopping-cart',
+        active: true
       }
     ]
   }
@@ -58,7 +64,7 @@ export const routes: RouteItems[] = [
 let AdminRoutes: Route[] = [];
 
 const QberiAdminRoutes: Route = {
-  name: 'Qberi Admin',
+  name: 'Qberi',
   active: true,
   icon: 'message-square',
   pages: [
@@ -83,23 +89,44 @@ const QberiAdminRoutes: Route = {
   ]
 };
 
-const isHospitalMerchAdminRoutes: Route = {
+const HospitalMerchAdminRoutes: Route = {
   name: 'Hospital Merch Admin',
   icon: 'globe',
   active: true,
   pages: [
     {
-      name: 'Types',
-      path: '/hospitalmerch/types',
-      // icon: 'home',
+      name: 'Users',
+      path: '/hospitalmerch/users',
+      icon: 'users',
       active: true
     },
     {
-      name: 'Products',
-      icon: 'bell',
-      path: '/hospitalmerch/types',
+      name: 'Groups and Roles',
+      path: '/hospitalmerch/groups-roles',
+      icon: 'trello',
+      active: true
+    },
+    {
+      name: 'Customers',
+      path: '/hospitalmerch/Customers',
+      icon: 'users',
+      active: true
+    },
+  ]
+};
+
+let AppRoutes: Route[] = [];
+
+const HospitalMerchAppRoutes: Route = {
+  // need to move
+  name: 'Hospital Merch',
+  icon: 'tag',
+  active: true,
+  pages: [
+    {
+      name: 'Product Group',
+      icon: 'tag',
       active: true,
-      flat: true,
       pages: [
         {
           name: 'Batteries',
@@ -112,16 +139,17 @@ const isHospitalMerchAdminRoutes: Route = {
           path: '/hospitalmerch/add-product-equipments',
           icon: 'layout',
           active: true
+        },
+        {
+          name: 'Add Battery',
+          path: '/hospitalmerch/add-product-batteries',
+          icon: 'trello',
+          active: true
         }
       ]
-    },
-    {
-      name: 'Add Battery',
-      path: '/hospitalmerch/add-product-batteries',
-      // icon: 'trello',
-      active: true
     }
   ]
+  // up to here
 };
 
 if (isQberiAdmin()) {
@@ -129,7 +157,11 @@ if (isQberiAdmin()) {
 }
 
 if (isHospitalMerchAdmin()) {
-  AdminRoutes.push(isHospitalMerchAdminRoutes);
+  AdminRoutes.push(HospitalMerchAdminRoutes);
+}
+
+if (isHospitalMerchAdmin()) {
+  AppRoutes.push(HospitalMerchAppRoutes);
 }
 
 if (AdminRoutes.length > 0) {
@@ -137,6 +169,14 @@ if (AdminRoutes.length > 0) {
     label: 'Admin',
     icon: UilCube,
     pages: AdminRoutes
+  });
+}
+
+if (AppRoutes.length > 0) {
+  routes.push({
+    label: 'Apps',
+    icon: UilCube,
+    pages: AppRoutes
   });
 }
 
