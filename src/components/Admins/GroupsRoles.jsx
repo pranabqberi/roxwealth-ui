@@ -51,12 +51,43 @@ const GroupsRoles = () => {
     fetchRoles();
   }, []);
 
+  const URLaddRole = 'https://engine.qberi.com/api/addRole';
+  const URLaddGroup = 'https://engine.qberi.com/api/addGroup';
+
   const addRoles = () => {
-    console.log('Add role: ', role);
+    try {
+      axios
+        .post(URLaddRole, { headers: headers })
+        .then(res => {
+          console.log('Response:', res);
+          alert('Role added successfully');
+        })
+        .catch(error => {
+          console.log('Error:', error);
+          alert('Error adding role' + error);
+        });
+    } catch (error) {
+      console.log('Error:', error);
+      alert('Error adding role' + error);
+    }
   };
 
   const addGroup = () => {
-    console.log('Add group: ', group);
+    try {
+      axios
+        .post(URLaddGroup, { headers: headers })
+        .then(res => {
+          console.log('Response:', res);
+          alert('Group added successfully');
+        })
+        .catch(error => {
+          console.log('Error:', error);
+          alert('Error adding Group' + error);
+        });
+    } catch (error) {
+      console.log('Error:', error);
+      alert('Error adding Group' + error);
+    }
   };
 
   return (
