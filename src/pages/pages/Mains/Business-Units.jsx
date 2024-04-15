@@ -1,6 +1,7 @@
 // import React from 'react';
 import DefaultLandingNavbar from 'components/navbars/default-landing-navbar/DefaultLandingNavbar';
 import Footer from 'components/modules/landing/alternate/Footer';
+import { Link } from 'react-router-dom';
 
 const BusinessUnits = () => {
   return (
@@ -51,6 +52,12 @@ const BusinessUnits = () => {
               industries. As we navigate this dynamic terrain, our motto remains
               at the heart of our pursuit, a testament to our unwavering
               commitment to global growth and
+            </p>
+            <p>
+              Explore our Business Units
+              <Link to="/#features">
+                <strong> here</strong>
+              </Link>
             </p>
           </div>
         </div>
