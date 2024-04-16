@@ -111,11 +111,11 @@ const HospitalMerchAdminRoutes: Route = {
       path: '/hospitalmerch/Customers',
       icon: 'users',
       active: true
-    },
+    }
   ]
 };
 
-let AppRoutes: Route[] = [];
+const AppRoutes: Route[] = [];
 
 const HospitalMerchAppRoutes: Route = {
   // need to move
@@ -123,6 +123,12 @@ const HospitalMerchAppRoutes: Route = {
   icon: 'tag',
   active: true,
   pages: [
+    {
+      name: 'Types',
+      icon: 'tag',
+      active: true,
+      path: '/hospitalmerch/types'
+    },
     {
       name: 'Product Group',
       icon: 'tag',

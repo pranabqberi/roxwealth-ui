@@ -5,7 +5,8 @@ import { useContext } from 'react';
 const ToastComponent = () => {
   const { isOpen, message, hideToast, type } = useContext(ToastContext);
   return (
-    <Toast className="bg-1100 dark__bg-1000"
+    <Toast
+      className="bg-1100 dark__bg-1000"
       show={isOpen}
       onClose={hideToast}
       style={{

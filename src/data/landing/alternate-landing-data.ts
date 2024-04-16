@@ -33,6 +33,7 @@ import team74 from 'assets/img/team/74.webp';
 import team75 from 'assets/img/team/75.webp';
 import team76 from 'assets/img/team/76.webp';
 import team20 from 'assets/img/team/20.webp';
+import Bummmel from 'assets/img/gallery/Lego-Bummel_compressed.png';
 
 export interface Feature {
   id: number;
@@ -137,8 +138,8 @@ export const features: Feature[] = [
       "Welcome to Bummel, where the art of strolling meets the craftsmanship of genuine leather goods. Established in 1990 in George, South Africa, our family-owned business has been dedicated to creating high-quality leather shoes and accessories. Bummel Shoes, introduced in November 2018, epitomizes our commitment to excellence. Handcrafted using the stitch-down construction method, our footwear ensures that no synthetic materials come in contact with your feet, prioritizing comfort and longevity. We believe in the superiority of 100% leather - it's breathable, odor-resistant, and exudes unparalleled quality. Our shoes feature premium veg tan leather insoles that absorb moisture, while the finest upper leather molds to the contours of your feet for a personalized fit. With leather linings to prevent sticking and ensure breathability, every Bummel shoe is a testament to our dedication to surpassing industry standards. ",
     additional:
       "Our founder and designer, Michael Stumpfe, brings a wealth of experience and a passion for quality to Bummel. With a background in shoe design and years of expertise gained from esteemed institutions and industry leaders in Germany and South Africa, Michael's vision for Bummel Shoes is one of uncompromising excellence. Collaborating with his father, Rolf, a seasoned shoe designer with over four decades of experience, Michael has cultivated a brand that embodies their shared commitment to craftsmanship and attention to detail. As we expand our distribution network and welcome new customers into the Bummel family, our small yet dedicated team continues to uphold the values of quality and tradition that define our brand. We invite you to experience the joy of strolling in Bummel Shoes - crafted with care, worn with pride.",
-    lightImg: cadioMed,
-    darkImg: cadioMed,
+    lightImg: Bummmel,
+    darkImg: Bummmel,
     link: 'https://bummel.com',
     linkText: 'Visit Bummel',
     redirect: true

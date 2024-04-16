@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import bg1 from 'assets/img/bg/bg-36.png';
-import bg2 from 'assets/img/bg/34-2.png';
+// import bg2 from 'assets/img/bg/34-2.png';
 import bg3 from 'assets/img/bg/34-2.png';
 import bg4 from 'assets/img/bg/bg-39.png';
+import Lego from 'assets/img/gallery/LegoDefender-fotor-2024030610292_compressed.png';
 import redirect from 'Actions/Redirect';
 import { useEffect, useState } from 'react';
 import validateSession from 'Actions/validateSession';
@@ -70,7 +71,7 @@ const HeroHeader = () => {
                     className="position-absolute end-0 hero-image-container-bg"
                   />
                   <img
-                    src={bg2}
+                    src={Lego}
                     alt=""
                     className="w-100 d-dark-none rounded-2 hero-image-shadow"
                   />
@@ -93,7 +94,7 @@ const HeroHeader = () => {
               className="position-absolute top-50 hero-image-container-bg"
             />
             <img
-              src={bg2}
+              src={Lego}
               alt=""
               className="img-fluid ms-auto d-dark-none rounded-2 hero-image-shadow"
             />
