@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthSocialButtons from 'components/common/AuthSocialButtons';
 import axios from 'axios';
 import validateSession from 'Actions/validateSession';
 import redirect from 'Actions/Redirect';
+import { InputGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faKey, faMailBulk, faMailReply, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const addProfile = async (name: string, email: string, mobile: string) => {
   const URL = 'https://engine.qberi.com/api/addProfile';
@@ -28,8 +31,21 @@ const addProfile = async (name: string, email: string, mobile: string) => {
 };
 
 const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
-  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  // const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [errorMessages, setErrorMessages] = useState<{ [key: string]: string }>({});
+
   const [successMessage, setSuccessMessage] = useState<string>('');
+
+  const handleInputChange = (e: any) => {
+    const { id, value } = e.target;
+
+    // Clear error message for the field when user interacts with it
+    setErrorMessages(prevErrors => ({
+      ...prevErrors,
+      [id]: ''
+    }));
+
+  };
 
   const navigate = useNavigate();
 
@@ -58,38 +74,39 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
     const mobile = (document.getElementById('mobile') as HTMLInputElement)
       .value;
 
-    const errors: string[] = [];
+    const errors: any = {};
 
     if (!name) {
-      errors.push('Name is required');
+      errors.name = 'Name is required';
     }
 
     if (!email) {
-      errors.push('Email is required');
+      errors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.push('Email is invalid');
+      errors.email = 'Email is invalid';
     }
 
     if (!password) {
-      errors.push('Password is required');
+      errors.password = 'Password is required';
     } else if (password.length < 8) {
-      errors.push('Password must be at least 8 characters');
+      errors.password = 'Password must be at least 8 characters';
     }
 
     if (!confirmPassword) {
-      errors.push('Confirm Password is required');
+      errors.confirmPassword = 'Confirm Password is required';
     } else if (password !== confirmPassword) {
-      errors.push('Passwords do not match');
+      errors.confirmPassword = 'Passwords do not match';
     }
 
     if (!termsService) {
-      errors.push('Please accept the terms and conditions');
+      errors.termsService = 'Please accept the terms and conditions';
     }
 
-    if (errors.length > 0) {
+    if (Object.keys(errors).length > 0) {
       setErrorMessages(errors);
       return;
     }
+
 
     const data = {
       name,
@@ -111,7 +128,7 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         response.status === 201 ||
         response.status === 202
       ) {
-        setErrorMessages([]);
+        setErrorMessages({});
         setSuccessMessage(
           'You have successfully signed up, redirecting to the Sign-In Page ...'
         );
@@ -122,11 +139,11 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
           navigate('/auth/sign-in');
         }, 1000);
       } else {
-        setErrorMessages(['Registration failed']);
+        // setErrorMessages(['Registration failed']);
       }
     } catch (error) {
       console.error(error);
-      setErrorMessages(['Registration failed']);
+      // setErrorMessages(['Registration failed']);
     }
   };
 
@@ -156,32 +173,56 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
       </div>
       <Form>
         <Form.Group className="mb-3 text-start">
-          <Form.Label htmlFor="name">Name</Form.Label>
-          <Form.Control id="name" type="text" placeholder="Name" />
+          <Form.Label htmlFor="name">Full Name</Form.Label>
+          <div className="form-icon-container">
+            <Form.Control id="name" type="text" className="form-icon-input" placeholder="Full Name" onChange={handleInputChange} />
+            <FontAwesomeIcon icon={faUser} className="text-900 fs-9 form-icon" />
+          </div>
+
+          <small className="text-danger">
+            {errorMessages.name}
+          </small>
         </Form.Group>
         <Form.Group className="mb-3 text-start">
           <Form.Label htmlFor="email">Email address</Form.Label>
-          <Form.Control
-            id="email"
-            type="email"
-            placeholder="name@example.com"
-            required
-          />
+          <div className="form-icon-container">
+            <Form.Control id="email" type="text" className="form-icon-input" placeholder="Email address" onChange={handleInputChange} />
+            <FontAwesomeIcon icon={faEnvelope} className="text-900 fs-9 form-icon" />
+          </div>
+          <small className="text-danger">
+            {errorMessages.email}
+          </small>
         </Form.Group>
         {/* Take Input Mobile */}
         <Form.Group className="mb-3 text-start">
           <Form.Label htmlFor="mobile">Mobile</Form.Label>
-          <Form.Control id="mobile" type="text" placeholder="Mobile" />
+          <InputGroup className="mb-3">
+            <DropdownButton
+              variant="outline-secondary"
+              title="+91"
+              id="input-group-dropdown-1"
+            >
+              <Dropdown.Item href="#">Action</Dropdown.Item>
+              <Dropdown.Item href="#">Another action</Dropdown.Item>
+              <Dropdown.Item href="#">Something else here</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item href="#">Separated link</Dropdown.Item>
+            </DropdownButton>
+            <Form.Control id="mobile" type="number" placeholder="Mobile" />
+          </InputGroup>
         </Form.Group>
+        {/* <Form.Group className="mb-3 text-start">
+          <Form.Label htmlFor="mobile">Mobile</Form.Label>
+          <Form.Control id="mobile" type="number" placeholder="Mobile" />
+        </Form.Group> */}
         <Row className="g-3 mb-3">
           <Col sm={layout === 'card' ? 12 : 6} lg={6}>
             <Form.Group>
               <Form.Label htmlFor="password">Password</Form.Label>
-              <Form.Control
-                id="password"
-                type="password"
-                placeholder="Password ( minimum length 8 )"
-              />
+              <div className="form-icon-container">
+                <Form.Control id="password" type="password" className="form-icon-input" placeholder="Password" onChange={handleInputChange} />
+                <FontAwesomeIcon icon={faKey} className="text-900 fs-9 form-icon" />
+              </div>
             </Form.Group>
           </Col>
           <Col sm={layout === 'card' ? 12 : 6} lg={6}>
@@ -189,13 +230,15 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
               <Form.Label htmlFor="confirmPassword">
                 Confirm Password
               </Form.Label>
-              <Form.Control
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-              />
+              <div className="form-icon-container">
+                <Form.Control id="confirmPassword" type="password" className="form-icon-input" placeholder="Confirm Password" onChange={handleInputChange} />
+                <FontAwesomeIcon icon={faKey} className="text-900 fs-9 form-icon" />
+              </div>
             </Form.Group>
           </Col>
+          <small className="text-danger">
+            {errorMessages.password}
+          </small>
         </Row>
         <Form.Check type="checkbox" className="mb-3">
           <Form.Check.Input
@@ -215,13 +258,16 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
             </a>
           </Form.Check.Label>
         </Form.Check>
-        <div className="mb-3">
+        <small className="text-danger">
+          {errorMessages.termsService}
+        </small>
+        {/* <div className="mb-3">
           <small className="text-danger">
             {errorMessages.map((msg, i) => (
               <div key={i}>{msg}</div>
             ))}
           </small>
-        </div>
+        </div> */}
         <div className="mb-3">
           <small className="text-success">{successMessage}</small>
         </div>
