@@ -14,7 +14,7 @@ import axios from 'axios';
 import validateSession from 'Actions/validateSession';
 import redirect from 'Actions/Redirect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faKey, faMailBulk, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faKey, faMailBulk, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ToastContext } from 'providers/ToastProvider';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -271,6 +271,9 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
     }
   };
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [cnfPasswordVisible, setCnfPasswordVisible] = useState(false);
+
   return (
     <>
       <div className="text-center mb-7">
@@ -388,8 +391,9 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
               <div className="form-icon-container">
                 <Form.Control
                   id="password"
-                  type="password"
-                  placeholder="Password ( minimum length 8 )"
+                  // type="password"
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Password"
                   required
                   className="form-icon-input"
                   value={registerData.password}
@@ -397,8 +401,9 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                   name="password"
                 />
                 <FontAwesomeIcon
-                  icon={faKey}
+                  icon={!registerData.password ? faKey : passwordVisible ? faEyeSlash : faEye}
                   className="text-900 fs-9 form-icon"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
                 />
               </div>
               <OverlayTrigger
@@ -427,7 +432,8 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
               <div className="form-icon-container">
                 <Form.Control
                   id="confirmPassword"
-                  type="password"
+                  // type="password"
+                  type={cnfPasswordVisible ? "text" : "password"}
                   placeholder="Confirm Password"
                   required
                   className="form-icon-input"
@@ -437,8 +443,9 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                   name="confirmPassword"
                 />
                 <FontAwesomeIcon
-                  icon={faKey}
+                  icon={!registerData.confirmPassword ? faKey : cnfPasswordVisible ? faEyeSlash : faEye}
                   className="text-900 fs-9 form-icon"
+                  onClick={() => setCnfPasswordVisible(!cnfPasswordVisible)}
                 />
               </div>
             </Form.Group>
