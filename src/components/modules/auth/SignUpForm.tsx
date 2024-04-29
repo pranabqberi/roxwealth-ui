@@ -5,6 +5,7 @@ import {
   // Dropdown,
   // DropdownButton,
   Form,
+  OverlayTrigger,
   Row
 } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,13 +14,12 @@ import axios from 'axios';
 import validateSession from 'Actions/validateSession';
 import redirect from 'Actions/Redirect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faKey,
-  faMailBulk,
-  faPhone,
-  faUser
-} from '@fortawesome/free-solid-svg-icons';
+import { faKey, faMailBulk, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ToastContext } from 'providers/ToastProvider';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { Tooltip } from 'react-bootstrap';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface RegisterProps {
   name: string;
@@ -56,9 +56,19 @@ const addProfile = async (name: string, email: string, mobile: string) => {
 
 const validatePassword = (password: string) => {
   // password must contain one upper, one lower letter, one digit and one special character
-  const pattern =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  return pattern.test(password);
+  const lowerLetters = /[a-z]/g;
+  const upperLetters = /[A-Z]/g;
+  const numbers = /[0-9]/g;
+  const specialCharacters = /[@$!%*?&#()]/g;
+  if (
+    !password.match(lowerLetters) ||
+    !password.match(upperLetters) ||
+    !password.match(numbers) ||
+    !password.match(specialCharacters)
+  ) {
+    return false;
+  }
+  return true;
 };
 
 const validateEmail = (email: string) => {
@@ -247,17 +257,18 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         );
         console.log('Profile added');
         addProfile(name, email, mobile);
-        showToast('You have successfully signed up', 'success');
+        showToast('You have successfully Registered', 'success');
         setTimeout(() => {
           // window.location.href = '/auth/sign-in';
           navigate('/auth/sign-in');
         }, 1000);
       } else {
         console.log('Error in signing up');
-        showToast('Error in signing up', 'error');
+        showToast('Error during Registration', 'error');
       }
     } catch (error) {
       console.error(error);
+      showToast('Error during Registration', 'error');
     }
   };
 
@@ -331,7 +342,7 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         </Form.Group>
         <Form.Group className="mb-3 text-start">
           <Form.Label htmlFor="mobile">Mobile</Form.Label>
-          <div className="form-icon-container">
+          {/* <div className="form-icon-container">
             <Form.Control
               id="mobile"
               type="number"
@@ -348,14 +359,24 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
               icon={faPhone}
               className="text-900 fs-9 form-icon"
             />
-          </div>
+          </div> */}
+          <PhoneInput
+            country={'in'}
+            value={registerData.phone}
+            onChange={(phone: string) => {
+              setRegisterData({ ...registerData, phone });
+            }}
+            inputProps={{
+              name: 'phone',
+              required: true,
+              className: 'form-control form-icon-input w-100',
+              placeholder: 'Mobile',
+              id: 'mobile'
+            }}
+          />
           {phoneError ? (
             <small className="text-danger">{phoneError}</small>
-          ) : (
-            <small className="text-muted">
-              Please enter your mobile number with country code.
-            </small>
-          )}
+          ) : null}
         </Form.Group>
         {/* <Form.Group className="mb-3 text-start">
           <Form.Label htmlFor="mobile">Mobile</Form.Label>
@@ -381,6 +402,22 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                   className="text-900 fs-9 form-icon"
                 />
               </div>
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip id="tooltip-password">
+                    Create a strong password with at least 8 characters,
+                    including uppercase and lowercase letters, numbers, and
+                    special characters (!@#$%^&*). Avoid using common words or
+                    sequences.
+                  </Tooltip>
+                }
+              >
+                <FontAwesomeIcon
+                  icon={faQuestionCircle}
+                  className="text-900 fs-9 ms-2"
+                />
+              </OverlayTrigger>
             </Form.Group>
           </Col>
           <Col sm={layout === 'card' ? 12 : 6} lg={6}>
@@ -414,11 +451,24 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
           {confirmPasswordError ? (
             <small className="text-danger">{confirmPasswordError}</small>
           ) : null}
-          <small className="text-muted">
-            Password must be at least 8 characters long, and must contain at
-            least one uppercase letter, one lowercase letter, one number and one
-            special character.
-          </small>
+          {/* <Col xs={12}>
+
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip id="tooltip-password">
+                Password must be at least 8 characters long, and must contain at
+                least one uppercase letter, one lowercase letter, one number and
+                one special character.
+              </Tooltip>
+            }
+          > 
+            <FontAwesomeIcon
+              icon={faQuestionCircle}
+              className="text-900 fs-9 ms-2"
+            />
+          </OverlayTrigger>
+          </Col> */}
         </Row>
         <Form.Check type="checkbox" className="mb-3">
           <Form.Check.Input

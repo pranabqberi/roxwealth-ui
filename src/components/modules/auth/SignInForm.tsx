@@ -85,7 +85,10 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         <p className="text-700">Get access to your account</p>
       </div>
       <Row className="align-items-center">
-        <Col xs={12} className="mb-3 text-center d-flex justify-content-center gap-3">
+        <Col
+          xs={12}
+          className="mb-3 text-center d-flex justify-content-center gap-3"
+        >
           <AuthSocialButtons title="Sign in" />
         </Col>
       </Row>
