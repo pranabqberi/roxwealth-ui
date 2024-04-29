@@ -11,6 +11,7 @@ import Features from 'components/modules/landing/alternate/features/Features';
 import DefaultLandingNavbar from 'components/navbars/default-landing-navbar/DefaultLandingNavbar';
 import useSettingsMountEffect from 'hooks/useSettingsMountEffect';
 import { useEffect } from 'react';
+// import { RSARequestEncrypt } from 'Actions/RSAUtil';
 
 const Alternate = () => {
   useSettingsMountEffect({
@@ -22,6 +23,8 @@ const Alternate = () => {
 
   useEffect(() => {
     document.title = 'Qberi';
+    // const name = RSARequestEncrypt('Qberi');
+    // console.log(name);
   }, []);
 
   return (

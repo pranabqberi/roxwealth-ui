@@ -78,8 +78,7 @@ const validateEmail = (email: string) => {
 
 const validateMobile = (mobile: string) => {
   return true;
-  const pattern = '^[+]{1}(?:[0-9-()/.]s?){6, 15}[0-9]{1}$';
-  return mobile.match(pattern);
+  console.log(mobile);
 };
 
 const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
@@ -494,13 +493,6 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
             <small className="text-danger">{termsServiceError}</small>
           ) : null}
         </Form.Check>
-        {/* <div className="mb-3">
-          <small className="text-danger">
-            {errorMessages.map((msg, i) => (
-              <div key={i}>{msg}</div>
-            ))}
-          </small>
-        </div> */}
         <div className="mb-3">
           <small className="text-success">{successMessage}</small>
         </div>

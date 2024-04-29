@@ -10,6 +10,9 @@ import { useEffect, useRef, useState } from 'react';
 import DropdownSearchBox from 'components/common/DropdownSearchBox';
 import SearchResult from 'components/common/SearchResult';
 import { Dropdown } from 'react-bootstrap';
+import validateSession from 'Actions/validateSession';
+import Avatar from 'components/base/Avatar';
+import ProfileDropdownMenu from '../nav-items/ProfileDropdownMenu';
 
 const NavItem = ({
   label,
@@ -75,6 +78,8 @@ const MyNavBar = () => {
 const DefaultLandingNavbar = ({ className }: { className?: string }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [openSearchModal, setOpenSearchModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [pictureUrl, setPictureUrl] = useState('');
 
   useEffect(() => {
     const toggleShadowClass = () => {
@@ -84,6 +89,11 @@ const DefaultLandingNavbar = ({ className }: { className?: string }) => {
         containerRef.current?.classList.remove('navbar-shadow');
       }
     };
+    const profile = JSON.parse(localStorage.getItem('profile') || '{}');
+    setPictureUrl(profile.pictureUrl);
+
+    const isLogged = validateSession();
+    setIsLoggedIn(isLogged);
 
     document.addEventListener('scroll', () => toggleShadowClass());
 
@@ -128,18 +138,34 @@ const DefaultLandingNavbar = ({ className }: { className?: string }) => {
               >
                 <FeatherIcon icon="search" size={20} />
               </Button>
-              <Link
-                to="/auth/sign-in"
-                className="btn btn-link p-0 text-900 order-1 order-lg-0"
-              >
-                Sign in
-              </Link>
-              <Link
-                to="/auth/sign-up"
-                className="btn btn-phoenix-primary order-0"
-              >
-                Register
-              </Link>
+              {isLoggedIn ? (
+                <Dropdown autoClose="outside" className="h-100">
+                  <Dropdown.Toggle
+                    as={Link}
+                    to="#!"
+                    className="dropdown-caret-none nav-link pe-0 py-0 lh-1 h-100 d-flex align-items-center"
+                    variant=""
+                  >
+                    <Avatar src={pictureUrl} size="l" />
+                  </Dropdown.Toggle>
+                  <ProfileDropdownMenu />
+                </Dropdown>
+              ) : (
+                <>
+                  <Link
+                    to="/auth/sign-in"
+                    className="btn btn-link p-0 text-900 order-1 order-lg-0"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    to="/auth/sign-up"
+                    className="btn btn-phoenix-primary order-0"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
           </Navbar.Collapse>
         </Navbar>

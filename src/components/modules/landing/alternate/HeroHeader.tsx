@@ -41,7 +41,7 @@ const HeroHeader = () => {
                   <Link to="/about-us">Read more here.</Link>
                 </span>
               </p>
-              <Button
+              {/* <Button
                 as={Link}
                 to="/auth/sign-up"
                 variant="primary"
@@ -49,7 +49,7 @@ const HeroHeader = () => {
                 className="rounded-pill me-3"
               >
                 Register
-              </Button>
+              </Button> */}
               <Button
                 as={Link}
                 to={nextPath}
