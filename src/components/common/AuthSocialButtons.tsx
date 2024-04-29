@@ -81,11 +81,13 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
         {title} with google
       </Button> */}
       <GoogleLogin
-        theme="filled_blue"
+        theme="outline"
         onSuccess={onGoogleSuccess}
         onError={() => console.log('Login Failed')}
         size="large"
         text="continue_with"
+        useOneTap
+        width={400}
       />
       {/* <Button
         variant="phoenix-secondary"

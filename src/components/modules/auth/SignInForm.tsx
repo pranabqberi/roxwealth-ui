@@ -4,11 +4,12 @@ import Button from 'components/base/Button';
 import AuthSocialButtons from 'components/common/AuthSocialButtons';
 import { Col, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import validateSession from 'Actions/validateSession';
 import onSuccessLogin from 'Actions/login';
 import redirect from 'Actions/Redirect';
+import { ToastContext } from 'providers/ToastProvider';
 
 // SignInForm component
 const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
@@ -37,6 +38,8 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
     setPassword(e.target.value);
   };
 
+  const { showToast } = useContext(ToastContext);
+
   // Handle login button click
   const handleLogin = async () => {
     const URL = 'https://engine.qberi.com/api/login';
@@ -60,16 +63,19 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         const responseData = response.data;
         onSuccessLogin(responseData, email);
         setSuccessMessage('Login successful. Redirecting...');
+        setError('');
+        showToast('Login successful', 'success');
         setTimeout(() => {
           const nextPath = redirect();
           history(nextPath);
         }, 1000);
       } else {
+        showToast('Invalid email or password', 'error');
         return setError('Invalid email or password');
       }
     } catch (error) {
-      console.error('Login error:', error);
       setError('Invalid email or password');
+      showToast('Invalid email or password', 'error');
     }
   };
   return (
@@ -78,7 +84,11 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         <h3 className="text-1000">Sign In</h3>
         <p className="text-700">Get access to your account</p>
       </div>
-      <AuthSocialButtons title="Sign in" />
+      <Row className="align-items-center">
+        <Col xs={12} className="mb-3 text-center d-flex justify-content-center gap-3">
+          <AuthSocialButtons title="Sign in" />
+        </Col>
+      </Row>
       <div className="position-relative">
         <hr className="bg-200 mt-5 mb-4" />
         <div className="divider-content-center">or use email</div>
