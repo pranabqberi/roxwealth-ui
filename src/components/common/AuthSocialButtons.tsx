@@ -7,7 +7,10 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import UpdateProfile from 'Actions/UpdateProfile';
 import redirect from 'Actions/Redirect';
+import { decrypt, encrypt } from 'Actions/AESUtil';
 // import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { ToastContext } from 'providers/ToastProvider';
 
 interface SessionData {
   isLoggedIn: boolean;
@@ -41,24 +44,30 @@ const updateSession = (sessionToken: string, email: string) => {
 
 const AuthSocialButtons = ({ title }: { title: string }) => {
   const navigate = useNavigate();
+  const { showToast } = useContext(ToastContext);
   const onGoogleSuccess = (response: any) => {
     const credential = response.credential;
-    const URL = 'https://engine.qberi.com/api/googleLogin';
+    // const URL = 'https://engine.qberi.com/api/googleLogin';
+    const URL = 'http://localhost:8080/api/googleLogin';
     const data = {
       idToken: credential
     };
+    const encryptedData = encrypt(JSON.stringify(data));
     axios
-      .post(URL, data)
+      .post(URL, encryptedData, { headers: { 'Content-Type': 'text/plain' } })
       .then(async response => {
         const data = response.data;
-        const sessionToken = data.split('=')[1].split(';')[0];
+        const decryptedData = decrypt(data);
+        const sessionToken = decryptedData.split('=')[1].split(';')[0];
         if (!sessionToken) {
           console.error('Invalid email or password in ', title);
+          showToast('Invalid email or password', 'error');
           return;
         }
         localStorage.setItem('sessionToken', sessionToken);
         updateSession(sessionToken, getEmailFromJWT(credential));
         await UpdateProfile();
+        showToast('Login Successful', 'success');
         setTimeout(() => {
           const nextPath = redirect();
           navigate(nextPath);
@@ -66,6 +75,7 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
       })
       .catch(error => {
         console.error('Error fetching profile data: in ', error);
+        showToast('Error fetching profile data', 'error');
       });
   };
 

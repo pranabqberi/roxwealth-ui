@@ -10,6 +10,7 @@ import validateSession from 'Actions/validateSession';
 import onSuccessLogin from 'Actions/login';
 import redirect from 'Actions/Redirect';
 import { ToastContext } from 'providers/ToastProvider';
+import { decrypt, encrypt } from 'Actions/AESUtil';
 
 // SignInForm component
 const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
@@ -42,18 +43,21 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
 
   // Handle login button click
   const handleLogin = async () => {
-    const URL = 'https://engine.qberi.com/api/login';
+    // const URL = 'https://engine.qberi.com/api/login';
+    const URL = 'http://localhost:8080/api/login';
 
     const data = {
       email: email,
       password: password
     };
 
+    const encryptedData = encrypt(JSON.stringify(data));
+
     const headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'text/plain'
     };
     try {
-      const response = await axios.post(URL, data, { headers: headers });
+      const response = await axios.post(URL, encryptedData, { headers: headers });
 
       if (
         response.status === 200 ||
@@ -61,7 +65,8 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         response.status === 204
       ) {
         const responseData = response.data;
-        onSuccessLogin(responseData, email);
+        const decryptedData = decrypt(responseData);
+        onSuccessLogin(decryptedData, email);
         setSuccessMessage('Login successful. Redirecting...');
         setError('');
         showToast('Login successful', 'success');
