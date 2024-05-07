@@ -14,7 +14,13 @@ import axios from 'axios';
 import validateSession from 'Actions/validateSession';
 import redirect from 'Actions/Redirect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faKey, faMailBulk, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+  faKey,
+  faMailBulk,
+  faUser
+} from '@fortawesome/free-solid-svg-icons';
 import { ToastContext } from 'providers/ToastProvider';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -364,6 +370,7 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
           </div> */}
           <PhoneInput
             country={'in'}
+            countryCodeEditable={false}
             value={registerData.phone}
             onChange={(phone: string) => {
               setRegisterData({ ...registerData, phone });
@@ -392,7 +399,7 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                 <Form.Control
                   id="password"
                   // type="password"
-                  type={passwordVisible ? "text" : "password"}
+                  type={passwordVisible ? 'text' : 'password'}
                   placeholder="Password"
                   required
                   className="form-icon-input"
@@ -401,7 +408,13 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                   name="password"
                 />
                 <FontAwesomeIcon
-                  icon={!registerData.password ? faKey : passwordVisible ? faEyeSlash : faEye}
+                  icon={
+                    !registerData.password
+                      ? faKey
+                      : passwordVisible
+                      ? faEyeSlash
+                      : faEye
+                  }
                   className="text-900 fs-9 form-icon"
                   onClick={() => setPasswordVisible(!passwordVisible)}
                 />
@@ -433,7 +446,7 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                 <Form.Control
                   id="confirmPassword"
                   // type="password"
-                  type={cnfPasswordVisible ? "text" : "password"}
+                  type={cnfPasswordVisible ? 'text' : 'password'}
                   placeholder="Confirm Password"
                   required
                   className="form-icon-input"
@@ -443,7 +456,13 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                   name="confirmPassword"
                 />
                 <FontAwesomeIcon
-                  icon={!registerData.confirmPassword ? faKey : cnfPasswordVisible ? faEyeSlash : faEye}
+                  icon={
+                    !registerData.confirmPassword
+                      ? faKey
+                      : cnfPasswordVisible
+                      ? faEyeSlash
+                      : faEye
+                  }
                   className="text-900 fs-9 form-icon"
                   onClick={() => setCnfPasswordVisible(!cnfPasswordVisible)}
                 />

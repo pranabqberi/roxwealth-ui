@@ -195,6 +195,12 @@ import Thank from 'pages/pages/Mains/Thank';
 import UsersList from 'components/Admins/UsersTable';
 import GroupsRoles from 'components/Admins/GroupsRoles';
 import ProductTypes from 'pages/apps/e-commerce/admin/ProductsTypes';
+// import createOrg from 'pages/org/CreateOrg';
+import CreateOrg from 'pages/org/CreateOrg';
+import ListOrg from 'pages/org/ListOrg';
+import OrgDetails from 'pages/org/OrgDetails';
+import OrgUsers from 'pages/org/OrgUsers';
+// import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
 // import { id } from 'components/tables/ProductsTable';
 
 // const FontAwesomeExample = lazy(
@@ -314,6 +320,37 @@ const routes: RouteObject[] = [
           //   index: true,
           //   element: <Redirect />
           // },
+          {
+            path: 'org',
+            children: [
+              {
+                path: 'create',
+                element: <CreateOrg />
+              },
+              {
+                path: 'view',
+                element: <ListOrg />
+              },
+              {
+                path: ':id',
+                // element: <OrgDetails />,
+                children: [
+                  {
+                    path: 'users',
+                    element: <OrgUsers />
+                  },
+                  {
+                    path: 'view',
+                    element: <OrgDetails />
+                  },
+                  {
+                    path: 'app/add-product',
+                    element: <ProductTypes />
+                  }
+                ]
+              }
+            ]
+          },
           {
             path: 'hospitalmerch',
             // element: <EcommerceLayout />,

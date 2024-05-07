@@ -29,7 +29,7 @@ const updateSession = (
   localStorage.setItem('session', JSON.stringify(session));
 };
 
-const onSuccessLogin = (loginResponse: string, email: string) => {
+const onSuccessLogin = async (loginResponse: string, email: string) => {
   const sessionToken = loginResponse.split('=')[1].split(';')[0];
   const expireOn = loginResponse.split(';')[3].split('=')[1];
 
@@ -39,7 +39,7 @@ const onSuccessLogin = (loginResponse: string, email: string) => {
   updateSession(sessionToken, email, expireOn);
   // dont return unless updateProfile function is completed successfully
 
-  UpdateProfile()
+  await UpdateProfile()
     .then(response => {
       console.log('Profile data fetched successfully: ', response);
       return true;
