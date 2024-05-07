@@ -12,7 +12,7 @@ import { RevealDropdownTrigger } from 'components/base/RevealDropdown';
 import RevealDropdown from 'components/base/RevealDropdown';
 import UserModal from './UserModal';
 
-const URL = 'https://engine.qberi.com/api/allUsers/info';
+const URL = 'https://engine.qberi.com/api/allUsers/qberi/users/info';
 const session = JSON.parse(localStorage.getItem('session') || '{}');
 const headers = {
   'Content-Type': 'application/json',

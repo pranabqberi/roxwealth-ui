@@ -41,7 +41,7 @@ const NavItems = () => {
           <FeatherIcon icon="search" size={19} style={{ marginBottom: 2 }} />
         </Nav.Link>
       </Nav.Item>
-      <Nav.Item>
+      {/* <Nav.Item>
         <Dropdown autoClose="outside" className="h-100">
           <Dropdown.Toggle
             as={Link}
@@ -53,8 +53,8 @@ const NavItems = () => {
           </Dropdown.Toggle>
           <NotificationDropdownMenu />
         </Dropdown>
-      </Nav.Item>
-      <Nav.Item>
+      </Nav.Item> */}
+      {/* <Nav.Item>
         <Dropdown autoClose="outside" className="h-100">
           <Dropdown.Toggle
             as={Link}
@@ -82,7 +82,7 @@ const NavItems = () => {
           </Dropdown.Toggle>
           <NineDotMenu />
         </Dropdown>
-      </Nav.Item>
+      </Nav.Item> */}
       <Nav.Item>
         <Dropdown autoClose="outside" className="h-100">
           <Dropdown.Toggle

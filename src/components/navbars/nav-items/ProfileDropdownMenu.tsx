@@ -19,26 +19,26 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
       icon: 'pie-chart',
       link: '/dashboard/roxwealth'
     },
+    // {
+    //   label: 'Posts & Activity',
+    //   icon: 'lock',
+    //   link: '/posts'
+    // },
     {
-      label: 'Posts & Activity',
-      icon: 'lock',
-      link: '/posts'
+      label: 'Terms and Conditions ',
+      icon: 'book',
+      link: '/terms-conditions'
     },
-    {
-      label: 'Settings & Privacy ',
-      icon: 'settings',
-      link: '/settings'
-    },
-    {
-      label: 'Help Center',
-      icon: 'help-circle',
-      link: '/help'
-    },
-    {
-      label: 'Language',
-      icon: 'globe',
-      link: '/language'
-    }
+    // {
+    //   label: 'Help Center',
+    //   icon: 'help-circle',
+    //   link: '/help'
+    // },
+    // {
+    //   label: 'Language',
+    //   icon: 'globe',
+    //   link: '/language'
+    // }
   ]);
   const [email, setEmail] = useState('Email Not Found');
   const [profileUrl, setProfileUrl] = useState('');
