@@ -29,18 +29,7 @@ const PerformanceNAVS = () => {
     axios
       .get(URL, { headers: headers })
       .then(response => {
-        // Use Promise.all to wait for all state updates to complete
-        Promise.all([
-          data = response.data,
-          setGraphData1D(data[0]),
-          setGraphData7D(data[1]),
-          setGraphDataMTD(data[2]),
-          setGraphData1M(data[3]),
-          setGraphDataYTD(data[4]),
-          setGraphData1Y(data[5])
-        ]).then(() => {
-          console.log("All graph data has been set:", data);
-        });
+        setGraphData(response.data);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -107,9 +96,7 @@ const PerformanceNAVS = () => {
       </Row>
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
-          width={500}
-          height={400}
-          data={mode === '1D' ? data[0].nav.data[0].navs : mode === 'Weekly' ? graphData7D : mode === 'MTD' ? graphDataMTD : mode === 'Monthly' ? graphData1M : mode === 'YTD' ? graphDataYTD : graphData1Y}
+          data={getChartData(mode)}
           margin={{ top: 20, right: 0, left: 10, bottom: 70 }}
         >
           <XAxis
