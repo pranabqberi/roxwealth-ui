@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import sampleJson from '../../assets/SampleData.json';
+import { useState, useEffect, useCallback } from 'react';
 import {
   BarChart,
   Bar,
@@ -9,72 +8,51 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import { Col, Form, Row } from 'react-bootstrap';
-// import axios from 'axios';
+import axios from 'axios';
 
-const monthNames = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
-];
-
-const decodeDate = date => {
-  const year = date.substring(0, 4);
-  const month = date.substring(4, 6);
-  const day = date.substring(6, 8);
-  const monthName = monthNames[parseInt(month) - 1];
-  return `${day}-${monthName}-${year}`;
-};
-
-const decodeMonth = month => {
-  const year = month.substring(0, 4);
-  const monthName = month.substring(4, 6);
-  const mm = monthNames[parseInt(monthName) - 1];
-  return `${mm}-${year}`;
+const URL = 'https://engine.qberi.com/api/portfolioValueGraph';
+const session = JSON.parse(localStorage.getItem('session') || '{}');
+const headers = {
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${session?.sessionToken}`
 };
 
 const PerformanceNAVS = () => {
-  const [graphDataDaily, setGraphDataDaily] = useState([]);
-  const [graphDataMonthly, setGraphDataMonthly] = useState([]);
-  const [mode, setMode] = useState('Monthly');
+  const [graphData, setGraphData] = useState([]);
+
+  const [graphData1D, setGraphData1D] = useState({});
+  const [graphData7D, setGraphData7D] = useState({});
+  const [graphDataMTD, setGraphDataMTD] = useState({});
+  const [graphData1M, setGraphData1M] = useState({});
+  const [graphDataYTD, setGraphDataYTD] = useState({});
+  const [graphData1Y, setGraphData1Y] = useState({});
+  const [mode, setMode] = useState('Daily');
+  let data = [];
+  const fetchData = useCallback(() => {
+    axios
+      .get(URL, { headers: headers })
+      .then(response => {
+        // Use Promise.all to wait for all state updates to complete
+        Promise.all([
+          (data = response.data),
+          setGraphData1D(data[0]),
+          setGraphData7D(data[1]),
+          setGraphDataMTD(data[2]),
+          setGraphData1M(data[3]),
+          setGraphDataYTD(data[4]),
+          setGraphData1Y(data[5])
+        ]).then(() => {
+          console.log('All graph data has been set:', data);
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
 
   useEffect(() => {
-    const userData = sampleJson.nav;
-    if (userData) {
-      const dates = userData.dates;
-      const navs = userData.data[0].navs;
-      const data = [];
-      const eachMonthSum = {};
-      const eachMonthCount = {};
-
-      for (let i = 0; i < dates.length; i++) {
-        const date = decodeDate(dates[i]);
-        const nav = navs[i];
-        const month = monthNames[parseInt(dates[i].substring(4, 6)) - 1];
-        const diff = nav - navs[i - 1];
-        data.push({ date, NAV: nav, month, diff });
-
-        const monthKey = parseInt(dates[i].substring(0, 6));
-        eachMonthSum[monthKey] = (eachMonthSum[monthKey] || 0) + nav;
-        eachMonthCount[monthKey] = (eachMonthCount[monthKey] || 0) + 1;
-      }
-
-      const dataMonthly = Object.entries(eachMonthSum).map(([key, value]) => ({
-        month: decodeMonth(key),
-        NAV: (value / eachMonthCount[key]).toFixed(2) // Average NAV for the month, rounded to 2 decimal places
-      }));
-
-      setGraphDataMonthly(dataMonthly);
-      setGraphDataDaily(data);
-    }
+    fetchData();
+    console.log(data);
   }, []);
 
   // useEffect(() => {
@@ -139,8 +117,12 @@ const PerformanceNAVS = () => {
         </Col>
         <Col>
           <Form.Select size="sm" onChange={handleModeChange}>
-            <option value="Monthly">Monthly</option>
-            <option value="Daily">Daily</option>
+            <option value="1D">1D</option>
+            <option value="Weekly">7D</option>
+            <option value="MTD">MTD</option>
+            <option value="Monthly">1M</option>
+            <option value="YTD">YTD</option>
+            <option value="Yearly">1Y</option>
           </Form.Select>
         </Col>
       </Row>
@@ -148,13 +130,25 @@ const PerformanceNAVS = () => {
         <BarChart
           width={500}
           height={400}
-          data={mode === 'Daily' ? graphDataDaily : graphDataMonthly}
+          data={
+            mode === '1D'
+              ? data[0].nav.data[0].navs
+              : mode === 'Weekly'
+              ? graphData7D
+              : mode === 'MTD'
+              ? graphDataMTD
+              : mode === 'Monthly'
+              ? graphData1M
+              : mode === 'YTD'
+              ? graphDataYTD
+              : graphData1Y
+          }
           margin={{ top: 20, right: 0, left: 10, bottom: 70 }}
         >
           <XAxis
-            dataKey={mode === 'Daily' ? 'date' : 'month'}
-            angle={-45}
-            textAnchor="end"
+          // dataKey={mode === 'Daily' ? 'date' : 'month'}
+          // angle={-45}
+          // textAnchor="end"
           />
           <YAxis />
           <Tooltip />

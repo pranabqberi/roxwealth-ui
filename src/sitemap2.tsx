@@ -251,6 +251,12 @@ sample.map(org => {
         icon: 'eye',
         active: true
       },
+      {
+        name: 'Create App',
+        path: '/org/' + org.id + '/create-app',
+        icon: 'plus',
+        active: true
+      },
       // check if applications is not null
       {
         name: 'Applications',

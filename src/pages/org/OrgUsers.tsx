@@ -2,73 +2,67 @@ import { useEffect, useState } from 'react';
 import { UserType } from 'data/org';
 import { OrgType } from 'data/org';
 import { Table } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import AdvanceTable from 'components/base/AdvanceTable';
+import AdvanceTableProvider from 'providers/AdvanceTableProvider';
+import useAdvanceTable from 'hooks/useAdvanceTable';
+import { ColumnDef } from '@tanstack/react-table';
+import AdvanceTableFooter from 'components/base/AdvanceTableFooter';
+
+const columns: ColumnDef<UserType>[] = [
+  {
+    header: 'Name',
+    accessorKey: 'name'
+  },
+  {
+    header: 'Email',
+    accessorKey: 'email'
+  },
+  {
+    header: 'Role',
+    accessorKey: 'role'
+  },
+  {
+    header: 'Created At',
+    accessorKey: 'createdAt'
+  },
+  {
+    header: 'Last Modified At',
+    accessorKey: 'lastModifiedAt'
+  },
+  {
+    header: 'Is Deleted',
+    accessorKey: 'isDeleted',
+    cell: (row: any) => (row.value ? 'Yes' : 'No')
+  }
+];
 
 const OrgUsers = () => {
   const [users, setUsers] = useState<UserType[]>([]);
+  const id = useParams<{ id: string }>().id;
 
   useEffect(() => {
-    const id = window.location.pathname.split('/')[2];
     const local = JSON.parse(localStorage.getItem('orgs') || '[]');
     const org = local.find((org: OrgType) => org.id === id);
     // console.log(org);
     setUsers(org.users || []);
   }, []);
 
+  const table = useAdvanceTable({
+    columns: columns,
+    data: users
+  });
+
   return (
     <div>
       <h1>List of Users</h1>
-      {/* <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Created At</th>
-                        <th>Last Modified At</th>
-                        <th>Is Deleted</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((user) => {
-                        return (
-                            <tr key={user.id}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td>{user.createdAt}</td>
-                                <td>{user.lastModifiedAt}</td>
-                                <td>{user.isDeleted ? "Yes" : "No"}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table> */}
-      <Table className="mt-5" striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Created At</th>
-            <th>Last Modified At</th>
-            <th>Is Deleted</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => {
-            return (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>{user.createdAt}</td>
-                <td>{user.lastModifiedAt}</td>
-                <td>{user.isDeleted ? 'Yes' : 'No'}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      {users.length === 0 && <p>No users</p>}
+      {users.length > 0 && (
+        <AdvanceTableProvider {...table}>
+          <AdvanceTable />
+          <AdvanceTableFooter pagination />
+        </AdvanceTableProvider>
+      )}
     </div>
   );
 };

@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import Button from 'components/base/Button';
 import Dropzone from 'components/base/Dropzone';
+import UploadToS3 from 'Actions/UploadToS3';
+import axios from 'axios';
+import { ToastContext } from 'providers/ToastProvider';
 
 type OrgRegistration = {
   name: string;
@@ -13,14 +16,17 @@ type OrgRegistration = {
 };
 
 const CreateOrg: React.FC = () => {
+  const profile = JSON.parse(localStorage.getItem('profile') || '{}');
   const [org, setOrg] = useState<OrgRegistration>({
     name: '',
     logo: '',
     description: '',
     createdBy: {
-      id: ''
+      id: profile.id as string
     }
   });
+
+  const { showToast } = useContext(ToastContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOrg({
@@ -31,11 +37,42 @@ const CreateOrg: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(org);
+    // console.log(org);
+    const URL = 'https://engine.qberi.com/api/registerOrganization';
+
+    const session = JSON.parse(localStorage.getItem('session') || '{}');
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session.sessionToken}`
+    };
+
+    axios.post(URL, org, { headers: headers }).then(res => {
+      showToast('success', 'Organization created successfully');
+    });
+
+    setOrg({
+      name: '',
+      logo: '',
+      description: '',
+      createdBy: {
+        id: profile.id as string
+      }
+    });
   };
 
   const onDrop = (files: any) => {
-    console.log(files);
+    UploadToS3(files[0]).then(res => {
+      setOrg({
+        ...org,
+        logo: res as string
+      });
+    });
+  };
+  const onDelete = () => {
+    setOrg({
+      ...org,
+      logo: ''
+    });
   };
 
   return (

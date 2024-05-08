@@ -2,11 +2,11 @@ import Avatar from 'components/base/Avatar';
 import { Dropdown, Modal, Nav } from 'react-bootstrap';
 // import avatar57 from 'assets/img/team/40x40/57.webp';
 import ProfileDropdownMenu from './ProfileDropdownMenu';
-import NineDotMenu from './NineDotMenu';
+// import NineDotMenu from './NineDotMenu';
 import { useAppContext } from 'providers/AppProvider';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
-import NotificationDropdownMenu from './NotificationDropdownMenu';
+// import NotificationDropdownMenu from './NotificationDropdownMenu';
 import ThemeToggler from 'components/common/ThemeToggler';
 import { useEffect, useState } from 'react';
 import DropdownSearchBox from 'components/common/DropdownSearchBox';
@@ -41,7 +41,7 @@ const NavItems = () => {
           <FeatherIcon icon="search" size={19} style={{ marginBottom: 2 }} />
         </Nav.Link>
       </Nav.Item>
-      <Nav.Item>
+      {/* <Nav.Item>
         <Dropdown autoClose="outside" className="h-100">
           <Dropdown.Toggle
             as={Link}
@@ -53,8 +53,8 @@ const NavItems = () => {
           </Dropdown.Toggle>
           <NotificationDropdownMenu />
         </Dropdown>
-      </Nav.Item>
-      <Nav.Item>
+      </Nav.Item> */}
+      {/* <Nav.Item>
         <Dropdown autoClose="outside" className="h-100">
           <Dropdown.Toggle
             as={Link}
@@ -82,7 +82,7 @@ const NavItems = () => {
           </Dropdown.Toggle>
           <NineDotMenu />
         </Dropdown>
-      </Nav.Item>
+      </Nav.Item> */}
       <Nav.Item>
         <Dropdown autoClose="outside" className="h-100">
           <Dropdown.Toggle

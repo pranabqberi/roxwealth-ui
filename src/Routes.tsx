@@ -200,6 +200,7 @@ import CreateOrg from 'pages/org/CreateOrg';
 import ListOrg from 'pages/org/ListOrg';
 import OrgDetails from 'pages/org/OrgDetails';
 import OrgUsers from 'pages/org/OrgUsers';
+import CreateApp from 'pages/org/CreateApp';
 // import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
 // import { id } from 'components/tables/ProductsTable';
 
@@ -342,6 +343,10 @@ const routes: RouteObject[] = [
                   {
                     path: 'view',
                     element: <OrgDetails />
+                  },
+                  {
+                    path: 'create-app',
+                    element: <CreateApp />
                   },
                   {
                     path: 'app/add-product',

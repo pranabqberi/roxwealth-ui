@@ -11,9 +11,9 @@ interface AdvanceTableProps {
   hasFooter?: boolean;
 }
 
-const onClickDelete = (id: string) => {
-  console.log('Delete', id);
-};
+// const onClickDelete = (id: string) => {
+//   console.log('Delete', id);
+// };
 
 const AdvanceTable = ({
   headerClassName,

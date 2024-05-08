@@ -10,7 +10,7 @@ import AdvanceTableFooter from 'components/base/AdvanceTableFooter';
 import { ColumnDef } from '@tanstack/react-table';
 
 const formatDate = (date: string) => {
-  return date;
+  return new Date(date).toLocaleDateString();
 };
 
 const TableColumns: ColumnDef<OrgType>[] = [
@@ -21,7 +21,9 @@ const TableColumns: ColumnDef<OrgType>[] = [
   {
     header: 'Logo',
     accessorKey: 'logo',
-    cell: (row: any) => <Avatar src={row.value} size="l" />
+    cell: ({ row: { original } }) => {
+      return <Avatar src={original.logo} size="m" />;
+    }
   },
   {
     header: 'Description',
@@ -30,17 +32,9 @@ const TableColumns: ColumnDef<OrgType>[] = [
   {
     header: 'Created At',
     accessorKey: 'createdAt',
-    cell: (row: any) => formatDate(row.value)
-  },
-  {
-    header: 'Last Modified At',
-    accessorKey: 'lastModifiedAt',
-    cell: (row: any) => formatDate(row.value)
-  },
-  {
-    header: 'Is Deleted',
-    accessorKey: 'isDeleted',
-    cell: (row: any) => (row.value ? 'Yes' : 'No')
+    cell: ({ row: { original } }) => {
+      return formatDate(original.createdAt);
+    }
   }
 ];
 

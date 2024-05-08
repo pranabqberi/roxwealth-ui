@@ -1,16 +1,49 @@
 import { useEffect, useState } from 'react';
-import { OrgType } from 'data/org';
+import { OrgType, ApplicationsType } from 'data/org';
+import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Table } from 'react-bootstrap';
+import { ColumnDef } from '@tanstack/react-table';
+import useAdvanceTable from 'hooks/useAdvanceTable';
+import AdvanceTableProvider from 'providers/AdvanceTableProvider';
+import AdvanceTable from 'components/base/AdvanceTable';
+import AdvanceTableFooter from 'components/base/AdvanceTableFooter';
+import Avatar from 'components/base/Avatar';
+
+const columns: ColumnDef<ApplicationsType>[] = [
+  {
+    header: 'Name',
+    accessorKey: 'name'
+  },
+  {
+    header: 'Description',
+    accessorKey: 'description'
+  },
+  {
+    header: 'Created At',
+    accessorKey: 'createdAt'
+  },
+  {
+    header: 'Last Modified At',
+    accessorKey: 'lastModifiedAt'
+  }
+];
 
 const OrgDetails = () => {
   const [org, setOrg] = useState<OrgType | null>(null);
 
+  const id = useParams<{ id: string }>().id;
   useEffect(() => {
-    const id = window.location.pathname.split('/')[2];
     const local = JSON.parse(localStorage.getItem('orgs') || '[]');
     const org = local.find((org: OrgType) => org.id === id);
     setOrg(org);
-  }, []);
+  }, [id]);
+
+  const table = useAdvanceTable({
+    columns: columns,
+    data: org?.applications || [],
+    pageSize: 5,
+    pagination: true
+  });
 
   return (
     <Container>
@@ -20,7 +53,7 @@ const OrgDetails = () => {
           {org && (
             <>
               <p>Name: {org.name}</p>
-              <p>Logo: {org.logo}</p>
+              <Avatar src={org.logo} size="l" />
               <p>Description: {org.description}</p>
               <p>Created At: {org.createdAt}</p>
               <p>Last Modified At: {org.lastModifiedAt}</p>
@@ -33,28 +66,10 @@ const OrgDetails = () => {
         <Col>
           <h2 className="mt-5">Applications</h2>
           {org && org.applications && (
-            <Table className="mt-5" striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Created At</th>
-                  <th>Last Modified At</th>
-                  <th>Is Deleted</th>
-                </tr>
-              </thead>
-              <tbody>
-                {org.applications.map(app => (
-                  <tr key={app.id}>
-                    <td>{app.name}</td>
-                    <td>{app.description}</td>
-                    <td>{app.createdAt}</td>
-                    <td>{app.lastModifiedAt}</td>
-                    <td>{app.isDeleted ? 'Yes' : 'No'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <AdvanceTableProvider {...table}>
+              <AdvanceTable />
+              <AdvanceTableFooter pagination />
+            </AdvanceTableProvider>
           )}
           {org && !org.applications && <p>No Applications</p>}
         </Col>

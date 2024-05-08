@@ -8,18 +8,22 @@ export type UserType = {
   isDeleted: boolean;
 };
 
-type ApplicationsType = {
-  id: string;
+export type ApplicationsType = {
+  id?: string;
   name: string;
+  logo: string;
   description: string;
-  createdBy: any;
-  createdAt: string;
-  lastModifiedAt: string;
-  isDeleted: boolean;
+  isPublished: boolean;
+  organizationDetails: {
+    id: string;
+    name: string;
+    logo: string;
+    description: string;
+  };
 };
 
 export type OrgType = {
-  id: string;
+  id?: string;
   name: string;
   logo: string;
   description: string;
@@ -28,4 +32,5 @@ export type OrgType = {
   isDeleted: boolean;
   users: UserType[] | null;
   applications: ApplicationsType[] | null;
+  createdBy?: any;
 };

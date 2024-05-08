@@ -12,6 +12,8 @@ const SignOut = () => {
     localStorage.removeItem('session');
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('profile');
+    localStorage.removeItem('orgs');
+    localStorage.removeItem('sessionToken');
     showToast("You've been signed out successfully", 'success');
     navigate('/');
   }, []);

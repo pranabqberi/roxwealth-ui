@@ -14,7 +14,7 @@ import EcomStats from 'components/stats/EcomStats';
 // // import sampleJson from '../../assets/SampleData.json';
 // // import PerformanceTPPS from 'components/Graphs/Performance-TPPS';
 // // import PerformanceCPS from 'components/Graphs/Performance-CPS';
-import PerformanceNAVS from 'components/Graphs/Performance-NAVS';
+// import PerformanceNAVS from 'components/Graphs/Performance-NAVS';
 import PerformanceNAVSLine from 'components/Graphs/Performance-NAVS-Line';
 // import { useState, useEffect } from 'react';
 
@@ -44,7 +44,7 @@ const Ecommerce2 = () => {
             {/* <EcomTotalSells /> */}
             {/* <PerformanceTPPS data={TPPS_Data}   /> */}
             {/* <PerformanceCPS /> */}
-            <PerformanceNAVS />
+            {/* <PerformanceNAVS /> */}
             <PerformanceNAVSLine />
           </Col>
           {/* <Col xs={12} xxl={6}>

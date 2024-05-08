@@ -8,11 +8,10 @@ import { useAppContext } from 'providers/AppProvider';
 import { useMainLayoutContext } from 'providers/MainLayoutProvider';
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import React from 'react';
 import { useEffect, useState } from 'react';
 import validateSession from 'Actions/validateSession';
-// import { s } from '@fullcalendar/core/internal-common';
 import { useNavigate } from 'react-router-dom';
+import { UpdateOrgs } from 'Actions/UpdateOrgs';
 
 const MainLayout = () => {
   const {
@@ -34,6 +33,7 @@ const MainLayout = () => {
       return;
     }
     setIsLoggedIn(true);
+    UpdateOrgs();
   }, []);
 
   return (
