@@ -28,7 +28,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
       label: 'Terms and Conditions ',
       icon: 'book',
       link: '/terms-conditions'
-    },
+    }
     // {
     //   label: 'Help Center',
     //   icon: 'help-circle',

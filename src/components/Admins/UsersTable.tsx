@@ -225,7 +225,7 @@ const UsersList = () => {
       .get(URL, { headers: headers })
       .then(response => {
         setAllUserData(response.data);
-        // console.log('Response:', response.data);
+        console.log('Response:', response.data);
       })
       .catch(error => {
         console.error('Error:', error);

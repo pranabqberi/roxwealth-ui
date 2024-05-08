@@ -61,14 +61,15 @@ const SignInForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
         response.status === 204
       ) {
         const responseData = response.data;
-        onSuccessLogin(responseData, email);
-        setSuccessMessage('Login successful. Redirecting...');
-        setError('');
-        showToast('Login successful', 'success');
-        setTimeout(() => {
-          const nextPath = redirect();
-          history(nextPath);
-        }, 1000);
+        onSuccessLogin(responseData, email).then(() => {
+          setSuccessMessage('Login successful. Redirecting...');
+          setError('');
+          showToast('Login successful', 'success');
+          setTimeout(() => {
+            const nextPath = redirect();
+            history(nextPath);
+          }, 1000);
+        });
       } else {
         showToast('Invalid email or password', 'error');
         return setError('Invalid email or password');

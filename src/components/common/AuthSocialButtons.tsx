@@ -58,11 +58,14 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
         }
         localStorage.setItem('sessionToken', sessionToken);
         updateSession(sessionToken, getEmailFromJWT(credential));
-        await UpdateProfile();
-        setTimeout(() => {
-          const nextPath = redirect();
-          navigate(nextPath);
-        }, 1000);
+        UpdateProfile().then(async response => {
+          console.log('Profile data updated successfully : ', response);
+          setTimeout(() => {
+            const nextPath = redirect();
+            console.log(nextPath);
+            navigate(nextPath);
+          }, 1000);
+        });
       })
       .catch(error => {
         console.error('Error fetching profile data: in ', error);
