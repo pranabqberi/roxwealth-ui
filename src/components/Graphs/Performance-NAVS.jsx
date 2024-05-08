@@ -19,41 +19,59 @@ const headers = {
 
 const PerformanceNAVS = () => {
   const [graphData, setGraphData] = useState([]);
+  const [mode, setMode] = useState('1D');
 
-  const [graphData1D, setGraphData1D] = useState({});
-  const [graphData7D, setGraphData7D] = useState({});
-  const [graphDataMTD, setGraphDataMTD] = useState({});
-  const [graphData1M, setGraphData1M] = useState({});
-  const [graphDataYTD, setGraphDataYTD] = useState({});
-  const [graphData1Y, setGraphData1Y] = useState({});
-  const [mode, setMode] = useState('Daily');
-  let data = [];
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const fetchData = useCallback(() => {
     axios
       .get(URL, { headers: headers })
       .then(response => {
-        // Use Promise.all to wait for all state updates to complete
-        Promise.all([
-          data = response.data,
-          setGraphData1D(data[0]),
-          setGraphData7D(data[1]),
-          setGraphDataMTD(data[2]),
-          setGraphData1M(data[3]),
-          setGraphDataYTD(data[4]),
-          setGraphData1Y(data[5])
-        ]).then(() => {
-          console.log("All graph data has been set:", data);
-        });
+        setGraphData(response.data);
       })
       .catch(error => {
         console.error('Error:', error);
       });
   }, []);
 
-  useEffect(() => {
-    fetchData();
-    console.log(data);
-  }, []);
+  const getChartData = mode => {
+    switch (mode) {
+      case '1D':
+        return graphData[0]?.nav?.data[0]?.navs.map((nav, index) => ({
+          date: graphData[0]?.nav?.dates[index],
+          NAV: nav
+        }));
+      case 'Weekly':
+        return graphData[1]?.nav?.data[0]?.navs.map((nav, index) => ({
+          date: graphData[1]?.nav?.dates[index],
+          NAV: nav
+        }));
+      case 'MTD':
+        return graphData[2]?.nav?.data[0]?.navs.map((nav, index) => ({
+          date: graphData[2]?.nav?.dates[index],
+          NAV: nav
+        }));
+      case 'Monthly':
+        return graphData[3]?.nav?.data[0]?.navs.map((nav, index) => ({
+          month: graphData[3]?.nav?.dates[index],
+          NAV: nav
+        }));
+      case 'YTD':
+        return graphData[4]?.nav?.data[0]?.navs.map((nav, index) => ({
+          date: graphData[4]?.nav?.dates[index],
+          NAV: nav
+        }));
+      case 'Yearly':
+        return graphData[5]?.nav?.data[0]?.navs.map((nav, index) => ({
+          year: graphData[5]?.nav?.dates[index],
+          NAV: nav
+        }));
+      default:
+        return [];
+    }
+  };
 
   const handleModeChange = e => {
     setMode(e.target.value);
@@ -66,7 +84,7 @@ const PerformanceNAVS = () => {
           <h2>Net Asset Value(NAV) - {mode}</h2>
         </Col>
         <Col>
-          <Form.Select size="sm" onChange={handleModeChange}>
+          <Form.Select size="sm" onChange={handleModeChange} value={mode}>
             <option value="1D">1D</option>
             <option value="Weekly">7D</option>
             <option value="MTD">MTD</option>
@@ -78,15 +96,13 @@ const PerformanceNAVS = () => {
       </Row>
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
-          width={500}
-          height={400}
-          data={mode === '1D' ? data[0].nav.data[0].navs : mode === 'Weekly' ? graphData7D : mode === 'MTD' ? graphDataMTD : mode === 'Monthly' ? graphData1M : mode === 'YTD' ? graphDataYTD : graphData1Y}
+          data={getChartData(mode)}
           margin={{ top: 20, right: 0, left: 10, bottom: 70 }}
         >
           <XAxis
-          // dataKey={mode === 'Daily' ? 'date' : 'month'}
-          // angle={-45}
-          // textAnchor="end"
+            dataKey={mode === 'Monthly' ? 'month' : 'date'}
+            angle={-45}
+            textAnchor="end"
           />
           <YAxis />
           <Tooltip />
