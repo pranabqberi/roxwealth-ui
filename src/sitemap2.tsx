@@ -1,13 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import {
-  Icon,
-  // UilChartPie,
-  UilCube
-  // UilDocumentLayoutRight,
-  // UilFilesLandscapesAlt,
-  // UilPuzzlePiece
-} from '@iconscout/react-unicons';
+import { Icon, UilCube } from '@iconscout/react-unicons';
 import { isQberiAdmin } from 'Actions/IsAdmin';
+import { UpdateOrgs } from 'Actions/UpdateOrgs';
 
 export interface Route {
   name: string;
@@ -34,30 +28,35 @@ export interface RouteItems {
   active?: boolean;
 }
 
+type ApplicationsType = {
+  id: string;
+  name: string;
+  description: string;
+  createdBy: any;
+  createdAt: string;
+  lastModifiedAt: string;
+  isDeleted: boolean;
+};
+
+type ResponseType = {
+  id: string;
+  name: string;
+  logo: string;
+  description: string;
+  users: any;
+  applications: [ApplicationsType] | null;
+  createdBy: any;
+  createdAt: string;
+  lastModifiedAt: string;
+  isDeleted: boolean;
+};
+
 export const routes: RouteItems[] = [
   {
     label: 'Dashboard',
     icon: UilCube,
     labelDisabled: true,
     pages: [
-      // {
-      //   name: 'Roxwealth',
-      //   path: '/dashboard/roxwealth',
-      //   icon: 'pie-chart',
-      //   active: true
-      // },
-      // {
-      //   name: 'Hospital Merch Home',
-      //   path: '/hospitalmerch/home',
-      //   icon: 'shopping-cart',
-      //   active: true
-      // },
-      // {
-      //   name: 'Bummel',
-      //   path: '/dashboard/bummel',
-      //   icon: 'shopping-cart',
-      //   active: true
-      // },
       {
         name: 'Profile',
         path: '/profile',
@@ -96,137 +95,6 @@ const QberiAdminRoutes: Route = {
   ]
 };
 
-// const HospitalMerchAdminRoutes: Route = {
-//   name: 'Hospital Merch Admin',
-//   icon: 'globe',
-//   active: true,
-//   pages: [
-//     {
-//       name: 'Users',
-//       path: '/hospitalmerch/users',
-//       icon: 'users',
-//       active: true
-//     },
-//     {
-//       name: 'Groups and Roles',
-//       path: '/hospitalmerch/groups-roles',
-//       icon: 'trello',
-//       active: true
-//     },
-//     {
-//       name: 'Customers',
-//       path: '/hospitalmerch/Customers',
-//       icon: 'users',
-//       active: true
-//     }
-//   ]
-// };
-
-// const AppRoutes: Route[] = [];
-
-// const HospitalMerchAppRoutes: Route = {
-//   // need to move
-//   name: 'Hospital Merch',
-//   icon: 'tag',
-//   active: true,
-//   pages: [
-//     {
-//       name: 'Types',
-//       icon: 'tag',
-//       active: true,
-//       path: '/hospitalmerch/types'
-//     },
-//     {
-//       name: 'Product Group',
-//       icon: 'tag',
-//       active: true,
-//       pages: [
-//         {
-//           name: 'Batteries',
-//           path: '/hospitalmerch/products',
-//           icon: 'tag',
-//           active: true
-//         },
-//         {
-//           name: 'Medical Equipments',
-//           path: '/hospitalmerch/add-product-equipments',
-//           icon: 'layout',
-//           active: true
-//         },
-//         {
-//           name: 'Add Battery',
-//           path: '/hospitalmerch/add-product-batteries',
-//           icon: 'trello',
-//           active: true
-//         }
-//       ]
-//     }
-//   ]
-//   // up to here
-// };
-
-type ApplicationsType = {
-  id: string;
-  name: string;
-  description: string;
-  createdBy: any;
-  createdAt: string;
-  lastModifiedAt: string;
-  isDeleted: boolean;
-};
-
-type ResponseType = {
-  id: string;
-  name: string;
-  logo: string;
-  description: string;
-  users: any;
-  applications: [ApplicationsType] | null;
-  createdBy: any;
-  createdAt: string;
-  lastModifiedAt: string;
-  isDeleted: boolean;
-};
-
-// const sampleResponse: ResponseType[] = [
-//   {
-//     id: '55b76b7c-402a-4bf4-8e48-f0a964f7fb88',
-//     name: 'Hospital Merch',
-//     logo: 'https://example.com/logos/tech_innovators_logo.png',
-//     description:
-//       'A leading tech company focused on procuring medical equipments.',
-//     users: null,
-//     applications: [
-//       {
-//         id: 'b1b1b1b1-402a-4bf4-8e48-f0a964f7fb88',
-//         name: 'HA-1',
-//         description:
-//           'A leading tech company focused on procuring medical equipments.',
-//         createdBy: {
-//           id: '2c819619-0101-3bcf-889c-04a16f8153fc',
-//           firstName: null,
-//           lastName: null,
-//           pictureUrl: null,
-//           email: null
-//         },
-//         createdAt: '2024-05-06T12:04:46.240+00:00',
-//         lastModifiedAt: '2024-05-06T12:04:46.240+00:00',
-//         isDeleted: false
-//       }
-//     ],
-//     createdBy: {
-//       id: '2c819619-0101-3bcf-889c-04a16f8153fc',
-//       firstName: null,
-//       lastName: null,
-//       pictureUrl: null,
-//       email: null
-//     },
-//     createdAt: '2024-05-06T12:04:46.240+00:00',
-//     lastModifiedAt: '2024-05-06T12:04:46.240+00:00',
-//     isDeleted: false
-//   }
-// ];
-
 const local = JSON.parse(localStorage.getItem('orgs') || '[]');
 
 const sample: ResponseType[] = local;
@@ -256,30 +124,6 @@ sample.map(org => {
         path: '/org/' + org.id + '/create-app',
         icon: 'plus',
         active: true
-      },
-      // check if applications is not null
-      {
-        name: 'Applications',
-        path: '/org/' + org.id + '/applications',
-        // icon: 'trello',
-        active: true,
-        pages: org.applications
-          ? org.applications.map(app => {
-              return {
-                name: app.name,
-                path: '/org/' + org.id + '/applications/' + app.id,
-                icon: 'trello',
-                active: true
-              };
-            })
-          : [
-              {
-                name: 'AddProduct',
-                path: '/org/' + org.id + '/app/add-product',
-                icon: 'trello',
-                active: true
-              }
-            ]
       }
     ]
   });
@@ -317,14 +161,6 @@ if (isQberiAdmin()) {
   AdminRoutes = [QberiAdminRoutes];
 }
 
-// if (isHospitalMerchAdmin()) {
-//   AdminRoutes.push(HospitalMerchAdminRoutes);
-// }
-
-// if (isHospitalMerchAdmin()) {
-//   AppRoutes.push(HospitalMerchAppRoutes);
-// }
-
 if (AdminRoutes.length > 0) {
   routes.push({
     label: 'Admin',
@@ -333,12 +169,190 @@ if (AdminRoutes.length > 0) {
   });
 }
 
-// if (AppRoutes.length > 0) {
-//   routes.push({
-//     label: 'Apps',
-//     icon: UilCube,
-//     pages: AppRoutes
-//   });
-// }
+export const getRoutes = () => {
+  UpdateOrgs();
+  return routes;
+};
+
+// input: type of user: user, verified, admin
+
+type OrganizationType = {
+  id: string;
+  name: string;
+  description: string;
+  createdBy: any;
+  createdAt: string;
+  lastModifiedAt: string;
+  isDeleted: boolean;
+  applications: [ApplicationsType];
+};
+
+const getRandomIcon = () => {
+  const icons = [
+    'phone',
+    'bookmark',
+    'message-square',
+    'mail',
+    'calendar',
+    'compass',
+    'help-circle',
+    'globe',
+    'tag',
+    'bell',
+    'users',
+    'clock',
+    'alert-triangle',
+    'lock',
+    'layout',
+    'file-text',
+    'trello',
+    'share-2',
+    'chart-pie',
+    'cube',
+    'document-layout-right',
+    'files-landscapes-alt',
+    'puzzle-piece'
+  ];
+
+  const len = icons.length;
+  const random = Math.floor(Math.random() * len);
+  return icons[random];
+};
+
+export const getMainSiteMap = (type: string[]) => {
+  UpdateOrgs();
+  const local = JSON.parse(localStorage.getItem('orgs') || '[]');
+
+  const ApplicationMap: RouteItems = {
+    label: 'My Applications',
+    icon: UilCube,
+    pages: []
+  };
+
+  const AdminMap: RouteItems = {
+    label: 'Admin',
+    icon: UilCube,
+    pages: [
+      {
+        name: 'Users',
+        path: '/admin/users',
+        icon: 'users',
+        active: true
+      },
+      {
+        name: 'Group and Roles',
+        path: '/admin/groups-roles',
+        icon: 'trello',
+        active: true
+      },
+      {
+        name: 'Client',
+        path: '/dashboard/roxwealth',
+        icon: 'users',
+        active: true
+      }
+    ]
+  };
+
+  const OrganizationMap: RouteItems = {
+    label: 'My Organizations',
+    icon: UilCube,
+    pages: [
+      {
+        name: 'Create',
+        path: '/org/create',
+        icon: 'plus',
+        active: true
+      },
+      {
+        name: 'View',
+        path: '/org/view',
+        icon: 'eye',
+        active: true
+      }
+    ]
+  };
+
+  const organizationList: RouteItems = {
+    label: 'Organizations',
+    icon: UilCube,
+    pages: []
+  };
+
+  local.map((org: OrganizationType) => {
+    // Add type annotation to 'org'
+    OrganizationMap.pages.push({
+      name: org.name,
+      path: '/org/' + org.id,
+      icon: getRandomIcon(),
+      active: true,
+      pages: [
+        {
+          name: 'Details',
+          path: '/org/' + org.id + '/view',
+          icon: 'eye',
+          active: true
+        },
+        {
+          name: 'User Management',
+          path: '/org/' + org.id + '/users',
+          icon: 'users',
+          active: true
+        },
+        {
+          name: 'Create App',
+          path: '/org/' + org.id + '/create-app',
+          icon: 'plus',
+          active: true
+        }
+      ]
+    });
+    organizationList.pages.push({
+      name: org.name,
+      path: '/admin/org/' + org.id,
+      icon: getRandomIcon(),
+      active: true
+    });
+    if (org.applications) {
+      org.applications.map((app: ApplicationsType) => {
+        ApplicationMap.pages.push({
+          name: app.name,
+          path: '/app/' + app.id + '/home',
+          icon: getRandomIcon(),
+          active: true
+        });
+      });
+    }
+  });
+
+  const routes: RouteItems[] = [
+    {
+      label: 'Main',
+      icon: UilCube,
+      pages: [
+        {
+          name: 'Profile',
+          path: '/profile',
+          icon: 'user',
+          active: true
+        }
+      ]
+    }
+  ];
+
+  if (type.includes('admin')) {
+    routes.push(AdminMap);
+    if (organizationList.pages.length > 0) {
+      routes.push(organizationList);
+    }
+  } else if (type.includes('verified')) {
+    routes.push(OrganizationMap);
+    if (ApplicationMap.pages.length > 0) {
+      routes.push(ApplicationMap);
+    }
+  }
+
+  return routes;
+};
 
 export default routes;

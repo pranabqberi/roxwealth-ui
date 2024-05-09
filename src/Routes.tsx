@@ -60,7 +60,7 @@ import { RouteObject, createBrowserRouter } from 'react-router-dom';
 // import Ecommerce from 'pages/dashboard/ecommerce';
 // import EcommerceLayout from 'layouts/EcommerceLayout';
 // import Homepage from 'pages/apps/e-commerce/customer/Homepage';
-import ProductDetails from 'pages/apps/e-commerce/customer/ProductDetails';
+// import ProductDetails from 'pages/apps/e-commerce/customer/ProductDetails';
 // import Cart from 'pages/apps/e-commerce/customer/Cart';
 // import Checkout from 'pages/apps/e-commerce/customer/checkout/Checkout';
 // import ProductsFilter from 'pages/apps/e-commerce/customer/ProductsFilter';
@@ -185,11 +185,11 @@ import QberiInSA from 'pages/pages/Businesses/Qberi_in_SA';
 // import CustomerDetails from 'pages/apps/e-commerce/admin/CustomerDetails';
 // import Admin from 'pages/pages/Mains/Admin';
 // import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
-import AddBattery from 'pages/apps/e-commerce/admin/AddBattery';
-import AddEquipment from 'pages/apps/e-commerce/admin/AddEquipment';
+// import AddBattery from 'pages/apps/e-commerce/admin/AddBattery';
+// import AddEquipment from 'pages/apps/e-commerce/admin/AddEquipment';
 import Roxwealth from 'pages/pages/landing/Roxwealth';
 import Homepage from 'pages/apps/e-commerce/customer/Homepage';
-import Creators from 'pages/pages/landing/Creators';
+// import Creators from 'pages/pages/landing/Creators';
 // import Error500 from 'pages/error/Error500';
 import Thank from 'pages/pages/Mains/Thank';
 import UsersList from 'components/Admins/UsersTable';
@@ -201,20 +201,12 @@ import ListOrg from 'pages/org/ListOrg';
 import OrgDetails from 'pages/org/OrgDetails';
 import OrgUsers from 'pages/org/OrgUsers';
 import CreateApp from 'pages/org/CreateApp';
-// import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
-// import { id } from 'components/tables/ProductsTable';
-
-// const FontAwesomeExample = lazy(
-//   () => import('pages/modules/components/FontAwesomeExample')
-// );
-
-// const FeatherIconsExample = lazy(
-//   () => import('pages/modules/components/FeatherIconsExample')
-// );
-
-// const UniconsExample = lazy(
-//   () => import('pages/modules/components/UniconsExample')
-// );
+// import AppView from 'pages/org/AppView';
+import ApplicationLayoutProvider from 'providers/ApplicationLayoutProvider';
+import ApplicationLayout from 'layouts/ApplicationLayout';
+import Cart from 'pages/apps/e-commerce/customer/Cart';
+import Customers from 'pages/apps/e-commerce/admin/Customers';
+import Orders from 'pages/apps/e-commerce/admin/Orders';
 
 const routes: RouteObject[] = [
   {
@@ -271,10 +263,6 @@ const routes: RouteObject[] = [
         ]
       },
       {
-        path: '/creators',
-        element: <Creators />
-      },
-      {
         path: 'hold',
         children: [
           {
@@ -304,11 +292,37 @@ const routes: RouteObject[] = [
           }
         ]
       },
-      // {
-      //   path: 'ecommerce/product-details',
-      //   element: <ProductDetails />
-      // },
-
+      {
+        path: 'app',
+        element: (
+          <ApplicationLayoutProvider>
+            <ApplicationLayout />
+          </ApplicationLayoutProvider>
+        ),
+        children: [
+          {
+            path: ':appID',
+            children: [
+              {
+                path: 'cart-view',
+                element: <Cart />
+              },
+              {
+                path: 'home',
+                element: <Homepage />
+              },
+              {
+                path: 'customers',
+                element: <Customers />
+              },
+              {
+                path: 'orders',
+                element: <Orders />
+              }
+            ]
+          }
+        ]
+      },
       {
         path: '/',
         element: (
@@ -317,10 +331,6 @@ const routes: RouteObject[] = [
           </MainLayoutProvider>
         ),
         children: [
-          // {
-          //   index: true,
-          //   element: <Redirect />
-          // },
           {
             path: 'org',
             children: [
@@ -334,7 +344,6 @@ const routes: RouteObject[] = [
               },
               {
                 path: ':id',
-                // element: <OrgDetails />,
                 children: [
                   {
                     path: 'users',
@@ -357,46 +366,8 @@ const routes: RouteObject[] = [
             ]
           },
           {
-            path: 'hospitalmerch',
-            // element: <EcommerceLayout />,
-            children: [
-              {
-                path: 'types',
-                element: <ProductTypes />
-              },
-              {
-                path: 'products',
-                element: <Products />
-              },
-              {
-                path: `product-details/` + ':id',
-                element: <ProductDetails />
-              },
-              {
-                path: 'add-product-batteries',
-                element: <AddBattery type="battery" />
-              },
-              {
-                path: 'add-product-equipments',
-                element: <AddEquipment type="equipment" />
-              },
-              {
-                path: 'home',
-                element: <Homepage />
-              }
-            ]
-          },
-          {
             path: '/dashboard',
             children: [
-              // {
-              //   path: 'project-management',
-              //   element: <ProjectManagement />
-              // },
-              // {
-              //   path: 'crm',
-              //   element: <Crm />
-              // },
               {
                 path: 'roxwealth',
                 element: <Ecommerce2 />
@@ -417,6 +388,10 @@ const routes: RouteObject[] = [
               {
                 path: 'groups-roles',
                 element: <GroupsRoles />
+              },
+              {
+                path: 'org/:id',
+                element: <OrgDetails />
               }
             ]
           },

@@ -1,5 +1,5 @@
 import { Nav, Navbar } from 'react-bootstrap';
-import { routes } from 'sitemap2';
+import { RouteItems } from 'sitemap2';
 import { capitalize } from 'helpers/utils';
 import NavbarVerticalMenu from './NavbarVerticalMenu';
 import {
@@ -12,6 +12,8 @@ import Button from 'components/base/Button';
 import NavbarTopNav from '../navbar-horizontal/NavbarTopNav';
 import { useBreakpoints } from 'providers/BreakpointsProvider';
 import NavbarVerticalCollapseProvider from './NavbarVerticalCollapseProvider';
+import { useEffect, useState } from 'react';
+import { getMainSiteMap } from 'sitemap2';
 
 const NavbarVerical = () => {
   const {
@@ -23,6 +25,26 @@ const NavbarVerical = () => {
     },
     setConfig
   } = useAppContext();
+
+  const [routes, setRoutes] = useState<RouteItems[]>([]);
+
+  useEffect(() => {
+    const profile = JSON.parse(localStorage.getItem('profile') || '{}');
+    const roles = profile.roles || {};
+    const qberiRoles = roles.Qberi || [];
+    console.log(qberiRoles);
+
+    const types: string[] = ['user'];
+
+    if (qberiRoles.includes('ADMIN')) {
+      types.push('admin');
+    }
+    if (qberiRoles.includes('Verified User')) {
+      types.push('verified');
+    }
+
+    setRoutes(getMainSiteMap(types));
+  }, []);
 
   const { breakpoints } = useBreakpoints();
 

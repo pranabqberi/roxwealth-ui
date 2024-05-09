@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { OrgType, ApplicationsType } from 'data/org';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Table } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
 import { ColumnDef } from '@tanstack/react-table';
 import useAdvanceTable from 'hooks/useAdvanceTable';
 import AdvanceTableProvider from 'providers/AdvanceTableProvider';
 import AdvanceTable from 'components/base/AdvanceTable';
 import AdvanceTableFooter from 'components/base/AdvanceTableFooter';
 import Avatar from 'components/base/Avatar';
+
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString();
+};
 
 const columns: ColumnDef<ApplicationsType>[] = [
   {
@@ -20,11 +24,17 @@ const columns: ColumnDef<ApplicationsType>[] = [
   },
   {
     header: 'Created At',
-    accessorKey: 'createdAt'
+    accessorKey: 'createdAt',
+    cell: ({ row: { original } }) => {
+      return formatDate(original.createdAt);
+    }
   },
   {
-    header: 'Last Modified At',
-    accessorKey: 'lastModifiedAt'
+    header: 'View',
+    accessorKey: 'id',
+    cell: ({ row: { original } }) => {
+      return <Link to={`/app/${original.id}/home`}>View</Link>;
+    }
   }
 ];
 
@@ -71,7 +81,12 @@ const OrgDetails = () => {
               <AdvanceTableFooter pagination />
             </AdvanceTableProvider>
           )}
-          {org && !org.applications && <p>No Applications</p>}
+          {org && !org.applications && (
+            <div>
+              No applications found. Create your first application{' '}
+              <Link to={`/org/${org.id}/create-app`}>here</Link>
+            </div>
+          )}
         </Col>
       </Row>
     </Container>

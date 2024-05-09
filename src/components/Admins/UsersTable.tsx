@@ -243,7 +243,6 @@ const UsersList = () => {
     columns: userTableColumns,
     pageSize: 10,
     pagination: true,
-    selection: true,
     sortable: true
   });
 

@@ -14,6 +14,7 @@ export type ApplicationsType = {
   logo: string;
   description: string;
   isPublished: boolean;
+  createdAt: string;
   organizationDetails: {
     id: string;
     name: string;

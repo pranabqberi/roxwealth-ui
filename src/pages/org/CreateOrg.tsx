@@ -46,9 +46,16 @@ const CreateOrg: React.FC = () => {
       Authorization: `Bearer ${session.sessionToken}`
     };
 
-    axios.post(URL, org, { headers: headers }).then(res => {
-      showToast('success', 'Organization created successfully');
-    });
+    axios
+      .post(URL, org, { headers: headers })
+      .then(res => {
+        console.log(res);
+        showToast('Organization created successfully', 'success');
+      })
+      .catch(err => {
+        console.log(err);
+        showToast('Failed to create organization', 'error');
+      });
 
     setOrg({
       name: '',
@@ -66,12 +73,6 @@ const CreateOrg: React.FC = () => {
         ...org,
         logo: res as string
       });
-    });
-  };
-  const onDelete = () => {
-    setOrg({
-      ...org,
-      logo: ''
     });
   };
 
