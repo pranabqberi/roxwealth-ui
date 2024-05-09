@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { UserType } from 'data/org';
 import { OrgType } from 'data/org';
-import { Table } from 'react-bootstrap';
+// import { Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import AdvanceTable from 'components/base/AdvanceTable';
 import AdvanceTableProvider from 'providers/AdvanceTableProvider';
