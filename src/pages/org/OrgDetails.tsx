@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { OrgType, ApplicationsType } from 'data/org';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Table } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { ColumnDef } from '@tanstack/react-table';
 import useAdvanceTable from 'hooks/useAdvanceTable';
 import AdvanceTableProvider from 'providers/AdvanceTableProvider';

@@ -229,7 +229,7 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
       lastName,
       email,
       password,
-      mobile,
+      mobile
     };
 
     const URL = 'https://engine.qberi.com/api/register';
@@ -401,8 +401,8 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                     !registerData.password
                       ? faKey
                       : passwordVisible
-                        ? faEyeSlash
-                        : faEye
+                      ? faEyeSlash
+                      : faEye
                   }
                   className="text-900 fs-9 form-icon"
                   onClick={() => setPasswordVisible(!passwordVisible)}
@@ -449,8 +449,8 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
                     !registerData.confirmPassword
                       ? faKey
                       : cnfPasswordVisible
-                        ? faEyeSlash
-                        : faEye
+                      ? faEyeSlash
+                      : faEye
                   }
                   className="text-900 fs-9 form-icon"
                   onClick={() => setCnfPasswordVisible(!cnfPasswordVisible)}
