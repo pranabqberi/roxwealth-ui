@@ -17,4 +17,8 @@ const isMediaSpoorAdmin = () => {
   return roles.MediaSpoor && roles.MediaSpoor.includes('ADMIN');
 };
 
-export { isQberiAdmin, isHospitalMerchAdmin, isBummelAdmin, isMediaSpoorAdmin };
+const isVerifiedUser = () => {
+  return roles.Qberi && roles.Qberi.includes('VERIFIED USERS');
+};
+
+export { isQberiAdmin, isHospitalMerchAdmin, isBummelAdmin, isMediaSpoorAdmin, isVerifiedUser };

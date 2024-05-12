@@ -39,7 +39,7 @@ const NavbarVerical = () => {
     if (qberiRoles.includes('ADMIN')) {
       types.push('admin');
     }
-    if (qberiRoles.includes('Verified User')) {
+    if (qberiRoles.includes('VERIFIED USERS')) {
       types.push('verified');
     }
 

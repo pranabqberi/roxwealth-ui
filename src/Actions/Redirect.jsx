@@ -3,18 +3,14 @@ const redirect = () => {
 
   const role = profile.roles || {};
   const QberiRoles = role.Qberi || [];
-  const HospitalMerchRoles = role.HospitalMerch || [];
 
-  const required = ['ADMIN', 'VERIFIED USERS', 'MODERATOR'];
-
-  if (QberiRoles.some(r => required.includes(r))) {
-    return '/dashboard/roxwealth';
+  if (QberiRoles.includes('ADMIN')) {
+    return 'dashboard/roxwealth';
   }
-  if (HospitalMerchRoles.some(r => required.includes(r))) {
-    return '/hospitalmerch/home';
+  if (QberiRoles.includes('VERIFIED USERS')) {
+    return 'org/view';
   }
-
-  return '/hold/thankyou';
+  return '/profile';
 };
 
 export default redirect;

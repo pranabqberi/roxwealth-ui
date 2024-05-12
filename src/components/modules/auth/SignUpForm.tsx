@@ -155,7 +155,7 @@ const SignUpForm = ({ layout }: { layout: 'simple' | 'card' | 'split' }) => {
 
     // Splitting the name into first name and last name
     const [firstName, ...lastNameArr] = name.split(' ');
-    const lastName = lastNameArr.join(' ');
+    const lastName = lastNameArr.join(' ') || '';
 
     console.log(firstName); // Outputs the first name
     console.log(lastName); // Outputs the last name
