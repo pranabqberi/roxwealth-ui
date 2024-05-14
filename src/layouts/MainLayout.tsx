@@ -1,17 +1,21 @@
 import classNames from 'classnames';
 import Footer from 'components/footers/Footer';
 import NavbarDual from 'components/navbars/navbar-dual/NavbarDual';
-// import NavbarTopHorizontal from 'components/navbars/navbar-horizontal/NavbarTopHorizontal';
 import NavbarTopDefault from 'components/navbars/navbar-top/NavbarTopDefault';
-import NavbarVertical from 'components/navbars/navbar-vertical/NavbarVertical';
 import { useAppContext } from 'providers/AppProvider';
 import { useMainLayoutContext } from 'providers/MainLayoutProvider';
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react'; // Import lazy and Suspense
+
 import validateSession from 'Actions/validateSession';
 import { useNavigate } from 'react-router-dom';
 import { UpdateOrgs } from 'Actions/UpdateOrgs';
+
+// Lazy load the NavbarVertical component
+const NavbarVertical = lazy(
+  () => import('components/navbars/navbar-vertical/NavbarVertical')
+);
 
 const MainLayout = () => {
   const {
@@ -41,12 +45,13 @@ const MainLayout = () => {
       {isLoggedIn ? (
         <>
           {(navbarPosition === 'vertical' || navbarPosition === 'combo') && (
-            <NavbarVertical />
+            <Suspense fallback={<div>Loading...</div>}>
+              {' '}
+              {/* Add Suspense */}
+              <NavbarVertical />
+            </Suspense>
           )}
           {navbarPosition === 'vertical' && <NavbarTopDefault />}
-          {/* {(navbarPosition === 'horizontal' || navbarPosition === 'combo') && (
-            <NavbarTopHorizontal />
-          )} */}
           {navbarPosition === 'dual' && <NavbarDual />}
 
           <div className={classNames(contentClass, 'content')}>

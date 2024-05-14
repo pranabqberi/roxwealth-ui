@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, ChangeEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'components/base/Button';
 import FilterTab, { FilterTabItem } from 'components/common/FilterTab';
@@ -76,6 +76,7 @@ const Products = () => {
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     table.setGlobalFilter(e.target.value || undefined);
   };
+  const appID = useParams<{ appID: string }>().appID as string;
 
   return (
     <div>
@@ -90,10 +91,10 @@ const Products = () => {
             />
             <div className="ms-xxl-auto">
               <div className="d-flex justify-content-between">
-                <Link to="/hospitalmerch/add-product-batteries">
+                <Link to={`/app/${appID}/add-product`}>
                   <Button variant="primary" className="mx-2">
                     <FontAwesomeIcon icon={faPlus} className="me-2" />
-                    Add Battery
+                    Add Product
                   </Button>
                 </Link>
               </div>

@@ -5,7 +5,7 @@ const redirect = () => {
   const QberiRoles = role.Qberi || [];
 
   if (QberiRoles.includes('ADMIN')) {
-    return 'dashboard/roxwealth';
+    return '/dashboard/roxwealth';
   }
   if (QberiRoles.includes('VERIFIED USERS')) {
     return 'org/view';

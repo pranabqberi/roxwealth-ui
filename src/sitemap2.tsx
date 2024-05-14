@@ -222,6 +222,7 @@ const getRandomIcon = () => {
 export const getMainSiteMap = (type: string[]) => {
   UpdateOrgs();
   const local = JSON.parse(localStorage.getItem('orgs') || '[]');
+  console.log('Local: ', type, local);
 
   const ApplicationMap: RouteItems = {
     label: 'My Applications',

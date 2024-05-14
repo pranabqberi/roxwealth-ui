@@ -31,7 +31,6 @@ const NavbarApp = () => {
   const appID = useParams<{ appID: string }>().appID;
 
   useEffect(() => {
-    console.log('appID', appID);
     setRoutes(getAppSitemap(appID as string));
   }, [appID]);
 

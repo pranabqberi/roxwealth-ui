@@ -32,7 +32,6 @@ const NavbarVerical = () => {
     const profile = JSON.parse(localStorage.getItem('profile') || '{}');
     const roles = profile.roles || {};
     const qberiRoles = roles.Qberi || [];
-    console.log(qberiRoles);
 
     const types: string[] = ['user'];
 

@@ -18,7 +18,8 @@ export const UpdateOrgs = () => {
     .then(res => {
       orgs = res.data;
       localStorage.setItem('orgs', JSON.stringify(orgs));
-    }).catch(err => {
+    })
+    .catch(err => {
       console.log(err);
     });
 

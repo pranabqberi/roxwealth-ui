@@ -21,4 +21,10 @@ const isVerifiedUser = () => {
   return roles.Qberi && roles.Qberi.includes('VERIFIED USERS');
 };
 
-export { isQberiAdmin, isHospitalMerchAdmin, isBummelAdmin, isMediaSpoorAdmin, isVerifiedUser };
+export {
+  isQberiAdmin,
+  isHospitalMerchAdmin,
+  isBummelAdmin,
+  isMediaSpoorAdmin,
+  isVerifiedUser
+};

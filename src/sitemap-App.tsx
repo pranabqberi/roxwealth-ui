@@ -52,6 +52,12 @@ const getAppSitemap = (appID: string): RouteItems[] => {
           active: true
         },
         {
+          name: 'All Products',
+          icon: 'box',
+          path: '/app/' + appID + '/all-products',
+          active: true
+        },
+        {
           name: 'Orders',
           icon: 'shopping-cart',
           path: '/app/' + appID + '/orders',
@@ -61,6 +67,18 @@ const getAppSitemap = (appID: string): RouteItems[] => {
           name: 'Customers',
           icon: 'users',
           path: '/app/' + appID + '/customers',
+          active: true
+        },
+        {
+          name: 'Add product',
+          icon: 'plus',
+          path: '/app/' + appID + '/add-product',
+          active: true
+        },
+        {
+          name: 'Categories',
+          icon: 'share-2',
+          path: '/app/' + appID + '/category/view',
           active: true
         }
       ]

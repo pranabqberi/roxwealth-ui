@@ -7,9 +7,10 @@ import EcomProfileCard from 'components/cards/EcomProfileCard';
 // import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import ProfileDetailsTab from 'components/modules/e-commerce/profile/ProfileDetailsTab';
 // import { defaultBreadcrumbItems } from 'data/commonData';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import axios from 'axios';
+import { SitemapContext } from 'providers/SitemapProvider';
 
 const setProfile = (response: any) => {
   localStorage.setItem('profile', JSON.stringify(response));
@@ -17,6 +18,7 @@ const setProfile = (response: any) => {
 
 const Profile = () => {
   const [error, setError] = useState('');
+  const { setRole } = useContext(SitemapContext);
 
   const [profileDetail, setProfileDetails] = useState({
     email: 'Email Not Found',
@@ -40,6 +42,17 @@ const Profile = () => {
       .get(URL, { headers: headers })
       .then(response => {
         console.log('Profile data: ', response.data);
+        const roles = response.data.roles;
+        const qberi: string[] = roles.Qberi;
+        if (qberi.includes('ADMIN')) {
+          setRole('admin');
+        } else if (qberi.includes('VERIFIED USERS')) {
+          setRole('verified');
+        } else if (qberi.includes('UNVERIFIED USERS')) {
+          setRole('unverified');
+        } else {
+          setRole('user');
+        }
         setProfileDetails(response.data);
         setProfile(response.data);
       })

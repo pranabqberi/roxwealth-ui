@@ -207,6 +207,10 @@ import ApplicationLayout from 'layouts/ApplicationLayout';
 import Cart from 'pages/apps/e-commerce/customer/Cart';
 import Customers from 'pages/apps/e-commerce/admin/Customers';
 import Orders from 'pages/apps/e-commerce/admin/Orders';
+import Categories from 'pages/apps/e-commerce/admin/Categories';
+// import AddProductcategory from 'components/forms/ProductCategory';
+// import CategoryList from 'components/tables/ProductCategoryList';
+import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
 
 const routes: RouteObject[] = [
   {
@@ -316,8 +320,29 @@ const routes: RouteObject[] = [
                 element: <Customers />
               },
               {
+                path: 'all-products',
+                element: <Products />
+              },
+              {
                 path: 'orders',
                 element: <Orders />
+              },
+              {
+                path: 'add-product',
+                element: <AddProduct />
+              },
+              {
+                path: 'category',
+                children: [
+                  {
+                    path: 'view',
+                    element: <Categories />
+                  },
+                  {
+                    path: ':catID/add-product',
+                    element: <AddProduct />
+                  }
+                ]
               }
             ]
           }

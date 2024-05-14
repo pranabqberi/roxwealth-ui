@@ -16,6 +16,9 @@ const UpdateProfile = async () => {
     .then(response => {
       console.log('Profile data: ', response.data);
       localStorage.setItem('profile', JSON.stringify(response.data));
+      const roles = response.data.roles;
+      const qberi = roles.qberi;
+      console.log('Qberi role: ', qberi);
       return response.data;
     })
     .catch(error => {
