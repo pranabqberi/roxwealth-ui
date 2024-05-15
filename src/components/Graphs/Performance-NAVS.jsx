@@ -7,10 +7,10 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
-const URL = 'https://engine.qberi.com/api/portfolioValueGraph';
+const URL = 'https://engine.qberi.com/api/portfolioValueGraph/force';
 const session = JSON.parse(localStorage.getItem('session') || '{}');
 const headers = {
   'Content-Type': 'application/json',
@@ -20,20 +20,22 @@ const headers = {
 const PerformanceNAVS = () => {
   const [graphData, setGraphData] = useState([]);
   const [mode, setMode] = useState('1D');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(URL, { headers: headers });
+      setGraphData(response.data.graphData);
+      setIsLoading(false); // Set loading to false after data is fetched
+      console.log(response.data.graphData);
+    } catch (error) {
+      console.error('Error:', error);
+      setIsLoading(false); // Also set loading to false if there's an error
+    }
+  }
 
   useEffect(() => {
     fetchData();
-  }, []);
-
-  const fetchData = useCallback(() => {
-    axios
-      .get(URL, { headers: headers })
-      .then(response => {
-        setGraphData(response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
   }, []);
 
   const getChartData = mode => {
@@ -94,21 +96,27 @@ const PerformanceNAVS = () => {
           </Form.Select>
         </Col>
       </Row>
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          data={getChartData(mode)}
-          margin={{ top: 20, right: 0, left: 10, bottom: 70 }}
-        >
-          <XAxis
-            dataKey={mode === 'Monthly' ? 'month' : 'date'}
-            angle={-45}
-            textAnchor="end"
-          />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="NAV" fill="#8884d8" barSize={40} />
-        </BarChart>
-      </ResponsiveContainer>
+      {isLoading ? (
+        <div className='d-flex justify-content-center align-items-center vh-100'>
+          <Spinner animation="border" role="status"/>
+        </div>
+      ) : (
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart
+            data={getChartData(mode)}
+            margin={{ top: 20, right: 0, left: 10, bottom: 70 }}
+          >
+            <XAxis
+              dataKey={mode === 'Monthly' ? 'month' : 'date'}
+              angle={-45}
+              textAnchor="end"
+            />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="NAV" fill="#8884d8" barSize={40} />
+          </BarChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 };

@@ -45,7 +45,7 @@ const Ecommerce2 = () => {
             {/* <PerformanceTPPS data={TPPS_Data}   /> */}
             {/* <PerformanceCPS /> */}
             <PerformanceNAVS />
-            <PerformanceNAVSLine />
+            {/* <PerformanceNAVSLine /> */}
           </Col>
           {/* <Col xs={12} xxl={6}>
             <Row className="g-3">
