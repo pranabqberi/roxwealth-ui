@@ -1,11 +1,11 @@
-import { Col, Row, Stack } from 'react-bootstrap';
+import { Button, Col, Row, Spinner, Stack } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { useCallback } from 'react';
 import {
   faCircle,
   faDollarSign,
   faMoneyBill,
+  faRefresh,
   // faPause,
   faSquare
   // faXmark,
@@ -32,10 +32,12 @@ const EcomStats = () => {
     color: 'success'
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const URL = 'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/cache';
+  const URL2 = 'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/force';
 
-  const fetchData = useCallback(() => {
-    const URL =
-      'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/cache';
+  const fetchData = async (URL: string) => {
+
     const session = JSON.parse(localStorage.getItem('session') || '{}');
     const sessionToken = session?.sessionToken;
     const headers = {
@@ -46,6 +48,7 @@ const EcomStats = () => {
       .get(URL, { headers: headers })
       .then(response => {
         setTotalAssets(response.data.amountInUsd);
+        setLoading(false);
         const amount = response.data.amountInUsd;
         const testStats = {
           id: 1,
@@ -68,20 +71,35 @@ const EcomStats = () => {
           window.location.href = '/auth/sign-out';
         }
       });
-  }, []);
+  };
 
   useEffect(() => {
-    fetchData();
+    fetchData(URL);
   }, []);
 
   if (error) {
     return <div>{error}</div>;
   }
 
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchData(URL2);
+  }
+
   return (
     <Row className="align-items-center g-4 border-bottom pb-4 mb-6">
       <Col xs={12} md="auto">
-        <Stat stat={ourStats} />
+        {loading ? (
+          <Spinner animation="border" variant="primary" />
+        ) : (
+          <>
+            <FontAwesomeIcon
+              icon={faRefresh}
+              onClick={handleRefresh}
+            />
+            <Stat stat={ourStats} />
+          </>
+        )}
       </Col>
     </Row>
   );
