@@ -5,7 +5,7 @@ import { Col, Row } from 'react-bootstrap';
 // import EcomPayingVsNonPayingCard from 'components/cards/EcomPayingVsNonPayingCard';
 // import EcomLatestReviewsTable from 'components/tables/EcomLatestReviewsTable';
 // import EcomTopRegionsMap from 'components/leaflet-maps/EcomTopRegionsMap';
-// import EcomStats from 'components/stats/EcomStats';
+import EcomStats from 'components/stats/EcomStats';
 // import { mapMarkerPoints } from 'data/mapMarkerPoints';
 // import EcomProjectionVsActual from 'components/modules/e-commerce/dashboard/EcomProjectionVsActual';
 // import EcomReturningCustomerRate from 'components/modules/e-commerce/dashboard/EcomReturningCustomerRate';
@@ -40,7 +40,7 @@ const Ecommerce2 = () => {
                 Here’s what’s going on at your business right now
               </h5>
             </div>
-            {/* <EcomStats /> */}
+            <EcomStats />
             {/* <EcomTotalSells /> */}
             {/* <PerformanceTPPS data={TPPS_Data}   /> */}
             {/* <PerformanceCPS /> */}

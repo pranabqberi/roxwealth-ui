@@ -35,7 +35,7 @@ const EcomStats = () => {
 
   const fetchData = useCallback(() => {
     const URL =
-      'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue';
+      'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/cache';
     const session = JSON.parse(localStorage.getItem('session') || '{}');
     const sessionToken = session?.sessionToken;
     const headers = {
