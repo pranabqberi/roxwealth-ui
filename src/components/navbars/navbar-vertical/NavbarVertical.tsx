@@ -12,8 +12,9 @@ import Button from 'components/base/Button';
 import NavbarTopNav from '../navbar-horizontal/NavbarTopNav';
 import { useBreakpoints } from 'providers/BreakpointsProvider';
 import NavbarVerticalCollapseProvider from './NavbarVerticalCollapseProvider';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getMainSiteMap } from 'sitemap2';
+import { SitemapContext } from 'providers/SitemapProvider';
 
 const NavbarVerical = () => {
   const {
@@ -27,6 +28,8 @@ const NavbarVerical = () => {
   } = useAppContext();
 
   const [routes, setRoutes] = useState<RouteItems[]>([]);
+
+  const { role } = useContext(SitemapContext);
 
   useEffect(() => {
     const profile = JSON.parse(localStorage.getItem('profile') || '{}');
@@ -43,7 +46,7 @@ const NavbarVerical = () => {
     }
 
     setRoutes(getMainSiteMap(types));
-  }, []);
+  }, [role]);
 
   const { breakpoints } = useBreakpoints();
 

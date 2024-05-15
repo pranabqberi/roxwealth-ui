@@ -3,6 +3,8 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import UpdateProfile from 'Actions/UpdateProfile';
 import { UpdateOrgs } from 'Actions/UpdateOrgs';
+import { useContext } from 'react';
+import { SitemapContext } from 'providers/SitemapProvider';
 
 interface SessionData {
   isLoggedIn: boolean;
@@ -36,6 +38,7 @@ const updateSession = (sessionToken: string, email: string) => {
 
 const AuthSocialButtons = ({ title }: { title: string }) => {
   const navigate = useNavigate();
+  const { setRole } = useContext(SitemapContext);
   const onGoogleSuccess = async (response: any) => {
     const credential = response.credential;
     const URL = 'https://engine.qberi.com/api/googleLogin';
@@ -53,7 +56,8 @@ const AuthSocialButtons = ({ title }: { title: string }) => {
       localStorage.setItem('sessionToken', sessionToken);
       updateSession(sessionToken, getEmailFromJWT(credential));
       await UpdateOrgs();
-      await UpdateProfile();
+      const role = await UpdateProfile();
+      setRole(role as string);
       navigate('/profile');
     } catch (error) {
       console.error('Error fetching profile data: in ', error);

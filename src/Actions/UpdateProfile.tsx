@@ -14,17 +14,23 @@ const UpdateProfile = async () => {
   axios
     .get(URL, { headers: headers })
     .then(response => {
-      console.log('Profile data: ', response.data);
       localStorage.setItem('profile', JSON.stringify(response.data));
       const roles = response.data.roles;
       const qberi = roles.qberi;
-      console.log('Qberi role: ', qberi);
-      return response.data;
+      if (qberi.includes('ADMIN')) {
+        return 'admin';
+      }
+      if (qberi.includes('VERIFIED USERS')) {
+        return 'verified';
+      }
+      return 'user';
     })
     .catch(error => {
       console.error('Error fetching profile data: ', error);
-      return error;
+      return 'user';
     });
+
+  return 'user';
 };
 
 export default UpdateProfile;

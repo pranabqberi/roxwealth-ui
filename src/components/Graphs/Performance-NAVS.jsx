@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import {
   BarChart,
   Bar,
@@ -19,7 +19,7 @@ const headers = {
 
 const PerformanceNAVS = () => {
   const [graphData, setGraphData] = useState([]);
-  const [mode, setMode] = useState('1D');
+  const [mode, setMode] = useState('Monthly');
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
@@ -32,7 +32,7 @@ const PerformanceNAVS = () => {
       console.error('Error:', error);
       setIsLoading(false); // Also set loading to false if there's an error
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -97,8 +97,8 @@ const PerformanceNAVS = () => {
         </Col>
       </Row>
       {isLoading ? (
-        <div className='d-flex justify-content-center align-items-center vh-100'>
-          <Spinner animation="border" role="status"/>
+        <div className="d-flex justify-content-center align-items-center vh-100">
+          <Spinner animation="border" role="status" />
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={400}>
