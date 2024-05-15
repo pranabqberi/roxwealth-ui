@@ -323,7 +323,7 @@ const AddProduct: React.FC = () => {
         </Row>
         <Row className="mt-3">
           <Col xs={12}>
-            <h4 className="mb-3">Custom Fields</h4>
+            <h4 className="mb-3">Product Specifications</h4>
           </Col>
           {customFields.map((field, index) => (
             <Col xs={12} key={index}>
@@ -387,7 +387,7 @@ const AddProduct: React.FC = () => {
               size="sm"
               onClick={handleAddCustomField}
             >
-              Add Custom Field
+              Add Specification
             </Button>
           </Col>
         </Row>

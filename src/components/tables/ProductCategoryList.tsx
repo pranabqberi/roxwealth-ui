@@ -31,7 +31,7 @@ const CategoryList = () => {
     {
       accessorKey: 'id',
       header: 'Add Product in this category',
-      cell: ({ row: {  } }) => {
+      cell: () => {
         const link = '/app/' + appID + '/add-product';
         return (
           <Link to={link}>

@@ -14,10 +14,6 @@ const SitemapContextProvider = ({
 }) => {
   const [role, setRole] = useState('user');
 
-  // const setRole = (role: string) => {
-  //     // Set the role
-  // }
-
   return (
     <SitemapContext.Provider
       value={{

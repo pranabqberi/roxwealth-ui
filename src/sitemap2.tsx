@@ -346,6 +346,7 @@ export const getMainSiteMap = (type: string[]) => {
     if (organizationList.pages.length > 0) {
       routes.push(organizationList);
     }
+    routes.push(OrganizationMap);
   } else if (type.includes('verified')) {
     routes.push(OrganizationMap);
     if (ApplicationMap.pages.length > 0) {

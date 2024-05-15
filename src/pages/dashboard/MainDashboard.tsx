@@ -15,7 +15,7 @@ import EcomStats from 'components/stats/EcomStats';
 // // import PerformanceTPPS from 'components/Graphs/Performance-TPPS';
 // // import PerformanceCPS from 'components/Graphs/Performance-CPS';
 import PerformanceNAVS from 'components/Graphs/Performance-NAVS';
-import PerformanceNAVSLine from 'components/Graphs/Performance-NAVS-Line';
+// import PerformanceNAVSLine from 'components/Graphs/Performance-NAVS-Line';
 // import { useState, useEffect } from 'react';
 
 const Ecommerce2 = () => {
