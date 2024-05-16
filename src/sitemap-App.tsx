@@ -76,9 +76,9 @@ const getAppSitemap = (appID: string): RouteItems[] => {
           active: true
         },
         {
-          name: 'Categories',
+          name: 'Templates',
           icon: 'share-2',
-          path: '/app/' + appID + '/category/view',
+          path: '/app/' + appID + '/templates',
           active: true
         }
       ]

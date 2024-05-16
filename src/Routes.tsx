@@ -191,7 +191,7 @@ import Roxwealth from 'pages/pages/landing/Roxwealth';
 import Homepage from 'pages/apps/e-commerce/customer/Homepage';
 // import Creators from 'pages/pages/landing/Creators';
 // import Error500 from 'pages/error/Error500';
-import Thank from 'pages/pages/Mains/Thank';
+// import Thank from 'pages/pages/Mains/Thank';
 import UsersList from 'components/Admins/UsersTable';
 import GroupsRoles from 'components/Admins/GroupsRoles';
 import ProductTypes from 'pages/apps/e-commerce/admin/ProductsTypes';
@@ -207,10 +207,11 @@ import ApplicationLayout from 'layouts/ApplicationLayout';
 import Cart from 'pages/apps/e-commerce/customer/Cart';
 import Customers from 'pages/apps/e-commerce/admin/Customers';
 import Orders from 'pages/apps/e-commerce/admin/Orders';
-import Categories from 'pages/apps/e-commerce/admin/Categories';
+// import Categories from 'pages/apps/e-commerce/admin/Categories';
 // import AddProductcategory from 'components/forms/ProductCategory';
 // import CategoryList from 'components/tables/ProductCategoryList';
 import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
+import Templates from 'pages/apps/e-commerce/admin/Templates';
 
 const routes: RouteObject[] = [
   {
@@ -266,15 +267,15 @@ const routes: RouteObject[] = [
           }
         ]
       },
-      {
-        path: 'hold',
-        children: [
-          {
-            path: 'thankyou',
-            element: <Thank />
-          }
-        ]
-      },
+      // {
+      //   path: 'hold',
+      //   children: [
+      //     {
+      //       path: 'thankyou',
+      //       element: <Thank />
+      //     }
+      //   ]
+      // },
       {
         path: 'auth',
         children: [
@@ -332,17 +333,8 @@ const routes: RouteObject[] = [
                 element: <AddProduct />
               },
               {
-                path: 'category',
-                children: [
-                  {
-                    path: 'view',
-                    element: <Categories />
-                  },
-                  {
-                    path: ':catID/add-product',
-                    element: <AddProduct />
-                  }
-                ]
+                path: 'templates',
+                element: <Templates />
               }
             ]
           }

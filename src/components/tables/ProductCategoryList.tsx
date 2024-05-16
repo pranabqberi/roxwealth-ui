@@ -3,41 +3,98 @@ import AdvanceTable from 'components/base/AdvanceTable';
 import useAdvanceTable from 'hooks/useAdvanceTable';
 import AdvanceTableProvider from 'providers/AdvanceTableProvider';
 import AdvanceTableFooter from 'components/base/AdvanceTableFooter';
-import { useParams, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 type categoryType = {
-  name: string;
+  id: string;
+  uniqueId: string;
+  title: string;
+  description: string;
+  vendor: string;
+  type: string;
+  tags: string;
+  isPublished: boolean;
+  costPrice: number;
+  quantity: number;
 };
+
+// to show: uniqueId, title, vendor, type, tags, isPublished, costPrice, quantity
 
 const CategoryList = () => {
   const appID = useParams<{ appID: string }>().appID;
-
   const columns: ColumnDef<categoryType>[] = [
     {
-      accessorKey: 'product',
-      header: 'Category',
+      accessorKey: 'uniqueId',
+      header: 'Product ID',
       cell: ({ row: { original } }) => {
-        const { name } = original;
-        return <>{name}</>;
+        const { uniqueId } = original;
+        return <>{uniqueId}</>;
       },
       meta: {
-        headerProps: { style: { minWidth: 250, width: '35%' } },
+        headerProps: { style: { minWidth: 150, width: '15%' } },
         cellProps: { className: '' }
       }
     },
     {
-      accessorKey: 'id',
-      header: 'Add Product in this category',
-      cell: () => {
-        const link = '/app/' + appID + '/add-product';
-        return (
-          <Link to={link}>
-            <FontAwesomeIcon icon={faPlus} />
-          </Link>
-        );
+      accessorKey: 'title',
+      header: 'Product Name',
+      cell: ({ row: { original } }) => {
+        const { title } = original;
+        return <>{title}</>;
+      },
+      meta: {
+        headerProps: { style: { minWidth: 150, width: '15%' } },
+        cellProps: { className: '' }
+      }
+    },
+    {
+      accessorKey: 'vendor',
+      header: 'Vendor',
+      cell: ({ row: { original } }) => {
+        const { vendor } = original;
+        return <>{vendor}</>;
+      },
+      meta: {
+        headerProps: { style: { minWidth: 150, width: '15%' } },
+        cellProps: { className: '' }
+      }
+    },
+    {
+      accessorKey: 'type',
+      header: 'Type',
+      cell: ({ row: { original } }) => {
+        const { type } = original;
+        return <>{type}</>;
+      },
+      meta: {
+        headerProps: { style: { minWidth: 150, width: '15%' } },
+        cellProps: { className: '' }
+      }
+    },
+    {
+      accessorKey: 'tags',
+      header: 'Tags',
+      cell: ({ row: { original } }) => {
+        const { tags } = original;
+        return <>{tags}</>;
+      },
+      meta: {
+        headerProps: { style: { minWidth: 150, width: '15%' } },
+        cellProps: { className: '' }
+      }
+    },
+    {
+      accessorKey: 'isPublished',
+      header: 'Published',
+      cell: ({ row: { original } }) => {
+        const { isPublished } = original;
+        return <>{isPublished ? 'Yes' : 'No'}</>;
+      },
+      meta: {
+        headerProps: { style: { minWidth: 150, width: '15%' } },
+        cellProps: { className: '' }
       }
     }
   ];
@@ -45,8 +102,24 @@ const CategoryList = () => {
   const [categories, setCategories] = useState<categoryType[]>([]);
 
   useEffect(() => {
-    const categories = JSON.parse(localStorage.getItem('categories') || '[]');
-    setCategories(categories);
+    const URL = `https://engine.qberi.com/api/getAllTemplates/` + appID;
+    const session = JSON.parse(localStorage.getItem('session') || '{}');
+    const token = session.sessionToken;
+    axios
+      .get(URL, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        console.log('Response: ', response);
+        setCategories(response.data);
+        localStorage.setItem('templates', JSON.stringify(response.data));
+      })
+      .catch(error => {
+        console.log('Error: ', error);
+      });
   }, []);
 
   const table = useAdvanceTable({
@@ -59,7 +132,7 @@ const CategoryList = () => {
 
   return (
     <div>
-      <h2 className="mt-5 mb-3">Product Category List</h2>
+      <h2 className="mt-5 mb-3">Product Templates List</h2>
       <AdvanceTableProvider {...table}>
         <div className="border-y">
           <AdvanceTable tableProps={{ className: 'phoenix-table fs-9' }} />

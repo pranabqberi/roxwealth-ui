@@ -24,7 +24,7 @@ const PerformanceNAVS = () => {
   const [mode, setMode] = useState('Monthly');
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchData = async (URL) => {
+  const fetchData = async URL => {
     try {
       const response = await axios.get(URL, { headers: headers });
       setGraphData(response.data.graphData);
@@ -43,7 +43,7 @@ const PerformanceNAVS = () => {
   const handleRefresh = () => {
     setIsLoading(true);
     fetchData(URL2);
-  }
+  };
 
   const getChartData = mode => {
     switch (mode) {
@@ -92,7 +92,7 @@ const PerformanceNAVS = () => {
         <Col xs="auto">
           <h2>Net Asset Value(NAV) - {mode}</h2>
         </Col>
-        <Col >
+        <Col>
           <Form.Select size="sm" onChange={handleModeChange} value={mode}>
             <option value="1D">1D</option>
             <option value="Weekly">7D</option>
@@ -103,7 +103,13 @@ const PerformanceNAVS = () => {
           </Form.Select>
         </Col>
         <Col xs="auto">
-          <Button disabled={isLoading} variant="primary" onClick={handleRefresh}>{isLoading ? 'Loading…' : 'Refresh'}</Button>
+          <Button
+            disabled={isLoading}
+            variant="primary"
+            onClick={handleRefresh}
+          >
+            {isLoading ? 'Loading…' : 'Refresh'}
+          </Button>
         </Col>
       </Row>
       {isLoading ? (

@@ -1,6 +1,13 @@
-import { Col, OverlayTrigger, Row, Spinner, Stack, Tooltip } from 'react-bootstrap';
+import {
+  Col,
+  OverlayTrigger,
+  Row,
+  Spinner,
+  Stack,
+  Tooltip
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+// import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
   faCircle,
   faDollarSign,
@@ -14,7 +21,6 @@ import {
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-
 const EcomStats = () => {
   const [totalAssets, setTotalAssets] = useState(0);
   const [ourStats, setOurStats] = useState({
@@ -26,11 +32,12 @@ const EcomStats = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const URL = 'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/cache';
-  const URL2 = 'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/force';
+  const URL =
+    'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/cache';
+  const URL2 =
+    'https://engine.qberi.com/api/totalPortfolioValue/portfolioValue/force';
 
   const fetchData = async (URL: string) => {
-
     const session = JSON.parse(localStorage.getItem('session') || '{}');
     const sessionToken = session?.sessionToken;
     const headers = {
@@ -77,7 +84,7 @@ const EcomStats = () => {
   const handleRefresh = () => {
     setLoading(true);
     fetchData(URL2);
-  }
+  };
 
   return (
     <Row className="align-items-center g-4 border-bottom pb-4 mb-6">
@@ -124,7 +131,7 @@ const EcomStats = () => {
                 >
                   <FontAwesomeIcon
                     icon={faRefresh}
-                    size='lg'
+                    size="lg"
                     onClick={handleRefresh}
                   />
                 </OverlayTrigger>
