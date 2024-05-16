@@ -1,4 +1,5 @@
-import { OrgType } from 'data/org';
+// import { OrgType } from 'data/org';
+import { OrganizationType } from 'sitemap2';
 import axios from 'axios';
 import { isVerifiedUser } from './IsAdmin';
 
@@ -6,7 +7,7 @@ export const UpdateOrgs = () => {
   const URL = 'https://engine.qberi.com/api/allOrganizations';
   const session = JSON.parse(localStorage.getItem('session') || '{}');
   const sessionToken = session.sessionToken;
-  let orgs: OrgType[] = [];
+  let orgs: OrganizationType[] = [];
   if (!isVerifiedUser()) return [];
 
   axios

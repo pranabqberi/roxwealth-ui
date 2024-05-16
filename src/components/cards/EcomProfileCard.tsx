@@ -32,18 +32,16 @@ const EcomProfileCard: React.FC<EcomProfileCardProps> = ({ details }) => {
                   {details.sharePercentage ? details.sharePercentage : '0'}
                 </p>
                 <div className="text-800">
-                  {Object.keys(details.roles || {}).map(
-                    (role: any, index) => (
-                      <Col key={index} xs={12} sm="auto" className="flex-1">
-                        <strong>{role}: </strong>
-                        {details.roles[role].map((item:any, itemIndex:any) => (
-                          <Badge bg="info" key={itemIndex} className="me-1">
-                            {item}
-                          </Badge>
-                        ))}
-                      </Col>
-                    )
-                  )}
+                  {Object.keys(details.roles || {}).map((role: any, index) => (
+                    <Col key={index} xs={12} sm="auto" className="flex-1">
+                      <strong>{role}: </strong>
+                      {details.roles[role].map((item: any, itemIndex: any) => (
+                        <Badge bg="info" key={itemIndex} className="me-1">
+                          {item}
+                        </Badge>
+                      ))}
+                    </Col>
+                  ))}
                 </div>
               </Col>
             </Row>

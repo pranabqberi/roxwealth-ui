@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import axios from 'axios';
 import { SitemapContext } from 'providers/SitemapProvider';
+import { OrganizationType } from 'sitemap2';
 
 const setProfile = (response: any) => {
   localStorage.setItem('profile', JSON.stringify(response));
@@ -18,7 +19,7 @@ const setProfile = (response: any) => {
 
 const Profile = () => {
   const [error, setError] = useState('');
-  const { setRole } = useContext(SitemapContext);
+  const { setRole, setOrganizations } = useContext(SitemapContext);
 
   const [profileDetail, setProfileDetails] = useState({
     email: 'Email Not Found',
@@ -37,28 +38,42 @@ const Profile = () => {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + sessionToken
     };
-    console.log('email: ', email);
     axios
       .get(URL, { headers: headers })
       .then(response => {
-        console.log('Profile data: ', response.data);
         const roles = response.data.roles;
         const qberi: string[] = roles.Qberi;
         if (qberi.includes('ADMIN')) {
+          localStorage.setItem('role', 'admin');
           setRole('admin');
         } else if (qberi.includes('VERIFIED USERS')) {
+          localStorage.setItem('role', 'verified');
           setRole('verified');
-        } else if (qberi.includes('UNVERIFIED USERS')) {
-          setRole('unverified');
         } else {
+          localStorage.setItem('role', 'user');
           setRole('user');
         }
         setProfileDetails(response.data);
         setProfile(response.data);
       })
       .catch(error => {
-        console.error('Error fetching profile data: ', error);
-        setError('Error fetching profile data');
+        setError('Error fetching profile data' + error);
+      });
+
+    const URL2 = 'https://engine.qberi.com/api/allOrganizations';
+    axios
+      .get(URL2, {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`
+        }
+      })
+      .then(res => {
+        const orgs: OrganizationType[] = res.data;
+        setOrganizations(orgs);
+        localStorage.setItem('orgs', JSON.stringify(orgs));
+      })
+      .catch(err => {
+        setError('Error fetching organizations' + err);
       });
   }, []);
 

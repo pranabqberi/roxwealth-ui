@@ -29,24 +29,11 @@ const NavbarVerical = () => {
 
   const [routes, setRoutes] = useState<RouteItems[]>([]);
 
-  const { role } = useContext(SitemapContext);
+  const { role, organizations } = useContext(SitemapContext);
 
   useEffect(() => {
-    const profile = JSON.parse(localStorage.getItem('profile') || '{}');
-    const roles = profile.roles || {};
-    const qberiRoles = roles.Qberi || [];
-
-    const types: string[] = ['user'];
-
-    if (qberiRoles.includes('ADMIN')) {
-      types.push('admin');
-    }
-    if (qberiRoles.includes('VERIFIED USERS')) {
-      types.push('verified');
-    }
-
-    setRoutes(getMainSiteMap(types));
-  }, [role]);
+    setRoutes(getMainSiteMap(role, organizations));
+  }, [role, organizations]);
 
   const { breakpoints } = useBreakpoints();
 

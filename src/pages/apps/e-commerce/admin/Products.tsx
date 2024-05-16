@@ -152,7 +152,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   const table = useAdvanceTable({
     data: allProductData,

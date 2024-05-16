@@ -6,16 +6,10 @@ import { useAppContext } from 'providers/AppProvider';
 import { useMainLayoutContext } from 'providers/MainLayoutProvider';
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import { useEffect, useState, lazy, Suspense } from 'react'; // Import lazy and Suspense
-
+import { useEffect, useState, Suspense } from 'react'; // Import lazy and Suspense
 import validateSession from 'Actions/validateSession';
 import { useNavigate } from 'react-router-dom';
-import { UpdateOrgs } from 'Actions/UpdateOrgs';
-
-// Lazy load the NavbarVertical component
-const NavbarVertical = lazy(
-  () => import('components/navbars/navbar-vertical/NavbarVertical')
-);
+import NavbarVerical from 'components/navbars/navbar-vertical/NavbarVertical';
 
 const MainLayout = () => {
   const {
@@ -37,7 +31,6 @@ const MainLayout = () => {
       return;
     }
     setIsLoggedIn(true);
-    UpdateOrgs();
   }, []);
 
   return (
@@ -48,7 +41,8 @@ const MainLayout = () => {
             <Suspense fallback={<div>Loading...</div>}>
               {' '}
               {/* Add Suspense */}
-              <NavbarVertical />
+              {/* <NavbarVertical /> */}
+              <NavbarVerical />
             </Suspense>
           )}
           {navbarPosition === 'vertical' && <NavbarTopDefault />}

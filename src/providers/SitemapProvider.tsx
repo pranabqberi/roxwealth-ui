@@ -1,8 +1,11 @@
 import { createContext, useState } from 'react';
+import { OrganizationType } from 'sitemap2';
 
 interface SitemapContextInterface {
   role: string;
   setRole: (role: string) => void;
+  organizations: OrganizationType[];
+  setOrganizations: (organizations: OrganizationType[]) => void;
 }
 
 const SitemapContext = createContext({} as SitemapContextInterface);
@@ -12,13 +15,20 @@ const SitemapContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [role, setRole] = useState('user');
+  const localRole = localStorage.getItem('role');
+  const orgs: OrganizationType[] = JSON.parse(
+    localStorage.getItem('orgs') || '[]'
+  );
+  const [role, setRole] = useState(localRole || 'user');
+  const [organizations, setOrganizations] = useState<OrganizationType[]>(orgs);
 
   return (
     <SitemapContext.Provider
       value={{
         role,
-        setRole
+        setRole,
+        organizations,
+        setOrganizations
       }}
     >
       {children}

@@ -104,6 +104,7 @@ const AddProductcategory = () => {
     });
     console.log(productSpecData);
     templateData.productSpecData = productSpecData;
+    console.log(templateData);
   };
 
   const handleAddProductSpec = (e: any) => {

@@ -9,17 +9,8 @@ import bg1 from 'assets/img/bg/bg-36.png';
 import bg4 from 'assets/img/bg/bg-39.png';
 import LegoLight from 'assets/img/bg/LegoDefender-fotor-2024030610292_compressed-2.png';
 import LegoDark from 'assets/img/gallery/LegoDefender-fotor-2024030610292_compressed.png';
-import redirect from 'Actions/Redirect';
-import { useEffect, useState } from 'react';
-import validateSession from 'Actions/validateSession';
 
 const HeroHeader = () => {
-  const [nextPath, setNextPath] = useState('/auth/sign-in');
-  useEffect(() => {
-    if (validateSession()) {
-      setNextPath(redirect());
-    }
-  }, []);
   return (
     <section id="home" className="pb-8 overflow-hidden">
       <div className="hero-header-container-alternate position-relative">
@@ -52,7 +43,7 @@ const HeroHeader = () => {
               </Button> */}
               <Button
                 as={Link}
-                to={nextPath}
+                to="/profile"
                 variant="link"
                 endIcon={
                   <FontAwesomeIcon icon={faAngleRight} className="ms-2 fs-9" />

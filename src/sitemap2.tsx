@@ -28,7 +28,7 @@ export interface RouteItems {
   active?: boolean;
 }
 
-type ApplicationsType = {
+export type ApplicationsType = {
   id: string;
   name: string;
   description: string;
@@ -176,7 +176,7 @@ export const getRoutes = () => {
 
 // input: type of user: user, verified, admin
 
-type OrganizationType = {
+export type OrganizationType = {
   id: string;
   name: string;
   description: string;
@@ -187,43 +187,35 @@ type OrganizationType = {
   applications: [ApplicationsType];
 };
 
-const getRandomIcon = () => {
-  const icons = [
-    'phone',
-    'bookmark',
-    'message-square',
-    'mail',
-    'calendar',
-    'compass',
-    'help-circle',
-    'globe',
-    'tag',
-    'bell',
-    'users',
-    'clock',
-    'alert-triangle',
-    'lock',
-    'layout',
-    'file-text',
-    'trello',
-    'share-2',
-    'chart-pie',
-    'cube',
-    'document-layout-right',
-    'files-landscapes-alt',
-    'puzzle-piece'
-  ];
+const icons = [
+  'bookmark',
+  'message-square',
+  'mail',
+  'calendar',
+  'compass',
+  'help-circle',
+  'globe',
+  'tag',
+  'bell',
+  'users',
+  'clock',
+  'alert-triangle',
+  'lock',
+  'layout',
+  'file-text',
+  'trello',
+  'share-2',
+  'chart-pie',
+  'cube',
+  'document-layout-right',
+  'files-landscapes-alt',
+  'puzzle-piece'
+];
 
-  const len = icons.length;
-  const random = Math.floor(Math.random() * len);
-  return icons[random];
-};
-
-export const getMainSiteMap = (type: string[]) => {
-  UpdateOrgs();
-  const local = JSON.parse(localStorage.getItem('orgs') || '[]');
-  console.log('Local: ', type, local);
-
+export const getMainSiteMap = (
+  type: string,
+  organizations: OrganizationType[]
+) => {
   const ApplicationMap: RouteItems = {
     label: 'My Applications',
     icon: UilCube,
@@ -280,12 +272,12 @@ export const getMainSiteMap = (type: string[]) => {
     pages: []
   };
 
-  local.map((org: OrganizationType) => {
+  organizations.map((org: OrganizationType, index: number) => {
     // Add type annotation to 'org'
     OrganizationMap.pages.push({
       name: org.name,
       path: '/org/' + org.id,
-      icon: getRandomIcon(),
+      icon: icons[index],
       active: true,
       pages: [
         {
@@ -311,15 +303,15 @@ export const getMainSiteMap = (type: string[]) => {
     organizationList.pages.push({
       name: org.name,
       path: '/admin/org/' + org.id,
-      icon: getRandomIcon(),
+      icon: icons[index],
       active: true
     });
     if (org.applications) {
-      org.applications.map((app: ApplicationsType) => {
+      org.applications.map((app: ApplicationsType, index: number) => {
         ApplicationMap.pages.push({
           name: app.name,
           path: '/app/' + app.id + '/home',
-          icon: getRandomIcon(),
+          icon: icons[index],
           active: true
         });
       });
