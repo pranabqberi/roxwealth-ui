@@ -7,10 +7,12 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import { Col, Form, Row, Spinner } from 'react-bootstrap';
+import { Button, Col, Form, Row, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
-const URL = 'https://engine.qberi.com/api/portfolioValueGraph/force';
+const URL = 'https://engine.qberi.com/api/portfolioValueGraph/cache';
+const URL2 = 'https://engine.qberi.com/api/portfolioValueGraph/force';
+
 const session = JSON.parse(localStorage.getItem('session') || '{}');
 const headers = {
   'Content-Type': 'application/json',
@@ -22,7 +24,7 @@ const PerformanceNAVS = () => {
   const [mode, setMode] = useState('Monthly');
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchData = async () => {
+  const fetchData = async (URL) => {
     try {
       const response = await axios.get(URL, { headers: headers });
       setGraphData(response.data.graphData);
@@ -35,8 +37,13 @@ const PerformanceNAVS = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(URL);
   }, []);
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+    fetchData(URL2);
+  }
 
   const getChartData = mode => {
     switch (mode) {
@@ -85,7 +92,7 @@ const PerformanceNAVS = () => {
         <Col xs="auto">
           <h2>Net Asset Value(NAV) - {mode}</h2>
         </Col>
-        <Col>
+        <Col >
           <Form.Select size="sm" onChange={handleModeChange} value={mode}>
             <option value="1D">1D</option>
             <option value="Weekly">7D</option>
@@ -94,6 +101,9 @@ const PerformanceNAVS = () => {
             <option value="YTD">YTD</option>
             <option value="Yearly">1Y</option>
           </Form.Select>
+        </Col>
+        <Col xs="auto">
+          <Button disabled={isLoading} variant="primary" onClick={handleRefresh}>{isLoading ? 'Loading…' : 'Refresh'}</Button>
         </Col>
       </Row>
       {isLoading ? (

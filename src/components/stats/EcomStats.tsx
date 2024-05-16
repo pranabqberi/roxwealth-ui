@@ -1,4 +1,4 @@
-import { Button, Col, Row, Spinner, Stack } from 'react-bootstrap';
+import { Col, OverlayTrigger, Row, Spinner, Stack, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -14,13 +14,6 @@ import {
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-type StatType = {
-  id: number | string;
-  icon: IconProp;
-  title: string | number;
-  subTitle: string | number;
-  color: string;
-};
 
 const EcomStats = () => {
   const [totalAssets, setTotalAssets] = useState(0);
@@ -93,11 +86,50 @@ const EcomStats = () => {
           <Spinner animation="border" variant="primary" />
         ) : (
           <>
-            <FontAwesomeIcon
-              icon={faRefresh}
-              onClick={handleRefresh}
-            />
-            <Stat stat={ourStats} />
+            <Stack direction="horizontal" className="align-items-center">
+              <span
+                className="fa-layers"
+                style={{ minHeight: '46px', minWidth: '46px' }}
+              >
+                <FontAwesomeIcon
+                  icon={faSquare}
+                  size="2x"
+                  className={`text-${ourStats.color}-300`}
+                  transform="down-4 rotate--10 left-4"
+                />
+                <FontAwesomeIcon
+                  icon={faCircle}
+                  size="2x"
+                  className={`text-${ourStats.color}-100 fa-layers-circle`}
+                  transform="up-4 right-3 grow-2"
+                />
+                <FontAwesomeIcon
+                  icon={ourStats.icon}
+                  size="1x"
+                  className={`text-${ourStats.color}`}
+                  transform="shrink-2 up-8 right-6"
+                />
+              </span>
+
+              <div className="ms-3">
+                <h4 className="mb-0">{ourStats.title}</h4>
+                <p className="text-800 fs-9 mb-0">{ourStats.subTitle}</p>
+              </div>
+
+              <div className="ms-4">
+                <OverlayTrigger
+                  placement="right"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={<Tooltip id="button-tooltip">Refresh</Tooltip>}
+                >
+                  <FontAwesomeIcon
+                    icon={faRefresh}
+                    size='lg'
+                    onClick={handleRefresh}
+                  />
+                </OverlayTrigger>
+              </div>
+            </Stack>
           </>
         )}
       </Col>
@@ -105,39 +137,10 @@ const EcomStats = () => {
   );
 };
 
-const Stat = ({ stat }: { stat: StatType }) => {
-  return (
-    <Stack direction="horizontal" className="align-items-center">
-      <span
-        className="fa-layers"
-        style={{ minHeight: '46px', minWidth: '46px' }}
-      >
-        <FontAwesomeIcon
-          icon={faSquare}
-          size="2x"
-          className={`text-${stat.color}-300`}
-          transform="down-4 rotate--10 left-4"
-        />
-        <FontAwesomeIcon
-          icon={faCircle}
-          size="2x"
-          className={`text-${stat.color}-100 fa-layers-circle`}
-          transform="up-4 right-3 grow-2"
-        />
-        <FontAwesomeIcon
-          icon={stat.icon}
-          size="1x"
-          className={`text-${stat.color}`}
-          transform="shrink-2 up-8 right-6"
-        />
-      </span>
+// const Stat = ({ stat }: { stat: StatType }) => {
+//   return (
 
-      <div className="ms-3">
-        <h4 className="mb-0">{stat.title}</h4>
-        <p className="text-800 fs-9 mb-0">{stat.subTitle}</p>
-      </div>
-    </Stack>
-  );
-};
+//   );
+// };
 
 export default EcomStats;
