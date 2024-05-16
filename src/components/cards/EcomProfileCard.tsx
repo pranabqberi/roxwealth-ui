@@ -1,4 +1,4 @@
-import { Card, Col, ListGroup, Row } from 'react-bootstrap';
+import { Badge, Card, Col, Row } from 'react-bootstrap';
 import Avatar from 'components/base/Avatar';
 
 interface EcomProfileCardProps {
@@ -12,7 +12,7 @@ const EcomProfileCard: React.FC<EcomProfileCardProps> = ({ details }) => {
         <Card.Body>
           <div className="border-bottom border-dashed border-300 pb-4">
             <Row className="align-items-center g-3 g-sm-5 text-center text-sm-start">
-              <Col xs={12} sm="auto">
+              <Col xs={12} className="d-flex justify-content-center" sm="auto">
                 <Avatar src={details.pictureUrl} size="5xl" />
               </Col>
               <Col xs={12} sm="auto" className="flex-1">
@@ -32,19 +32,18 @@ const EcomProfileCard: React.FC<EcomProfileCardProps> = ({ details }) => {
                   {details.sharePercentage ? details.sharePercentage : '0'}
                 </p>
                 <div className="text-800">
-                  <strong>Roles</strong>
-                  <ListGroup>
-                    {Object.keys(details.roles || {}).map(
-                      (role: any, index) => (
-                        <Col key={index} xs={12} sm="auto" className="flex-1">
-                          <strong>{role}:</strong>
-                          <ListGroup.Item>
-                            {role && details.roles[role].join(', ')}
-                          </ListGroup.Item>
-                        </Col>
-                      )
-                    )}
-                  </ListGroup>
+                  {Object.keys(details.roles || {}).map(
+                    (role: any, index) => (
+                      <Col key={index} xs={12} sm="auto" className="flex-1">
+                        <strong>{role}: </strong>
+                        {details.roles[role].map((item:any, itemIndex:any) => (
+                          <Badge bg="info" key={itemIndex} className="me-1">
+                            {item}
+                          </Badge>
+                        ))}
+                      </Col>
+                    )
+                  )}
                 </div>
               </Col>
             </Row>
