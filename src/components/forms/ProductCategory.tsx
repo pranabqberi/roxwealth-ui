@@ -4,6 +4,7 @@ import Button from 'components/base/Button';
 import { ToastContext } from 'providers/ToastProvider';
 import { useParams } from 'react-router-dom';
 import Dropzone from 'components/base/Dropzone';
+import axios from 'axios';
 
 type FieldType = {
   name: string;
@@ -23,7 +24,7 @@ type TemplateInterface = {
   description: string;
   vendor: string;
   type: string;
-  tags: string;
+  tags?: string[];
   isPublished: boolean;
   imageUrl: string[];
   costPrice: number;
@@ -40,8 +41,8 @@ const AddProductcategory = () => {
     description: '',
     vendor: '',
     type: '',
-    tags: '',
     isPublished: false,
+    tags: [],
     imageUrl: [],
     costPrice: 0,
     quantity: 0,
@@ -97,7 +98,6 @@ const AddProductcategory = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    showToast('Product category added successfully', 'success');
     const productSpecData: { [key: string]: string } = {}; // Add index signature
     templateData.specData.forEach(spec => {
       productSpecData[spec.name] = spec.value;
@@ -105,6 +105,23 @@ const AddProductcategory = () => {
     console.log(productSpecData);
     templateData.productSpecData = productSpecData;
     console.log(templateData);
+
+    const URL = 'https://engine.qberi.com/api/createTemplate';
+    const session = JSON.parse(localStorage.getItem('session') || '{}');
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session.sessionToken}`
+    };
+
+    axios
+      .post(URL, templateData, { headers })
+      .then(response => {
+        console.log(response.data);
+        showToast('Product category added successfully', 'success');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const handleAddProductSpec = (e: any) => {
@@ -206,7 +223,7 @@ const AddProductcategory = () => {
                   />
                 </Form.Group>
               </Col>
-              <Col md={6} lg={6}>
+              {/* <Col md={6} lg={6}>
                 <Form.Group controlId="tags">
                   <Form.Label>Tags</Form.Label>
                   <Form.Control
@@ -216,7 +233,7 @@ const AddProductcategory = () => {
                     onChange={handleChange}
                   />
                 </Form.Group>
-              </Col>
+              </Col> */}
               <Col md={6} lg={6}>
                 <Form.Group controlId="isPublished">
                   <Form.Label>Is Published</Form.Label>

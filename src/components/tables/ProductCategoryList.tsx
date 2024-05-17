@@ -113,7 +113,6 @@ const CategoryList = () => {
         }
       })
       .then(response => {
-        console.log('Response: ', response);
         setCategories(response.data);
         localStorage.setItem('templates', JSON.stringify(response.data));
       })

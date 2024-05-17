@@ -1,400 +1,370 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Container, Row, Col } from 'react-bootstrap';
+import { useState, useContext, useEffect } from 'react';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import Button from 'components/base/Button';
+import { ToastContext } from 'providers/ToastProvider';
+import { useParams } from 'react-router-dom';
 import Dropzone from 'components/base/Dropzone';
+import axios from 'axios';
 
-interface SpecData {
-  type: string;
+type FieldType = {
+  name: string;
   value: string;
-}
+};
 
-interface Product {
+type ApplicationMappedType = {
+  id: string;
+  name: string;
+  logo: string;
+  description: string;
+};
+
+type TemplateInterface = {
   uniqueID: string;
   title: string;
   description: string;
   vendor: string;
   type: string;
-  tags: string;
+  tags: string[];
   isPublished: boolean;
-  imageURL: string[];
+  imageUrl: string[];
+  costPrice: number;
   quantity: number;
-  productSpecData?: { [key: string]: SpecData };
-}
+  specData: FieldType[];
+  productSpecData?: { [key: string]: string };
+  applicationMapped?: ApplicationMappedType;
+};
 
-interface CustomField {
-  name: string;
-  type: string;
-  value: string;
-}
-
-interface specifications {
-  name: string;
-  type: string;
-}
-interface Type {
-  id: string;
-  name: string;
-  specifications: specifications[];
-}
-
-const sampleTypes: Type[] = [
-  {
-    id: '1',
-    name: 'category-1',
-    specifications: [
-      {
-        name: 'Spec 1 of category-1',
-        type: 'text'
-      }
-    ]
-  },
-  {
-    id: '2',
-    name: 'category-2',
-    specifications: [
-      {
-        name: 'Spec 1 of category-2',
-        type: 'text'
-      },
-      {
-        name: 'Spec 2',
-        type: 'number'
-      }
-    ]
-  },
-  {
-    id: '3',
-    name: 'category-3',
-    specifications: [
-      {
-        name: 'Spec 1 of category-3',
-        type: 'text'
-      },
-      {
-        name: 'Spec 2',
-        type: 'number'
-      },
-      {
-        name: 'Spec 3',
-        type: 'date'
-      }
-    ]
-  }
-];
-
-const AddProduct: React.FC = () => {
-  const [types, setTypes] = useState<Type[]>(sampleTypes);
-
-  useEffect(() => {
-    const types = JSON.parse(localStorage.getItem('categories') || '[]');
-    setTypes(types);
-  }, []);
-
-  const [product, setProduct] = useState<Product>({
+const AddProduct = () => {
+  const [productData, setProductData] = useState<TemplateInterface>({
     uniqueID: '',
     title: '',
     description: '',
     vendor: '',
     type: '',
-    tags: '',
+    tags: [],
     isPublished: false,
-    imageURL: [],
-    quantity: 0
-  });
-
-  const [customFields, setCustomFields] = useState<CustomField[]>([]);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setProduct(prevProduct => ({
-      ...prevProduct,
-      [name]: value
-    }));
-  };
-
-  const onChangeType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
-    setProduct(prevProduct => ({
-      ...prevProduct,
-      type: value
-    }));
-    // change custom fields based on type
-    const selectedType = types.find(type => type.id === value);
-    if (selectedType) {
-      const newFields: CustomField[] = [];
-      selectedType.specifications.forEach(spec => {
-        newFields.push({
-          name: spec.name,
-          type: spec.type,
-          value: ''
-        });
-      });
-      setCustomFields(newFields);
+    imageUrl: [],
+    costPrice: 0,
+    quantity: 0,
+    specData: [],
+    applicationMapped: {
+      id: '',
+      name: '',
+      logo: '',
+      description: ''
     }
+  });
+  const [templateData, setTemplateData] = useState<TemplateInterface[]>([]);
+
+  const appID = useParams<{ appID: string }>().appID;
+  useEffect(() => {
+    const applications = JSON.parse(
+      localStorage.getItem('applications') || '[]'
+    );
+    const application = applications.find((app: any) => app.id === appID) || {};
+
+    if (!application) {
+      return;
+    }
+    const applicationMapped = {
+      id: application.id || '',
+      name: application.name || '',
+      logo: application.logo || '',
+      description: application.description || ''
+    };
+
+    setProductData({
+      ...productData,
+      applicationMapped
+    });
+    const templates = JSON.parse(localStorage.getItem('templates') || '[]');
+    setTemplateData(templates);
+  }, []);
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setProductData({
+      ...productData,
+      [name]: value
+    });
   };
 
-  const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target;
-    setProduct(prevProduct => ({
-      ...prevProduct,
-      isPublished: checked
-    }));
+  const handleSwitchChange = (e: any) => {
+    const { name, checked } = e.target;
+    setProductData({
+      ...productData,
+      [name]: checked
+    });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { showToast } = useContext(ToastContext);
+
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    const specs: { [key: string]: SpecData } = {}; // Add index signature
-    customFields.forEach(field => {
-      specs[field.name] = {
-        type: field.type,
-        value: field.value
-      };
+    const productSpecData: { [key: string]: string } = {};
+    productData.specData.forEach(spec => {
+      productSpecData[spec.name] = spec.value;
     });
-    product.productSpecData = specs;
-    console.log(product);
+    console.log(productSpecData);
+    productData.productSpecData = productSpecData;
+    console.log(productData);
+    return false;
+
+    const URL = 'https://engine.qberi.com/api/createTemplate';
+    const session = JSON.parse(localStorage.getItem('session') || '{}');
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session.sessionToken}`
+    };
+
+    axios
+      .post(URL, productData, { headers })
+      .then(response => {
+        console.log(response.data);
+        showToast('Product category added successfully', 'success');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
-  const handleAddCustomField = () => {
-    setCustomFields(prevFields => [
-      ...prevFields,
-      { name: '', type: 'text', value: '' }
-    ]);
-  };
-
-  const handleRemoveCustomField = (index: number) => {
-    setCustomFields(prevFields => {
-      const newFields = [...prevFields];
-      newFields.splice(index, 1);
-      return newFields;
+  const handleAddProductSpec = (e: any) => {
+    e.preventDefault();
+    const specData = [...productData.specData];
+    specData.push({
+      name: '',
+      value: ''
+    });
+    setProductData({
+      ...productData,
+      specData
     });
   };
 
-  const handleCustomFieldChange = (
-    index: number,
-    fieldName: keyof CustomField,
-    value: string
-  ) => {
-    setCustomFields(prevFields => {
-      const newFields = [...prevFields];
-      newFields[index][fieldName] = value;
-      return newFields;
+  const handleDeleteProductSpec = (index: number) => {
+    const specData = [...productData.specData];
+    specData.splice(index, 1);
+    setProductData({
+      ...productData,
+      specData
     });
   };
 
-  const handleImageUpload = (files: File[]) => {
-    const fileNames: string[] = [];
-    files.forEach(file => {
-      fileNames.push(file.name);
+  const handleProductSpecChange = (e: any, index: number) => {
+    const { name, value } = e.target;
+    const specData = [...productData.specData];
+    specData[index] = {
+      ...specData[index],
+      [name]: value
+    };
+    setProductData({
+      ...productData,
+      specData
     });
-    setProduct(prevProduct => ({
-      ...prevProduct,
-      imageURL: fileNames
-    }));
   };
 
-  // const handleImageRemove = (index: number) => {
-  //   setProduct(prevProduct => {
-  //     const newImages = [...prevProduct.imageURL];
-  //     newImages.splice(index, 1);
-  //     return {
-  //       ...prevProduct,
-  //       imageURL: newImages
-  //     };
-  //   });
-  // };
+  const handleTemplateChange = (e: any) => {
+    const { name, value } = e.target;
+    const template: TemplateInterface =
+      templateData.find(template => template.type === value) || productData;
+
+    if (!template) {
+      return;
+    }
+    console.log(template);
+    setProductData({
+      ...productData,
+      [name]: value || '',
+      title: template.title || '',
+      description: template.description || '',
+      vendor: template.vendor || '',
+      type: template.type || '',
+      tags: template.tags || [],
+      isPublished: template.isPublished || false,
+      imageUrl: template.imageUrl || [],
+      costPrice: template.costPrice || 0,
+      quantity: template.quantity || 0,
+      specData: template.specData || []
+    });
+  };
 
   return (
-    <Container fluid className="p-3">
-      <h2 className="text-center mb-4">Add Product</h2>
-      <Form onSubmit={handleSubmit}>
-        <Row>
-          <Col xs={12} md={6}>
-            <Form.Group>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                name="title"
-                placeholder="Enter title"
-                value={product.title}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs={12} md={6}>
-            <Form.Group>
-              <Form.Label>Unique ID</Form.Label>
-              <Form.Control
-                type="text"
-                name="uniqueID"
-                placeholder="Enter unique ID"
-                value={product.uniqueID}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs={12}>
-            <Form.Group>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="description"
-                placeholder="Enter description"
-                rows={3}
-                value={product.description}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs={12} md={6}>
-            <Form.Group>
-              <Form.Label>Vendor</Form.Label>
-              <Form.Control
-                type="text"
-                name="vendor"
-                placeholder="Enter vendor"
-                value={product.vendor}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs={12} md={6}>
-            <Form.Group>
-              <Form.Label>Type</Form.Label>
-              <Form.Select
-                name="type"
-                value={product.type}
-                onChange={onChangeType}
-              >
-                <option value="">Select Type</option>
-                {types.map(type => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col xs={12} md={6}>
-            <Form.Group>
-              <Form.Label>Tags</Form.Label>
-              <Form.Control
-                type="text"
-                name="tags"
-                value={product.tags}
-                placeholder="Enter tags"
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs={12} md={6}>
-            <Form.Group>
-              <Form.Label>Is Published</Form.Label>
-              <Form.Check
-                type="switch"
-                id="custom-switch"
-                label="Published"
-                checked={product.isPublished}
-                onChange={handleSwitchChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col xs={12} md={7}>
-            <Form.Group>
-              <Form.Label>Image</Form.Label>
-              <Dropzone size="sm" onDrop={handleImageUpload} />
-            </Form.Group>
-          </Col>
-          <Col xs={12} md={6}>
-            <Form.Group>
-              <Form.Label>Quantity</Form.Label>
-              <Form.Control
-                type="number"
-                name="quantity"
-                placeholder="Enter quantity"
-                value={product.quantity}
-                onChange={handleInputChange}
-                max={9999}
-                min={0}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="mt-3">
-          <Col xs={12}>
-            <h4 className="mb-3">Product Specifications</h4>
-          </Col>
-          {customFields.map((field, index) => (
-            <Col xs={12} key={index}>
-              <Row className="mt-1">
-                <Col xs={3}>
-                  <Form.Group>
-                    <Form.Label>Field Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={field.name}
-                      onChange={e =>
-                        handleCustomFieldChange(index, 'name', e.target.value)
-                      }
-                    />
-                  </Form.Group>
-                </Col>
-                <Col xs={3}>
-                  <Form.Group>
-                    <Form.Label>Field Type</Form.Label>
-                    <Form.Control
-                      as="select"
-                      value={field.type}
-                      onChange={e =>
-                        handleCustomFieldChange(index, 'type', e.target.value)
-                      }
-                    >
-                      <option value="text">Text</option>
-                      <option value="number">Number</option>
-                      <option value="date">Date</option>
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col xs={3}>
-                  <Form.Group>
-                    <Form.Label>Field Value</Form.Label>
-                    <Form.Control
-                      type={field.type}
-                      placeholder={`Enter ${field.type} value`}
-                      value={field.value}
-                      onChange={e =>
-                        handleCustomFieldChange(index, 'value', e.target.value)
-                      }
-                    />
-                  </Form.Group>
-                </Col>
-                <Col xs={3} className="d-flex align-items-end">
-                  <Button
-                    variant="phoenix-danger"
-                    size="sm"
-                    onClick={() => handleRemoveCustomField(index)}
+    <Container>
+      <Row>
+        <Col>
+          <h1>Add Product</h1>
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <Col md={6} lg={6}>
+                <Form.Group controlId="uniqueID">
+                  <Form.Label>Unique ID</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="uniqueID"
+                    value={productData.uniqueID}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={6}>
+                <Form.Group controlId="title">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="title"
+                    value={productData.title}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={12}>
+                <Form.Group controlId="description">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    type="text"
+                    as="textarea"
+                    rows={3}
+                    name="description"
+                    value={productData.description}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={6}>
+                <Form.Group controlId="vendor">
+                  <Form.Label>Vendor</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="vendor"
+                    value={productData.vendor}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={6}>
+                <Form.Group controlId="type">
+                  <Form.Label>Type (Unique)</Form.Label>
+                  {/* <Form.Control
+                    type="text"
+                    name="type"
+                    value={productData.type}
+                    onChange={handleChange}
+                  /> */}
+                  {/* option list, on select it will fill the data from templates */}
+                  <Form.Control
+                    as="select"
+                    name="type"
+                    value={productData.type}
+                    onChange={handleTemplateChange}
                   >
-                    Remove
+                    <option value="">Select Type</option>
+                    {templateData.map(template => (
+                      <option key={template.uniqueID} value={template.uniqueID}>
+                        {template.type}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={6}>
+                <Form.Group controlId="isPublished">
+                  <Form.Label>Is Published</Form.Label>
+                  <Form.Check
+                    type="switch"
+                    name="isPublished"
+                    label={productData.isPublished ? 'Yes' : 'No'}
+                    className="px-8"
+                    checked={productData.isPublished}
+                    onChange={handleSwitchChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={12}>
+                <Form.Group controlId="imageUrl">
+                  <Form.Label>Images</Form.Label>
+                  <Dropzone size="sm" />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={6}>
+                <Form.Group controlId="costPrice">
+                  <Form.Label>Cost Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="costPrice"
+                    value={productData.costPrice}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={6}>
+                <Form.Group controlId="quantity">
+                  <Form.Label>Quantity</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="quantity"
+                    value={productData.quantity}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Row className="mt-4">
+                <Col md={6} lg={3}>
+                  <h3>Product Specs</h3>
+                </Col>
+                <Col md={6} lg={6}>
+                  <Button
+                    variant="phoenix-primary"
+                    onClick={handleAddProductSpec}
+                  >
+                    Add Product Spec
                   </Button>
                 </Col>
+                <Col md={6} lg={12}>
+                  {productData.specData.map((field, index) => (
+                    <Row key={index}>
+                      <Col md={6} lg={4}>
+                        <Form.Group controlId="name">
+                          <Form.Label>Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="name"
+                            value={field.name}
+                            onChange={e => handleProductSpecChange(e, index)}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col md={6} lg={4}>
+                        <Form.Group controlId="value">
+                          <Form.Label>Value</Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="value"
+                            value={field.value}
+                            onChange={e => handleProductSpecChange(e, index)}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col md={6} lg={4} className="d-flex align-items-end">
+                        <Button
+                          variant="phoenix-danger"
+                          onClick={() => handleDeleteProductSpec(index)}
+                        >
+                          Delete
+                        </Button>
+                      </Col>
+                    </Row>
+                  ))}
+                </Col>
               </Row>
-            </Col>
-          ))}
-          <Col xs={12} className="d-flex justify-content-end">
-            <Button
-              variant="phoenix-primary"
-              size="sm"
-              onClick={handleAddCustomField}
-            >
-              Add Specification
-            </Button>
-          </Col>
-        </Row>
-        <Button variant="primary" type="submit" className="mt-3">
-          Submit
-        </Button>
-      </Form>
+              <Col md={6} lg={12} className="mt-4">
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Col>
+      </Row>
     </Container>
   );
 };

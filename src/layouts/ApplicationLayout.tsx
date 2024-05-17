@@ -14,6 +14,26 @@ import { useNavigate } from 'react-router-dom';
 import { UpdateOrgs } from 'Actions/UpdateOrgs';
 import NavbarApp from 'components/navbars/navbar-vertical/NavBarApplication';
 
+const updateApplications = () => {
+  const session = JSON.parse(localStorage.getItem('session') || '{}');
+  const token = session.sessionToken;
+  const URL = `https://engine.qberi.com/api/allApplications/`;
+  fetch(URL, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      localStorage.setItem('applications', JSON.stringify(data));
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
+
 const ApplicationLayout = () => {
   const {
     config: { navbarPosition }
@@ -35,6 +55,7 @@ const ApplicationLayout = () => {
     }
     setIsLoggedIn(true);
     UpdateOrgs();
+    updateApplications();
   }, []);
 
   return (
