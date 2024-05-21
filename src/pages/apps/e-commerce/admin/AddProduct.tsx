@@ -1,10 +1,13 @@
 import { useState, useContext, useEffect } from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form, Badge } from 'react-bootstrap';
 import Button from 'components/base/Button';
 import { ToastContext } from 'providers/ToastProvider';
 import { useParams } from 'react-router-dom';
 import Dropzone from 'components/base/Dropzone';
 import axios from 'axios';
+import UploadToS3 from 'Actions/UploadToS3';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRemove } from '@fortawesome/free-solid-svg-icons';
 
 type FieldType = {
   name: string;
@@ -108,9 +111,8 @@ const AddProduct = () => {
     console.log(productSpecData);
     productData.productSpecData = productSpecData;
     console.log(productData);
-    return false;
 
-    const URL = 'https://engine.qberi.com/api/createTemplate';
+    const URL = 'https://engine.qberi.com/api/addProductDetails';
     const session = JSON.parse(localStorage.getItem('session') || '{}');
     const headers = {
       'Content-Type': 'application/json',
@@ -185,6 +187,36 @@ const AddProduct = () => {
       costPrice: template.costPrice || 0,
       quantity: template.quantity || 0,
       specData: template.specData || []
+    });
+  };
+
+  const [currentTag, setCurrentTag] = useState('');
+  const onAddTag = () => {
+    const tags = [...productData.tags];
+    tags.push(currentTag);
+    setProductData({
+      ...productData,
+      tags
+    });
+    setCurrentTag('');
+  };
+
+  const onDeleteTag = (index: number) => {
+    const tags = [...productData.tags];
+    tags.splice(index, 1);
+    setProductData({
+      ...productData,
+      tags
+    });
+  };
+
+  const onHandleDrop = async (files: any) => {
+    const url = (await UploadToS3(files[0])) as string;
+    const imageUrl = [...productData.imageUrl];
+    imageUrl.push(url);
+    setProductData({
+      ...productData,
+      imageUrl
     });
   };
 
@@ -266,7 +298,7 @@ const AddProduct = () => {
                   </Form.Control>
                 </Form.Group>
               </Col>
-              <Col md={6} lg={6}>
+              <Col md={6} lg={4}>
                 <Form.Group controlId="isPublished">
                   <Form.Label>Is Published</Form.Label>
                   <Form.Check
@@ -279,10 +311,39 @@ const AddProduct = () => {
                   />
                 </Form.Group>
               </Col>
+              <Col md={6} lg={8}>
+                <Form.Group controlId="tags">
+                  <Form.Label>Tags</Form.Label>
+                  <div className="d-flex align-items-center">
+                    <Form.Control
+                      type="text"
+                      name="tags"
+                      value={currentTag}
+                      onChange={e => setCurrentTag(e.target.value)}
+                      width={5}
+                      className="w-20"
+                    />
+                    <Button variant="phoenix-primary" onClick={onAddTag}>
+                      Add
+                    </Button>
+                  </div>
+                  <div>
+                    {productData.tags.map((tag, index) => (
+                      <Badge key={index} className="me-1">
+                        {tag} <span> </span>
+                        <FontAwesomeIcon
+                          icon={faRemove}
+                          onClick={() => onDeleteTag(index)}
+                        />
+                      </Badge>
+                    ))}
+                  </div>
+                </Form.Group>
+              </Col>
               <Col md={6} lg={12}>
                 <Form.Group controlId="imageUrl">
                   <Form.Label>Images</Form.Label>
-                  <Dropzone size="sm" />
+                  <Dropzone size="sm" onDrop={onHandleDrop} />
                 </Form.Group>
               </Col>
               <Col md={6} lg={6}>

@@ -212,6 +212,8 @@ import Orders from 'pages/apps/e-commerce/admin/Orders';
 // import CategoryList from 'components/tables/ProductCategoryList';
 import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
 import Templates from 'pages/apps/e-commerce/admin/Templates';
+import ProductDetails from 'pages/apps/e-commerce/customer/ProductDetails';
+// import EcommerceLayout from 'layouts/EcommerceLayout';
 
 const routes: RouteObject[] = [
   {
@@ -276,6 +278,16 @@ const routes: RouteObject[] = [
       //     }
       //   ]
       // },
+      {
+        path: '/products',
+        // element: <EcommerceLayout />,
+        children: [
+          {
+            path: ':id',
+            element: <ProductDetails />
+          }
+        ]
+      },
       {
         path: 'auth',
         children: [

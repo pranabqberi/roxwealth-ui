@@ -77,7 +77,6 @@ const AddProductcategory = () => {
       applicationMapped
     });
   }, []);
-
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setTemplateData({

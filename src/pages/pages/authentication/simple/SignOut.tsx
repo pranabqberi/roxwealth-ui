@@ -18,6 +18,7 @@ const SignOut = () => {
     localStorage.removeItem('role');
     localStorage.removeItem('organizations');
     localStorage.removeItem('orgs');
+    localStorage.removeItem('templates');
     showToast("You've been signed out successfully", 'success');
     navigate('/');
   }, []);

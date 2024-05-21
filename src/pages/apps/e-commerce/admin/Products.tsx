@@ -159,8 +159,7 @@ const Products = () => {
     columns: Columns,
     pageSize: 10,
     pagination: true,
-    sortable: true,
-    selection: true
+    sortable: true
   });
 
   return (
