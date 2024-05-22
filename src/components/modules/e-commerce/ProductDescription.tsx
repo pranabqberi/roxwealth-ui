@@ -12,13 +12,13 @@ import { Col, Row, Stack } from 'react-bootstrap';
 // import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import {
   faArchive,
-  faShareAlt,
+  // faShareAlt,
   faShoppingCart
 } from '@fortawesome/free-solid-svg-icons';
 
 const ProductDescription = ({ data }: { data: any }) => {
   const [selectedVariantKey] = useState('blue');
-  const [quantity, setQuantity] = useState(1);
+  // const [quantity, setQuantity] = useState(1);
 
   const selectedVariant = useMemo(() => {
     return productColorVariants.find(
@@ -65,12 +65,12 @@ const ProductDescription = ({ data }: { data: any }) => {
               <div>
                 {/* render data using loop except keys [applicationMapped, createdAt, id, imageUrl, isDeleted, isPublished, lastModifiedAt, productDetailsTemplateId, productSpecData, uniqueId, userCreated, userModified] and also handle if inside value is array */}
                 <div>
-                  <strong className='text-1000'>Product Details :</strong>
+                  <strong className="text-1000">Product Details :</strong>
                   <ul>
                     {Object.entries(data)
                       .slice(2)
                       .filter(
-                        ([key, value]) =>
+                        ([key]) =>
                           ![
                             'applicationMapped',
                             'title',
@@ -104,25 +104,30 @@ const ProductDescription = ({ data }: { data: any }) => {
                   </ul>
                 </div>
                 {/* data render data.productSpecData if length of the object not 0 and value is not object*/}
-                <strong className='text-1000'>Product Specification :</strong>
+                <strong className="text-1000">Product Specification :</strong>
                 {Object.entries(data.productSpecData).length !== 0 ? (
                   <ul>
-                    {Object.entries(data.productSpecData).map(([key, value]) => (
-                      <li key={key}>
-                        <strong>{key}:</strong>
-                        {typeof value === 'object' && value !== null ? (
-                          <ul>
-                            {Object.entries(value).map(([subKey, subValue]) => (
-                              <li key={subKey}>
-                                <strong>{subKey}:</strong> {subValue as React.ReactNode}
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <span> {value as React.ReactNode}</span>
-                        )}
-                      </li>
-                    ))}
+                    {Object.entries(data.productSpecData).map(
+                      ([key, value]) => (
+                        <li key={key}>
+                          <strong>{key}:</strong>
+                          {typeof value === 'object' && value !== null ? (
+                            <ul>
+                              {Object.entries(value).map(
+                                ([subKey, subValue]) => (
+                                  <li key={subKey}>
+                                    <strong>{subKey}:</strong>{' '}
+                                    {subValue as React.ReactNode}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          ) : (
+                            <span> {value as React.ReactNode}</span>
+                          )}
+                        </li>
+                      )
+                    )}
                   </ul>
                 ) : (
                   <p>No specification available</p>

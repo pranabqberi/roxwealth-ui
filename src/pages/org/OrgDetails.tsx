@@ -33,7 +33,7 @@ const columns: ColumnDef<ApplicationsType>[] = [
     header: 'View',
     accessorKey: 'id',
     cell: ({ row: { original } }) => {
-      return <Link to={`/app/${original.id}/home`}>View</Link>;
+      return <Link to={`/app/${original.id}/all-products`}>View</Link>;
     }
   }
 ];
@@ -83,8 +83,8 @@ const OrgDetails = () => {
           )}
           {org && !org.applications && (
             <div>
-              No applications found. Create your first application{' '}
-              <Link to={`/org/${org.id}/create-app`}>here</Link>
+              No applications found.
+              {/* <Link to={`/org/${org.id}/create-app`}>here</Link> */}
             </div>
           )}
         </Col>

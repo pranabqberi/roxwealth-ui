@@ -34,9 +34,9 @@ const getAppSitemap = (appID: string): RouteItems[] => {
       icon: UilTrophy,
       pages: [
         {
-          name: 'Back',
+          name: 'Back to Profile',
           icon: 'arrow-left',
-          path: '/org/view',
+          path: '/profile',
           active: true
         }
       ]

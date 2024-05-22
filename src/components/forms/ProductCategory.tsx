@@ -18,8 +18,9 @@ type ApplicationMappedType = {
   description: string;
 };
 
-type TemplateInterface = {
-  uniqueID: string;
+export type TemplateInterface = {
+  uniqueId: string;
+  id?: string;
   title: string;
   description: string;
   vendor: string;
@@ -30,13 +31,13 @@ type TemplateInterface = {
   costPrice: number;
   quantity: number;
   specData: FieldType[];
-  productSpecData?: { [key: string]: string };
+  productSpecData: { [key: string]: string };
   applicationMapped?: ApplicationMappedType;
 };
 
 const AddProductcategory = () => {
   const [templateData, setTemplateData] = useState<TemplateInterface>({
-    uniqueID: '',
+    uniqueId: '',
     title: '',
     description: '',
     vendor: '',
@@ -47,6 +48,7 @@ const AddProductcategory = () => {
     costPrice: 0,
     quantity: 0,
     specData: [],
+    productSpecData: {},
     applicationMapped: {
       id: '',
       name: '',
@@ -166,12 +168,12 @@ const AddProductcategory = () => {
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col md={6} lg={6}>
-                <Form.Group controlId="uniqueID">
+                <Form.Group controlId="uniqueId">
                   <Form.Label>Unique ID</Form.Label>
                   <Form.Control
                     type="text"
-                    name="uniqueID"
-                    value={templateData.uniqueID}
+                    name="uniqueId"
+                    value={templateData.uniqueId}
                     onChange={handleChange}
                   />
                 </Form.Group>

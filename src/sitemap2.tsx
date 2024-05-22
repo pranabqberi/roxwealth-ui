@@ -217,7 +217,7 @@ export const getMainSiteMap = (
   organizations: OrganizationType[]
 ) => {
   const ApplicationMap: RouteItems = {
-    label: 'My Applications',
+    label: 'My Applications (verified User)',
     icon: UilCube,
     pages: []
   };
@@ -248,7 +248,7 @@ export const getMainSiteMap = (
   };
 
   const OrganizationMap: RouteItems = {
-    label: 'My Organizations',
+    label: 'My Organizations (Verified User)',
     icon: UilCube,
     pages: [
       {
@@ -267,7 +267,7 @@ export const getMainSiteMap = (
   };
 
   const organizationList: RouteItems = {
-    label: 'Organizations',
+    label: 'Organization List (Admin)',
     icon: UilCube,
     pages: []
   };
@@ -310,7 +310,7 @@ export const getMainSiteMap = (
       org.applications.map((app: ApplicationsType, index: number) => {
         ApplicationMap.pages.push({
           name: app.name,
-          path: '/app/' + app.id + '/home',
+          path: '/app/' + app.id + '/all-products',
           icon: icons[index],
           active: true
         });
@@ -337,6 +337,10 @@ export const getMainSiteMap = (
     routes.push(AdminMap);
     if (organizationList.pages.length > 0) {
       routes.push(organizationList);
+    }
+    routes.push(OrganizationMap);
+    if (ApplicationMap.pages.length > 0) {
+      routes.push(ApplicationMap);
     }
   } else if (type.includes('verified')) {
     routes.push(OrganizationMap);

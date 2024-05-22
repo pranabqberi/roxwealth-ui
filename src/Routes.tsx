@@ -354,7 +354,7 @@ const routes: RouteObject[] = [
       },
       {
         path: 'products/:productId',
-        element: <ProductDetails/>
+        element: <ProductDetails />
       },
       {
         path: '/',
