@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
   faRefresh,
+  faEye,
   faCheck,
   faMinus
 } from '@fortawesome/free-solid-svg-icons';
@@ -101,15 +102,18 @@ const Columns: ColumnDef<Product>[] = [
   {
     accessorKey: 'actions',
     header: 'Actions',
-    cell: ({ row: { original } }) => (
-      <div>
-        <Link to={`/products/${original.id}`} className="text-decoration-none">
-          <Button variant="link" className="text-600">
-            View
-          </Button>
-        </Link>
-      </div>
-    )
+    cell: ({ row: { original } }) => {
+      const { id } = original;
+      return (
+        <div>
+          <Link to={`/products/${id}`} className="text-decoration-none">
+            <Button variant="link" className="text-600">
+              <FontAwesomeIcon icon={faEye} className="text-success" />
+            </Button>
+          </Link>
+        </div>
+      );
+    }
   }
 ];
 
