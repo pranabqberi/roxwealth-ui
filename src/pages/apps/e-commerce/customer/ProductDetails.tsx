@@ -1,43 +1,40 @@
 import ProductDescription from 'components/modules/e-commerce/ProductDescription';
-import ProductDetailsTab from 'components/modules/e-commerce/ProductDetailsTab';
-import { topElectronicProducts } from 'hospitalmerch/data/products';
-import SimilarProducts from 'components/sliders/SimilarProducts';
+// import ProductDetailsTab from 'components/modules/e-commerce/ProductDetailsTab';
+// import SimilarProducts from 'components/sliders/SimilarProducts';
 import Section from 'components/base/Section';
 // import { productsTableData } from 'hospitalmerch/data/products';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Batteries } from 'hospitalmerch/data/products';
 // import ProductNotFound from './ProductNotFound';
-import EditProductDetails from '../admin/EditProductDetails';
+import { useParams } from 'react-router-dom';
 
 const ProductDetails = () => {
-  // const productData = productsTableData;
-  const [myProduct, setMyProduct] = useState({} as Batteries);
+  const [details, setDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const id = window.location.pathname.split('/').pop() || '';
-    const URL = 'https://engine.qberi.com/api/batteryDetails/';
+  const id = useParams<{ id: string }>().id;
 
-    const fetchData = async () => {
-      try {
-        const sessionToken = localStorage.getItem('sessionToken');
-        const response = await axios.get(URL + id, {
+  const fetchData = async () => {
+    try {
+      const sessionToken = localStorage.getItem('sessionToken');
+      const response = await axios.get(
+        `https://engine.qberi.com/api/getProductDetails/${id}`,
+        {
           headers: {
             Authorization: `Bearer ${sessionToken}`
           }
-        });
-        if (response.status === 200) {
-          console.log('response', response.data);
-          setMyProduct(response.data);
-          setLoading(false);
         }
-      } catch (error) {
-        setError('An error occurred while fetching data.');
+      );
+      if (response.status === 200) {
+        setDetails(response.data);
+        setLoading(false);
       }
-    };
-
+    } catch (error) {
+      setError('An error occurred while fetching data.');
+    }
+  }
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -48,25 +45,30 @@ const ProductDetails = () => {
   if (error) {
     return <div>{error}</div>;
   }
-
+  console.log('details', details);
   return (
-    <div className="pt-5 mb-9">
-      <Section small className="py-0">
-        <ProductDescription data={myProduct} />
-      </Section>
+    <>
+      {/* {JSON.stringify(details)} */}
+      <div className="pt-5 mb-9">
+        <Section small className="py-0">
+          <ProductDescription data={details} />
+        </Section>
 
-      <Section small className="py-0">
-        <div className="mb-9">
-          <ProductDetailsTab data={myProduct} />
-        </div>
-      </Section>
+        {/* <Section small className="py-0">
+          <div className="mb-9">
+            <ProductDetailsTab data={details} />
+          </div>
+        </Section> */}
 
-      <Section className="py-0">
-        <SimilarProducts products={topElectronicProducts} />
-        <EditProductDetails details={myProduct} />
-      </Section>
-    </div>
-  );
-};
+        {/* <Section className="py-0">
+          <SimilarProducts products={topElectronicProducts} />
+          <EditProductDetails details={myProduct} />
+        </Section> */}
+      </div>
+    </>
+  )
+}
+
+
 
 export default ProductDetails;

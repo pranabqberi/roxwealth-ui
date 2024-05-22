@@ -19,7 +19,7 @@
 // } from '@fortawesome/free-solid-svg-icons';
 
 const ProductDetailsTab = ({ data }: { data: any }) => {
-  console.log(data);
+  // console.log(data);
   return (
     <>
       {/* <Tab.Container defaultActiveKey="description">

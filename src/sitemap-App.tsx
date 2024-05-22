@@ -45,12 +45,12 @@ const getAppSitemap = (appID: string): RouteItems[] => {
       label: 'App ',
       icon: UilCube,
       pages: [
-        {
-          name: 'Home',
-          icon: 'home',
-          path: '/app/' + appID + '/home',
-          active: true
-        },
+        // {
+        //   name: 'Home',
+        //   icon: 'home',
+        //   path: '/app/' + appID + '/home',
+        //   active: true
+        // },
         {
           name: 'All Products',
           icon: 'box',

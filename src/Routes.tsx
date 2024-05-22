@@ -353,6 +353,10 @@ const routes: RouteObject[] = [
         ]
       },
       {
+        path: 'products/:productId',
+        element: <ProductDetails/>
+      },
+      {
         path: '/',
         element: (
           <MainLayoutProvider>
