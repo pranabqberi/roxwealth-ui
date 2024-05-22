@@ -34,7 +34,7 @@ const ProductDetails = () => {
     } catch (error) {
       setError('An error occurred while fetching data.');
     }
-  }
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -69,9 +69,7 @@ const ProductDetails = () => {
         </Section> */}
       </div>
     </>
-  )
-}
-
-
+  );
+};
 
 export default ProductDetails;

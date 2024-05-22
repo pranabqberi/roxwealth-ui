@@ -23,7 +23,7 @@ type categoryType = {
 // to show: uniqueId, title, vendor, type, tags, isPublished, costPrice, quantity
 
 const CategoryList = () => {
-  const appID = useParams<{ appID: string }>().appID;
+  const appID = useParams<{ appID: string }>().appID || '';
   const columns: ColumnDef<categoryType>[] = [
     {
       accessorKey: 'uniqueId',
@@ -114,7 +114,12 @@ const CategoryList = () => {
       })
       .then(response => {
         setCategories(response.data);
-        localStorage.setItem('templates', JSON.stringify(response.data));
+        const local = JSON.parse(localStorage.getItem('templates') || '{}');
+        const data = {
+          ...local,
+          [appID]: response.data as categoryType[]
+        };
+        localStorage.setItem('templates', JSON.stringify(data));
       })
       .catch(error => {
         console.log('Error: ', error);

@@ -8,6 +8,7 @@ import axios from 'axios';
 import UploadToS3 from 'Actions/UploadToS3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRemove } from '@fortawesome/free-solid-svg-icons';
+import { TemplateInterface } from 'components/forms/ProductCategory';
 
 type FieldType = {
   name: string;
@@ -21,8 +22,8 @@ type ApplicationMappedType = {
   description: string;
 };
 
-type TemplateInterface = {
-  uniqueID: string;
+type ProductInterface = {
+  uniqueId: string;
   title: string;
   description: string;
   vendor: string;
@@ -35,11 +36,12 @@ type TemplateInterface = {
   specData: FieldType[];
   productSpecData?: { [key: string]: string };
   applicationMapped?: ApplicationMappedType;
+  productDetailsTemplateId: string;
 };
 
 const AddProduct = () => {
-  const [productData, setProductData] = useState<TemplateInterface>({
-    uniqueID: '',
+  const [productData, setProductData] = useState<ProductInterface>({
+    uniqueId: '',
     title: '',
     description: '',
     vendor: '',
@@ -55,11 +57,12 @@ const AddProduct = () => {
       name: '',
       logo: '',
       description: ''
-    }
+    },
+    productDetailsTemplateId: ''
   });
   const [templateData, setTemplateData] = useState<TemplateInterface[]>([]);
 
-  const appID = useParams<{ appID: string }>().appID;
+  const appID = useParams<{ appID: string }>().appID as string;
   useEffect(() => {
     const applications = JSON.parse(
       localStorage.getItem('applications') || '[]'
@@ -80,8 +83,9 @@ const AddProduct = () => {
       ...productData,
       applicationMapped
     });
-    const templates = JSON.parse(localStorage.getItem('templates') || '[]');
-    setTemplateData(templates);
+    const templates = JSON.parse(localStorage.getItem('templates') || '{}');
+    console.log(templates[appID]);
+    setTemplateData(templates[appID] || []);
   }, []);
 
   const handleChange = (e: any) => {
@@ -167,26 +171,38 @@ const AddProduct = () => {
 
   const handleTemplateChange = (e: any) => {
     const { name, value } = e.target;
-    const template: TemplateInterface =
-      templateData.find(template => template.type === value) || productData;
+    const template: TemplateInterface | undefined = templateData.find(
+      template => template.type === value
+    );
 
     if (!template) {
       return;
     }
     console.log(template);
+    const psd = template.productSpecData || {};
+    const sd = [];
+    for (const key in psd) {
+      sd.push({
+        name: key,
+        value: psd[key]
+      });
+    }
+    console.log(sd);
+
     setProductData({
       ...productData,
       [name]: value || '',
       title: template.title || '',
       description: template.description || '',
       vendor: template.vendor || '',
-      type: template.type || '',
+      type: template.type || 'electronics',
       tags: template.tags || [],
       isPublished: template.isPublished || false,
       imageUrl: template.imageUrl || [],
       costPrice: template.costPrice || 0,
       quantity: template.quantity || 0,
-      specData: template.specData || []
+      specData: sd,
+      productDetailsTemplateId: template.id || ''
     });
   };
 
@@ -228,12 +244,12 @@ const AddProduct = () => {
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col md={6} lg={6}>
-                <Form.Group controlId="uniqueID">
+                <Form.Group controlId="uniqueId">
                   <Form.Label>Unique ID</Form.Label>
                   <Form.Control
                     type="text"
-                    name="uniqueID"
-                    value={productData.uniqueID}
+                    name="uniqueId"
+                    value={productData.uniqueId}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -291,7 +307,7 @@ const AddProduct = () => {
                   >
                     <option value="">Select Type</option>
                     {templateData.map(template => (
-                      <option key={template.uniqueID} value={template.uniqueID}>
+                      <option key={template.id} value={template.id}>
                         {template.type}
                       </option>
                     ))}

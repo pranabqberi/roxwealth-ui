@@ -58,6 +58,7 @@ const Profile = () => {
       })
       .catch(error => {
         setError('Error fetching profile data' + error);
+        // console.log('Error fetching profile data' + error);
       });
 
     const URL2 = 'https://engine.qberi.com/api/allOrganizations';
@@ -73,7 +74,8 @@ const Profile = () => {
         localStorage.setItem('orgs', JSON.stringify(orgs));
       })
       .catch(err => {
-        setError('Error fetching organizations' + err);
+        // setError('Error fetching organizations' + err);
+        console.log('Error fetching organizations' + err);
       });
   }, []);
 
