@@ -47,34 +47,34 @@ const PerformanceNAVS = () => {
 
   const getChartData = mode => {
     switch (mode) {
-      case '1D':
+      // case '1D':
+      //   return graphData[0]?.nav?.data[0]?.navs.map((nav, index) => ({
+      //     date: graphData[0]?.nav?.dates[index],
+      //     NAV: nav
+      //   }));
+      case 'Weekly':
         return graphData[0]?.nav?.data[0]?.navs.map((nav, index) => ({
           date: graphData[0]?.nav?.dates[index],
           NAV: nav
         }));
-      case 'Weekly':
+      case 'MTD':
         return graphData[1]?.nav?.data[0]?.navs.map((nav, index) => ({
           date: graphData[1]?.nav?.dates[index],
           NAV: nav
         }));
-      case 'MTD':
-        return graphData[2]?.nav?.data[0]?.navs.map((nav, index) => ({
-          date: graphData[2]?.nav?.dates[index],
-          NAV: nav
-        }));
       case 'Monthly':
-        return graphData[3]?.nav?.data[0]?.navs.map((nav, index) => ({
-          month: graphData[3]?.nav?.dates[index],
+        return graphData[2]?.nav?.data[0]?.navs.map((nav, index) => ({
+          month: graphData[2]?.nav?.dates[index],
           NAV: nav
         }));
       case 'YTD':
-        return graphData[4]?.nav?.data[0]?.navs.map((nav, index) => ({
-          date: graphData[4]?.nav?.dates[index],
+        return graphData[3]?.nav?.data[0]?.navs.map((nav, index) => ({
+          date: graphData[3]?.nav?.dates[index],
           NAV: nav
         }));
       case 'Yearly':
-        return graphData[5]?.nav?.data[0]?.navs.map((nav, index) => ({
-          year: graphData[5]?.nav?.dates[index],
+        return graphData[4]?.nav?.data[0]?.navs.map((nav, index) => ({
+          year: graphData[4]?.nav?.dates[index],
           NAV: nav
         }));
       default:
@@ -94,7 +94,7 @@ const PerformanceNAVS = () => {
         </Col>
         <Col>
           <Form.Select size="sm" onChange={handleModeChange} value={mode}>
-            <option value="1D">1D</option>
+            {/* <option value="1D">1D</option> */}
             <option value="Weekly">7D</option>
             <option value="MTD">MTD</option>
             <option value="Monthly">1M</option>

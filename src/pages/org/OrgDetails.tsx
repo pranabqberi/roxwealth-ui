@@ -33,7 +33,7 @@ const columns: ColumnDef<ApplicationsType>[] = [
     header: 'View',
     accessorKey: 'id',
     cell: ({ row: { original } }) => {
-      return <Link to={`/app/${original.id}/home`}>View</Link>;
+      return <Link to={`/app/${original.id}/all-products`}>View</Link>;
     }
   }
 ];

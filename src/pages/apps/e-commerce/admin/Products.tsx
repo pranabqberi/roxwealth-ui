@@ -12,6 +12,7 @@ import AdvanceTableProvider from 'providers/AdvanceTableProvider';
 import { ColumnDef } from '@tanstack/react-table';
 import Badge from 'components/base/Badge';
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
 
 type Product = {
   id: number;
@@ -116,9 +117,9 @@ const Columns: ColumnDef<Product>[] = [
       const { id } = original;
       return (
         <div>
-          <Link to={`/app/products/${id}`} className="text-decoration-none">
+          <Link to={`/products/${id}`} className="text-decoration-none">
             <Button variant="link" className="text-600">
-              View
+              <FontAwesomeIcon icon={faEye} className="text-success" />
             </Button>
           </Link>
         </div>

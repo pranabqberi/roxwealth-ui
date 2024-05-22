@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 // import ProductNotFound from './ProductNotFound';
 import { useParams } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 
 const ProductDetails = () => {
   const [details, setDetails] = useState({});
@@ -39,7 +40,9 @@ const ProductDetails = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="d-flex justify-content-center align-items-center vh-100">
+      <Spinner animation="border" role="status" />
+    </div>;
   }
 
   if (error) {
