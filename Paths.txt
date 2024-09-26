@@ -1,0 +1,38 @@
+
+
+/ -> Home Page
+    Component: <Alternate/>  
+    FilePATH /pages/pages/landing/Alternate.tsx
+
+
+/about-us -> About Us Page   # To be Made
+    Component: <AboutUs/>
+    FilePATH: /pages/pages/about-us/AboutUs.tsx
+
+
+/auth -> Authentication pages
+
+    /sign-in -> Sign In Page
+        Component: <SinpleSignIn/>
+        FilePATH: /pages/authentication/simple/SignIn.tsx
+
+    /sign-up -> Sign Up Page
+        Component: <SimpleSignUp/>
+        FilePATH: /pages/authentication/simple/SignUp.tsx
+
+    /sign-out -> Sign Out Page
+        Component: <SimpleSignOut/>
+        FilePATH: /pages/authentication/simple/SignOut.tsx
+
+    /Forgot-Password -> Forgot Password Page
+        Component: <SimpleForgotPassword/>
+        FilePATH: /pages/authentication/simple/ForgotPassword.tsx
+
+    /Reset-Password -> Reset Password Page
+        Component: <SimpleResetPassword/>
+        FilePATH: /pages/authentication/simple/ResetPassword.tsx
+
+
+
+
+

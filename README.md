@@ -1,21 +1,33 @@
-# RoxWealth Static Website
+# Getting Started with Phoenix-React
 
-This application is supposed to be used for developing RoxWealth static website, remove any unnecessary package or code if you find any.
+Welcome to the ReactJS version of the original Phoenix theme. This document will guide you on how the Phoenix-React theme is organized, the basics of customization, and how to compile it from the source code if needed.
 
-## Installation
+## Running in Local Environment
 
-Google correct steps to be used for installation
+This project is scaffolded using Create React App.
 
-## Changes since inception :-
-1. Initial page created by Pranab for reference. (Committed on 15th Jan'24)
+- Install Node.js if you do not already have it installed on your machine.
+- Open the “phoenix-react-{version}” directory with your cmd or terminal and run npm i
+- This command will download all the necessary dependencies for phoenix in the node_modules directory.
+- Run npm start. A local web server will start at http://localhost:3000.
 
-## Contributing
+## Creating a Production Build
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+After you've done your customization and are ready to build, follow these steps:
 
-Please make sure to update tests as appropriate.
+- Edit homepage in your package.json file to change asset files relative paths. For more information, visit Create React App Doc.
+- Then Run npm run build command in your project directory to make the Production build.
 
-Pull requests (PR) won't be accepted without sensible commit message.
+This will create an optimized production build by compiling, merging, and minifying all the source files as necessary and will put them in the build/ folder.
 
-Idea of using this file is to not write extra documentation
+To run the production build locally, run the following commands:
+
+```shell
+ npm install -g serve
+ serve -s build
+```
+
+### Design File
+
+Get the figma design file here:
+[https://www.figma.com/file/iACQcwBein0huanVBqFaAj/Phoenix-React-v1.0.0-(Distributed)](<https://www.figma.com/file/iACQcwBein0huanVBqFaAj/Phoenix-React-v1.0.0-(Distributed)

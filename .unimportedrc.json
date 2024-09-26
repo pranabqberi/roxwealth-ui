@@ -1,0 +1,15 @@
+{
+  "entry": [
+    "src/Routes.tsx",
+    "src/App.tsx",
+    "src/index/tsx",
+    "src/pages/**/*.{jsx,tsx}"
+  ],
+  "extensions": [".ts", ".js"],
+  "ignorePatterns": ["**/node_modules/**", "private/**"],
+  "ignoreUnresolved": ["some-npm-dependency"],
+  "ignoreUnimported": ["src/i18n/locales/en.ts", "src/i18n/locales/nl.ts"],
+  "ignoreUnused": ["bcrypt", "create-emotion"],
+  "respectGitignore": true,
+  "scannedDirs": ["./modules"]
+}

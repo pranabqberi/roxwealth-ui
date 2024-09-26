@@ -1,0 +1,24 @@
+{
+  "session": {
+    "isLoggedIn": true,
+    "sessionToken": "1234567890",
+    "created_at": "2014-01-01 00:00:00",
+    "updated_at": "2014-01-01 00:00:00"
+  },
+  "terms": {
+    "accepted_terms": true,
+    "accepted_at": "2014-01-01 00:00:00"
+  },
+  "login": {
+    "remember_me": true,
+    "email": "sample@qberi.com"
+  },
+  "userData": {
+    "email": "sample@qberi.com",
+    "first_name": "Sample",
+    "last_name": "User",
+    "mobile": "1234567890",
+    "picture_url": "http://www.qberi.com/sample.jpg",
+    "role": "user"
+  }
+}
